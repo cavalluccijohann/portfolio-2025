@@ -7,6 +7,9 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4
   },
-  css: ['~/assets/index.css'],
-
+  css: ['~/assets/main.css'],
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+  },
 })
