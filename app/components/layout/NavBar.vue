@@ -19,7 +19,7 @@ const navigation =[
           <path d="M194 28C201.732 28 208 21.732 208 14C208 6.26801 201.732 0 194 0C186.268 0 180 6.26801 180 14C180 21.732 186.268 28 194 28Z" />
         </svg>
       </div>
-      <p class="text-primary font-semibold text-base">Johann Cavallucci</p>
+      <p class="text-primary font-semibold text-base font-clash tracking-wider pl-5">Johann Cavallucci</p>
     </a>
 
     <!-- Élément du milieu (navigation) -->
@@ -27,7 +27,7 @@ const navigation =[
       <nav>
         <ul class="flex space-x-4 justify-start">
           <li v-for="item in navigation" :key="item.name">
-            <a :href="item.href" class="text-primary hover:text-inverted font-semibold text-base">{{ item.name }}</a>
+            <a :href="item.href" class="text-primary font-semibold text-base font-clash hover:font-estrella!important hover:text-black">{{ item.name }}</a>
           </li>
         </ul>
       </nav>
@@ -56,5 +56,7 @@ const navigation =[
 
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
 

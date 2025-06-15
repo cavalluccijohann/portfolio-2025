@@ -7,7 +7,11 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4
   },
-  css: ['~/assets/main.css'],
+  css: [
+      '~/assets/css/main.css',
+      '~/assets/css/clash-display.css',
+    '~/assets/css/estrella.css',
+  ],
   colorMode: {
     preference: 'light',
     fallback: 'light',
