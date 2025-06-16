@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const navigation =[
-  { name: 'Home', href: '/' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'About', href: '/about' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '/contact' }
+  { name: 'Home', path: '/' },
+  { name: 'Projects', path: '/projects' },
+  { name: 'About', path: '/about' },
+  { name: 'Blog', path: '/blog' },
+  { name: 'Contact', path: '/contact' }
 ]
+
+const hoveredItem = ref('')
+
 </script>
 
 <template>
@@ -26,8 +31,26 @@ const navigation =[
     <div class="flex-grow pl-70">
       <nav>
         <ul class="flex space-x-4 justify-start">
-          <li v-for="item in navigation" :key="item.name">
-            <a :href="item.href" class="text-primary font-semibold text-base font-clash hover:font-estrella!important hover:text-black">{{ item.name }}</a>
+          <li v-for="item in navigation" :key="item.name" class="flex items-center">
+            <a v-if="$route.path === item.path"
+               :href="item.path"
+               class="text-primary font-semibold text-4xl mb-2 font-estrella"
+            >
+              {{ item.name }}
+            </a>
+
+            <a v-else
+               :href="item.path"
+               class="text-primary font-semibold"
+               :class="{
+                 'font-estrella text-4xl mb-2': hoveredItem === item.name,
+                 'font-clash text-base': hoveredItem !== item.name
+               }"
+               @mouseenter="hoveredItem = item.name"
+               @mouseleave="hoveredItem = ''"
+            >
+              {{ item.name }}
+            </a>
           </li>
         </ul>
       </nav>
