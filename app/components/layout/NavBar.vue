@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import SwitchTheme from "~/components/layout/SwitchTheme.vue";
 
 const navigation =[
   { name: 'Home', path: '/' },
@@ -14,7 +15,7 @@ const hoveredItem = ref('')
 </script>
 
 <template>
-  <div class="flex px-10 pt-3 justify-between items-center w-full">
+  <nav class="flex px-10 pt-3 justify-between items-center w-full">
     <!-- Élément de gauche -->
     <a aria-current="page" href="/" class="flex items-center space-x-2 whitespace-nowrap min-w-fit" aria-label="Johann Cavallucci">
       <div class="flex items-center justify-center w-10 h-10 text-inverted">
@@ -75,7 +76,7 @@ const hoveredItem = ref('')
       </svg>
     </div>
 
-  </div>
+  </nav>
   <div class="border-b border-b-primary mx-10 mt-3">
 
   </div>

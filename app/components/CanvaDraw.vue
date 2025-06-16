@@ -1,17 +1,15 @@
 <template>
-  <div class="bg-blue-50 p-4">
-    <h1 class="text-2xl font-bold text-center mb-4">Canvas de Dessin</h1>
     <canvas
         ref="canvas"
-        class="border-2 border-[#FF5800] bg-white mx-auto"
-        width="800"
-        height="600"
+        class="border-1 border-[#FF5800] rounded-lg w-full"
+        style="height: calc(100vh - 80px);"
+
         @mousedown="startDrawing"
         @mousemove="draw"
         @mouseup="stopDrawing"
         @mouseleave="stopDrawing"
     ></canvas>
-  </div>
+
 </template>
 
 <script setup>
@@ -26,6 +24,9 @@ let animationFrameId = null
 let points = []
 
 onMounted(() => {
+  resizeCanvas()
+  window.addEventListener('resize', resizeCanvas)
+
   const ctx = canvas.value.getContext('2d')
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
@@ -36,6 +37,15 @@ onMounted(() => {
   // Démarrer l'animation
   animate()
 })
+
+const resizeCanvas = () => {
+  if (canvas.value) {
+    const rect = canvas.value.getBoundingClientRect()
+    canvas.value.width = rect.width
+    canvas.value.height = rect.height
+  }
+}
+
 
 function animate() {
   const ctx = canvas.value.getContext('2d')
@@ -117,6 +127,7 @@ onUnmounted(() => {
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId)
   }
+  window.removeEventListener('resize', resizeCanvas)
 })
 </script>
 
