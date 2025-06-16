@@ -28,20 +28,23 @@ const hoveredItem = ref('')
     </a>
 
     <!-- Élément du milieu (navigation) -->
-    <div class="flex-grow pl-70">
+    <div class="flex-grow pl-40">
       <nav>
-        <ul class="flex space-x-4 justify-start">
-          <li v-for="item in navigation" :key="item.name" class="flex items-center">
+        <ul class="flex space-x-6 justify-start">
+          <li v-for="item in navigation"
+              :key="item.name"
+              class="flex items-center justify-center"
+              :style="{ width: `calc(${item.name.length}ch)` }">
             <a v-if="$route.path === item.path"
                :href="item.path"
-               class="text-primary font-semibold text-4xl mb-2 font-estrella"
+               class="text-primary font-semibold text-4xl mb-2 font-estrella text-center"
             >
               {{ item.name }}
             </a>
 
             <a v-else
                :href="item.path"
-               class="text-primary font-semibold"
+               class="text-primary font-semibold text-center"
                :class="{
                  'font-estrella text-4xl mb-2': hoveredItem === item.name,
                  'font-clash text-base': hoveredItem !== item.name
@@ -52,6 +55,7 @@ const hoveredItem = ref('')
               {{ item.name }}
             </a>
           </li>
+
         </ul>
       </nav>
     </div>
