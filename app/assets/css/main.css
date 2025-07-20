@@ -5,16 +5,26 @@
     --color-primary: #FF5800;
 }
 
+/* Base noise background */
 .noise-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("/assets/noise.webp");
     background-repeat: repeat;
     background-size: 700px 700px;
     opacity: 0.5;
     pointer-events: none;
     z-index: -10;
+}
+
+/* Light theme (default) */
+.noise-background {
+    background-image: url("/assets/noise.webp");
+}
+
+/* Dark theme */
+.dark .noise-background {
+    background-image: url("/assets/noiseBlack.webp");
 }

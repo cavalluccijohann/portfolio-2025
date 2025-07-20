@@ -1,11 +1,51 @@
+/* Définition des différentes variantes de Clash Display */
 @font-face {
-    font-family: 'ClashDisplay';
-    src: url('../fonts/clash-display/ClashDisplay-Extralight.woff2') format('woff2');
-    font-weight: 400;
-    font-display: swap;
+    font-family: 'ClashDisplay-Extralight';
+    src: url('/assets/fonts/clash-display/ClashDisplay-Extralight.woff2') format('woff2');
+    font-weight: 200;  /* Extralight */
     font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ClashDisplay-Light';
+    src: url('/assets/fonts/clash-display/ClashDisplay-Light.woff2') format('woff2');
+    font-weight: 300;  /* Light */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ClashDisplay-Medium';
+    src: url('/assets/fonts/clash-display/ClashDisplay-Medium.woff2') format('woff2');
+    font-weight: 500;  /* Medium */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ClashDisplay-Bold';
+    src: url('/assets/fonts/clash-display/ClashDisplay-Bold.woff2') format('woff2');
+    font-weight: 700;  /* Bold */
+    font-style: normal;
+    font-display: swap;
 }
 
 .font-clash {
-    font-family: 'ClashDisplay', Arial, sans-serif !important;
+    font-family: 'ClashDisplay-Extralight', Arial, sans-serif !important;
+}
+
+.font-clash-light {
+    font-family: 'ClashDisplay-Light', Arial, sans-serif !important;
+    font-weight: 300 !important;
+}
+
+.font-clash-medium {
+    font-family: 'ClashDisplay-Medium', Arial, sans-serif !important;
+    font-weight: 500 !important;
+}
+
+.font-clash-bold {
+    font-family: 'ClashDisplay-Bold', Arial, sans-serif !important;
+    font-weight: 700 !important;
 }

@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'BREAD TOAST';
+    src: url('../fonts/bread-toast/BREADTOAST.otf') format('opentype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+.font-bread {
+    font-family: 'BREAD TOAST', Arial, sans-serif !important;
+}

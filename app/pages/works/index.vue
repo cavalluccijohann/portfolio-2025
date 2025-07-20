@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
-console.log(route.path)
+
 
 const { data: projects, status } = await useAsyncData(route.path, async () => {
   const content = await queryCollection('content').all()
@@ -13,7 +13,7 @@ if (!projects.value) {
   throw createError({ statusCode: 404, statusMessage: `Page not found: ${route.path}`, fatal: true })
 }
 
-console.log(projects.value)
+
 </script>
 
 <template>

@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '~/assets/css/main.css',
     '~/assets/css/clash-display.css',
     '~/assets/css/estrella.css',
+    '~/assets/css/bread-toast.css',
   ],
   colorMode: {
     preference: 'light',
