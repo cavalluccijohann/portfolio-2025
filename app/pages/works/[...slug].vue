@@ -55,6 +55,7 @@ const headline = computed(() => findPageHeadline(page.value))
               :key="author.name"
               :src="author.avatar.src"
               :alt="author.avatar.alt"
+              size="lg"
             />
           </NuxtLink>
         </UAvatarGroup>
@@ -72,5 +73,12 @@ const headline = computed(() => findPageHeadline(page.value))
         </div>
       </div>
     </div>
+
+    <ProseImg
+      v-if="page.image"
+      :src="page.image"
+      :alt="page?.title"
+      class="mt-10 rounded-lg shadow-lg w-full max-w-4xl h-120 object-cover"
+    />
   </div>
 </template>
