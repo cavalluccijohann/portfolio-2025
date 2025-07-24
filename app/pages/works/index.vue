@@ -12,8 +12,6 @@ if (!projects.value) {
   throw createError({ statusCode: 404, statusMessage: `Page not found: ${route.path}`, fatal: true })
 }
 
-console.log('projects', projects.value)
-
 projects.value = projects.value.map((item: any) => {
   return {
     name: item.title,

@@ -20,8 +20,6 @@ const [{ data: navigation }, { data: files }] = await Promise.all([
 ])
 
 provide('navigation', navigation!)
-
-console.log('Navigation:', navigation.value)
 </script>
 
 <template>

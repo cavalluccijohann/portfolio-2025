@@ -37,4 +37,6 @@ authors:
 
 ---
 
+# Overview
+
 Helpr is a platform designed to automate tasks by connecting various applications, enabling users to create powerful workflows. It allows for the integration of different services, streamlining processes and enhancing productivity.

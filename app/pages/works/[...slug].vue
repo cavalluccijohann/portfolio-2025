@@ -5,13 +5,11 @@ const route = useRoute()
 
 const { data: page } = await useAsyncData(route.path, () => queryCollection('works').path(route.path).first())
 
-console.log('page', page.value)
-
 const headline = computed(() => findPageHeadline(page.value))
 </script>
 
 <template>
-  <div class="flex max-w-5xl mx-auto flex-col items-center min-h-screen pt-20">
+  <div v-if="page" class="flex max-w-5xl mx-auto flex-col items-center min-h-screen py-20">
     <h1 class="font-clash-medium text-primary text-6xl">
       {{ page.title }}
     </h1>
@@ -75,10 +73,16 @@ const headline = computed(() => findPageHeadline(page.value))
     </div>
 
     <ProseImg
-      v-if="page.image"
       :src="page.image"
-      :alt="page?.title"
+      :alt="page.title"
       class="mt-10 rounded-lg shadow-lg w-full max-w-4xl h-120 object-cover"
+    />
+
+    <ContentRenderer
+      :value="page.body"
+      class="mt-10 max-w-3xl"
     />
   </div>
 </template>
+
+

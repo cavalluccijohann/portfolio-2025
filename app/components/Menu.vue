@@ -19,8 +19,6 @@ const handleHoverStart = (index: number) => {
 const handleHoverEnd = () => {
   hoveredIndex.value = null
 }
-
-console.log('Projects:', props.projects)
 </script>
 
 <template>
