@@ -26,54 +26,58 @@ console.log('Projects:', props.projects)
 <template>
   <nav class="flex flex-col items-center justify-center overflow-hidden w-full bg-transparent">
     <template v-for="(project, index) in projects" :key="index">
-      <NuxtLink
-        :to="project.path"
+      <motion.div
         class=" py-3 font-bold text-primary leading-none w-full flex justify-center items-center py-2.5 relative no-underline"
         @hover-start="() => handleHoverStart(index)"
         @hover-end="handleHoverEnd"
       >
-        <div class="flex items-center justify-between w-full px-10 relative">
-          <div>
-            <span class="text-primary font-bread text-7xl mr-3">
-              {{ index + 1 }}
-            </span>
-          </div>
-          <div class="flex flex-1 flex-col justify-between px-10 items-start w-full w-auto ">
-            <span class="text-5xl  font-clash-medium">{{ project.name }}</span>
-            <span class="text-3xl normal-case leading-relaxed font-clash-light">{{ project.description }}</span>
-          </div>
-          <div>
+        <NuxtLink
+          :to="project.path"
+          class="flex-1"
+        >
+          <div class="flex  items-center justify-between w-full px-10 relative">
             <div>
-              <span class="text-2xl font-bread text-primary [writing-mode:vertical-lr] [text-orientation:upright]">
-                {{ project.date }}
+              <span class="text-primary font-bread text-7xl mr-3">
+                {{ index + 1 }}
               </span>
             </div>
-          </div>
-        </div>
-
-        <AnimatePresence>
-          <Ticker
-            v-if="hoveredIndex === index"
-            class="ticker bg-primary text-inverted"
-            :style="{ position: 'absolute' }"
-            :initial="{ clipPath: 'inset(50% 0 50% 0)' }"
-            :animate="{ clipPath: 'inset(0% 0 0% 0)' }"
-            :exit="{
-              clipPath: 'inset(50% 0 50% 0)',
-              transition: { duration: 0.1 }
-            }"
-            :transition="{
-              duration: 0.2,
-              ease: 'easeOut'
-            }"
-          >
-            <div class="flex flex-col items-center text-center">
-              <span class="text-5xl font-bold mb-2">{{ project.name }}*</span>
+            <div class="flex flex-1 flex-col justify-between px-10 items-start w-full w-auto ">
+              <span class="text-5xl  font-clash-medium">{{ project.name }}</span>
+              <span class="text-3xl normal-case leading-relaxed font-clash-light">{{ project.description }}</span>
             </div>
-            <img :src="project.image" class="w-32 object-cover rounded mb-2">
-          </Ticker>
-        </AnimatePresence>
-      </NuxtLink>
+            <div>
+              <div>
+                <span class="text-2xl font-bread text-primary [writing-mode:vertical-lr] [text-orientation:upright]">
+                  {{ project.date }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <AnimatePresence>
+            <Ticker
+              v-if="hoveredIndex === index"
+              class="ticker bg-primary text-inverted"
+              :style="{ position: 'absolute' }"
+              :initial="{ clipPath: 'inset(50% 0 50% 0)' }"
+              :animate="{ clipPath: 'inset(0% 0 0% 0)' }"
+              :exit="{
+                clipPath: 'inset(50% 0 50% 0)',
+                transition: { duration: 0.1 }
+              }"
+              :transition="{
+                duration: 0.2,
+                ease: 'easeOut'
+              }"
+            >
+              <div class="flex flex-col items-center text-center">
+                <span class="text-5xl font-bold mb-2">{{ project.name }}*</span>
+              </div>
+              <img :src="project.image" class="w-32 object-cover rounded mb-2">
+            </Ticker>
+          </AnimatePresence>
+        </NuxtLink>
+      </motion.div>
 
       <div class="w-full px-10">
         <div class="w-full h-px bg-primary" />

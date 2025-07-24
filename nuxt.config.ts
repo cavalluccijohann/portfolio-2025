@@ -20,6 +20,13 @@ export default defineNuxtConfig({
   },
   experimental: {
     payloadExtraction: false
+  },
+
+  content: {
+    preview: {
+      api: 'https://api.nuxt.studio'
+    }
+
   }
 
 })
