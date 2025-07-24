@@ -16,9 +16,9 @@ projects.value = projects.value.map((item: any) => {
   return {
     name: item.title,
     path: item.path,
-    date: item.meta.year,
+    date: item.year,
     description: item.description || '',
-    image: item.meta.image,
+    image: item.image,
   } as ProjectMenu
 }).sort((a, b) => b.date - a.date)
 

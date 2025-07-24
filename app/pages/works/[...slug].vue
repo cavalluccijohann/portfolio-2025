@@ -5,8 +5,6 @@ const route = useRoute()
 
 const { data: page } = await useAsyncData(route.path, () => queryCollection('works').path(route.path).first())
 
-console.log(page.value)
-
 const headline = computed(() => findPageHeadline(page.value))
 </script>
 

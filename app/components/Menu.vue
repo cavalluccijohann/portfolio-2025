@@ -19,13 +19,15 @@ const handleHoverStart = (index: number) => {
 const handleHoverEnd = () => {
   hoveredIndex.value = null
 }
+
+console.log('Projects:', props.projects)
 </script>
 
 <template>
   <nav class="flex flex-col items-center justify-center overflow-hidden w-full bg-transparent">
     <template v-for="(project, index) in projects" :key="index">
-      <motion.a
-        :href="project.path"
+      <NuxtLink
+        :to="project.path"
         class=" py-3 font-bold text-primary leading-none w-full flex justify-center items-center py-2.5 relative no-underline"
         @hover-start="() => handleHoverStart(index)"
         @hover-end="handleHoverEnd"
@@ -71,7 +73,7 @@ const handleHoverEnd = () => {
             <img :src="project.image" class="w-32 object-cover rounded mb-2">
           </Ticker>
         </AnimatePresence>
-      </motion.a>
+      </NuxtLink>
 
       <div class="w-full px-10">
         <div class="w-full h-px bg-primary" />
