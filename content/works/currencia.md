@@ -1,8 +1,9 @@
 ---
 title: "Currencia"
-description: "Automation tools connecting various applications to create powerful workflows"
+description: "Simple yet beautiful crypto tracker template"
 url: "https://currencia.hrcd.fr/"
-"date": 2023-03-23
+"date": 2024-01-23
+year: 2024
 image: /assets/works/currencia.webp
 minRead: 5
 ---

@@ -3,7 +3,7 @@ import { findPageHeadline } from '@nuxt/ui-pro/utils/content'
 
 const route = useRoute()
 
-const { data: page } = await useAsyncData(route.path, () => queryCollection('content').all())
+const { data: page } = await useAsyncData(route.path, () => queryCollection('works').path(route.path).first())
 
 console.log(page.value)
 

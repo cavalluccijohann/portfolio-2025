@@ -16,6 +16,14 @@
 }
 
 @font-face {
+    font-family: 'ClashDisplay-Regular';
+    src: url('/assets/fonts/clash-display/ClashDisplay-Regular.woff2') format('woff2');
+    font-weight: 400;  /* Regular */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'ClashDisplay-Medium';
     src: url('/assets/fonts/clash-display/ClashDisplay-Medium.woff2') format('woff2');
     font-weight: 500;  /* Medium */

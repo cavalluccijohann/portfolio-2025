@@ -1,29 +1,32 @@
 <script setup lang="ts">
+import type { ProjectMenu } from '~~/types'
+
 const route = useRoute()
 
 
 const { data: projects, status } = await useAsyncData(route.path, async () => {
-  const content = await queryCollection('content').all()
-  return content.filter(item =>
-    item.path.startsWith('/works/') && item.path !== '/works'
-  )
+  return await queryCollection('works').all()
 })
 
 if (!projects.value) {
   throw createError({ statusCode: 404, statusMessage: `Page not found: ${route.path}`, fatal: true })
 }
 
+projects.value = projects.value.map((item: any) => {
+  return {
+    name: item.title,
+    path: item.path,
+    date: item.meta.year,
+    description: item.description || '',
+    image: item.meta.image,
+  } as ProjectMenu
+}).sort((a, b) => b.date - a.date)
 
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center h-screen">
-    <h1 class="text-4xl font-bold mb-4">
-      Works Page
-    </h1>
-    <p v-for="work in projects" :key="work.id" class="text-lg text-gray-900">
-      {{ work.title }} - {{ work.description }}
-    </p>
+  <div v-if="projects" class="flex flex-col h-min-screen">
+    <Menu :projects />
   </div>
 </template>
 

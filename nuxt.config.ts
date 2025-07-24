@@ -13,8 +13,13 @@ export default defineNuxtConfig({
     '~/assets/css/estrella.css',
     '~/assets/css/bread-toast.css',
   ],
+  ssr: true,
   colorMode: {
     preference: 'light',
     fallback: 'light',
   },
+  experimental: {
+    payloadExtraction: false
+  }
+
 })
