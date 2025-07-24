@@ -1,8 +1,8 @@
 ---
-title: "Currencia"
-description: "Simple yet beautiful crypto tracker template"
-url: "https://currencia.hrcd.fr/"
-"date": 2024-01-23
+title: Currencia
+description: Simple yet beautiful crypto tracker template
+url: https://currencia.hrcd.fr/
+date: 2024-01-23
 year: 2024
 image: /assets/works/currencia.webp
 minRead: 5
