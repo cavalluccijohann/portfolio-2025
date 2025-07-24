@@ -14,6 +14,19 @@ export default defineContentConfig({
           year: z.string(),
           minRead: z.number(),
           image: z.string(),
+          technologies: z.array(z.string()),
+          teamName: z.string().optional(),
+          roles: z.array(z.string()),
+          authors: z.array(z.object({
+            name: z.string(),
+            description: z.string(),
+            to: z.string(),
+            target: z.string(),
+            avatar: z.object({
+              src: z.string(),
+              alt: z.string()
+            }).optional()
+          })),
         })
       }
     ),

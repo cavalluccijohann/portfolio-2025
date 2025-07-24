@@ -12,6 +12,8 @@ if (!projects.value) {
   throw createError({ statusCode: 404, statusMessage: `Page not found: ${route.path}`, fatal: true })
 }
 
+console.log('projects', projects.value)
+
 projects.value = projects.value.map((item: any) => {
   return {
     name: item.title,
@@ -21,7 +23,6 @@ projects.value = projects.value.map((item: any) => {
     image: item.image,
   } as ProjectMenu
 }).sort((a, b) => b.date - a.date)
-
 </script>
 
 <template>
