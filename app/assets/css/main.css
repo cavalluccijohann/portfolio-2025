@@ -5,6 +5,12 @@
     --color-primary: #FF5800;
 }
 
+.orange {
+    --color-primary: var(--ui-text-inverted);
+    --ui-text: var(--ui-text-inverted);
+    @apply bg-[#FF5800] selection:bg-inverted/30;
+}
+
 /* Base noise background */
 .noise-background {
     position: fixed;
@@ -27,4 +33,9 @@
 /* Dark theme */
 .dark .noise-background {
     background-image: url("/assets/noiseBlack.webp");
+}
+
+/* Orange theme */
+.noise-background-orange {
+    background-image: url("/assets/noise-orange.webp")!important;
 }

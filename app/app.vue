@@ -24,7 +24,10 @@ provide('navigation', navigation!)
 
 <template>
   <Html lang="en">
-    <Body class="overscroll-y-none selection:bg-primary overflow-x-hidden selection:text-inverted bg-white dark:bg-black">
+    <Body
+      class="overscroll-y-none selection:bg-primary overflow-x-hidden selection:text-inverted "
+      :class="$route.path === '/contact' ? 'orange' : 'bg-white dark:bg-black'"
+    >
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>

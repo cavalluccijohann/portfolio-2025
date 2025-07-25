@@ -3,7 +3,10 @@ export default defineAppConfig({
     icons: {
       light: 'i-lucide-sun-medium',
       dark: 'i-lucide-moon'
-    }
+    },
+    colors: {
+      neutral: 'neutral',
+    },
   },
   uiPro: {
     prose: {
