@@ -3,6 +3,9 @@
 
 @theme {
     --color-primary: #FF5800;
+    --toast-color: #FF5800;
+    --toast-bg: var(--ui-text-inverted);
+    --toast-text: var(--ui-text);
 }
 
 .orange {

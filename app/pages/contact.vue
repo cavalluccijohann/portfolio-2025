@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { toast, Toaster } from 'vue-sonner'
+import 'vue-sonner/style.css'
 
 const form = ref({
   name: '',
@@ -8,7 +9,7 @@ const form = ref({
   message: '',
 })
 const loading = ref(false)
-/*async function sendForm() {
+async function sendForm() {
   loading.value = true
   try {
     await useFetch('/api/sendEmail', {
@@ -17,37 +18,38 @@ const loading = ref(false)
     })
     form.value = {
       name: '',
-      phone: '',
       email: '',
+      phone: '',
       message: '',
     }
   } catch (error) {
     console.error('Error sending form:', error)
     toast.error('Error sending form', {
       style: {
-        background: 'var(--toast-color)',
-        opacity: 0.9,
-        borderColor: 'var(--toast-color)',
-        color: 'var(--text-color)',
+        background: 'var(--toast-bg)',
+        color: 'var(--toast-text)',
+        border: 'none',
+        boxShadow: '0 2px 0 0 var(--toast-color)',
       },
     })
   } finally {
     toast.success('Message sent successfully', {
       style: {
-        background: 'var(--toast-color)',
-        opacity: 0.9,
-        borderColor: 'var(--toast-color)',
-        color: 'var(--text-color)',
+        background: 'var(--toast-bg)',
+        color: 'var(--toast-text)',
+        border: 'none',
+        boxShadow: '0 2px 0 0 var(--toast-color)',
       },
     })
     loading.value = false
   }
-}*/
+}
 </script>
 
 <template>
   <div class=" grid grid-cols-2 gap-4 p-4 w-full mt-10">
     <div class="flex flex-col">
+      <!--   button that create toast    -->
       <span class="text-[168px]/40 font-bread font-bold mb-4">
         CON<br>TACT<br> ME
       </span>
@@ -86,7 +88,12 @@ const loading = ref(false)
         required
         class="relative text-xl w-lg font-clash-medium my-1 pb-20 m-4 border-b-[1px] focus:outline-none focus:ring-b-1"
       />
-      <button class="w-lg mt-5 block w-full font-clash-medium font-bold text-xl rounded-none border-2 color-primary text-[#FF5800] border-primary hover:text-primary bg-primary hover:bg-transparent cursor-pointer px-4 py-2 text-sm font-semibold transition-colors duration-300">
+      <button
+        type="submit"
+        :disabled="loading"
+        class="w-lg mt-5 block w-full font-clash-medium font-bold text-xl rounded-none border-2 color-primary text-[#FF5800] border-primary hover:text-primary bg-primary hover:bg-transparent cursor-pointer px-4 py-2 text-sm font-semibold transition-colors duration-300"
+        @click="!loading"
+      >
         <span v-if="loading">Sending...</span>
         <span v-else>Send</span>
       </button>

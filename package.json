@@ -18,7 +18,8 @@
     "motion-plus-vue": "^1.3.0",
     "nuxt": "^3.17.4",
     "vue": "latest",
-    "vue-sonner": "^2.0.2"
+    "vue-sonner": "^2.0.2",
+    "resend": "^3.5.0"
   },
   "devDependencies": {
     "@hrcd/eslint-config": "^3.0.3"

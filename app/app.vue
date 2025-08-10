@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import colors from 'tailwindcss/colors'
+import { Toaster } from 'vue-sonner'
 
 const appConfig = useAppConfig()
 const colorMode = useColorMode()
@@ -28,6 +29,7 @@ provide('navigation', navigation!)
       class="overscroll-y-none selection:bg-primary overflow-x-hidden selection:text-inverted "
       :class="$route.path === '/contact' ? 'orange' : 'bg-white dark:bg-black'"
     >
+      <Toaster position="top-right" />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
