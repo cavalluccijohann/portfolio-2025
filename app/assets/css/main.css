@@ -33,9 +33,11 @@
 /* Dark theme */
 .dark .noise-background {
     background-image: url("/assets/noiseBlack.webp");
+    opacity: 1;
 }
 
 /* Orange theme */
 .noise-background-orange {
-    background-image: url("/assets/noise-orange.webp")!important;
+    background-image: url("/assets/noise-orange.png")!important;
+    opacity: 1;
 }
