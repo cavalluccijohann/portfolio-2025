@@ -1,17 +1,3 @@
-<template>
-    <canvas
-        ref="canvas"
-        class="border-1 border-[#FF5800] rounded-lg w-full"
-        style="height: calc(100vh - 80px);"
-
-        @mousedown="startDrawing"
-        @mousemove="draw"
-        @mouseup="stopDrawing"
-        @mouseleave="stopDrawing"
-    ></canvas>
-
-</template>
-
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
@@ -130,6 +116,19 @@ onUnmounted(() => {
   window.removeEventListener('resize', resizeCanvas)
 })
 </script>
+
+<template>
+  <canvas
+    ref="canvas"
+    class="border-1 border-[#FF5800] rounded-lg w-full"
+    style="height: calc(100vh - 80px);"
+
+    @mousedown="startDrawing"
+    @mousemove="draw"
+    @mouseup="stopDrawing"
+    @mouseleave="stopDrawing"
+  />
+</template>
 
 <style scoped>
 canvas {

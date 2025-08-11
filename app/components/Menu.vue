@@ -69,7 +69,7 @@ const handleHoverEnd = () => {
               }"
             >
               <div class="flex flex-col items-center text-center">
-                <span class="text-5xl font-bold mb-2">{{ project.name }}*</span>
+                <span class="text-5xl font-bold mb-2">{{ project.name }}</span>
               </div>
               <img :src="project.image" class="w-32 object-cover rounded mb-2">
             </Ticker>

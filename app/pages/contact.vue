@@ -47,7 +47,7 @@ async function sendForm() {
 </script>
 
 <template>
-  <div class=" grid grid-cols-2 gap-4 p-4 w-full mt-10">
+  <div class="grid grid-cols-2 gap-4 p-4 w-full mt-10">
     <div class="flex flex-col">
       <!--   button that create toast    -->
       <span class="text-[168px]/40 font-bread font-bold mb-4">
