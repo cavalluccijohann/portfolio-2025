@@ -8,6 +8,7 @@ const socials = [
         '</svg>'
   }
 ]
+
 </script>
 
 <template>

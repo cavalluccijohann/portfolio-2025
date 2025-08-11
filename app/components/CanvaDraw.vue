@@ -120,7 +120,7 @@ onUnmounted(() => {
 <template>
   <canvas
     ref="canvas"
-    class="border-1 border-[#FF5800] rounded-lg w-full"
+    class="w-full"
     style="height: calc(100vh - 80px);"
 
     @mousedown="startDrawing"
