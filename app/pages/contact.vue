@@ -100,7 +100,6 @@ async function sendForm() {
     </form>
   </div>
 
-  <!-- fix botom the page -->
   <div class="absolute w-full text-center text-sm text-gray-500 p-4 bottom-0 left-0">
     <div class="w-2/3 h-[1px] bg-primary mx-auto mb-2" />
     <div class="w-full flex justify-center items-center">
