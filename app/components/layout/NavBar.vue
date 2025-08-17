@@ -16,10 +16,10 @@ const items = [
     label: 'About',
     to: '/about'
   },
-  {
+  /*  {
     label: 'Blog',
     to: '/blog'
-  },
+  },*/
   {
     label: 'Contact',
     to: '/contact'
@@ -101,7 +101,28 @@ function isActive(path: string) {
     <template #right>
       <UColorModeButton size="xl" color="primary" class="cursor-pointer hover:bg-transparent" />
     </template>
+
+    <template #body>
+      <div class="bg-primary flex flex-col items-center justify-center space-y-6 py-10">
+        <a
+          v-for="item in items"
+          :key="item.label"
+          :href="item.to"
+          :class="[
+            'text-center transition-colors duration-200',
+            isActive(item.to)
+              ? 'text-inverted font-estrella text-7xl'
+              : 'text-inverted font-clash-light text-3xl'
+          ]"
+          @mouseenter="hoveredItem = item.label"
+          @mouseleave="hoveredItem = ''"
+        >
+          {{ item.label }}
+        </a>
+      </div>
+    </template>
   </UHeader>
+
   <div class="border-b border-b-primary mx-10" />
 </template>
 
