@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 // Init
 const route = useRoute()
+const hoveredItem = ref('')
 const items = [
   {
     label: 'Home',
@@ -25,7 +26,6 @@ const items = [
     to: '/contact'
   }
 ]
-const hoveredItem = ref('')
 
 /**
  * Check if the current route is active based on the provided path.
@@ -62,7 +62,7 @@ function isActive(path: string) {
             />
           </svg>
         </div>
-        <p class="text-primary font-semibold text-base font-clash tracking-wider pl-5">Johann Cavallucci</p>
+        <p class="md:block hidden text-primary font-semibold text-base font-clash tracking-wider pl-5">Johann Cavallucci</p>
       </a>
     </template>
     <nav>
@@ -126,3 +126,10 @@ function isActive(path: string) {
   <div class="hidden sm:block border-b border-b-primary mx-10" />
 </template>
 
+<style>
+button[aria-label="Open menu"], button[aria-label="Close menu"] {
+  color: var(--color-primary);
+}
+
+
+</style>

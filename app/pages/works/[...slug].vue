@@ -9,14 +9,14 @@ const headline = computed(() => findPageHeadline(page.value))
 </script>
 
 <template>
-  <div v-if="page" class="flex max-w-5xl mx-auto flex-col items-center min-h-screen py-20">
-    <h1 class="font-clash-medium text-primary text-6xl">
+  <div v-if="page" class="flex max-w-5xl mx-auto flex-col items-center min-h-screen py-10 md:py-20 px-5 lg:px-0">
+    <h1 class="font-clash-medium text-primary text-5xl md:text-6xl">
       {{ page.title }}
     </h1>
-    <div class="w-full flex mt-10 px-10 justify-around">
+    <div class="w-full flex mt-10 px-0 md:px-10 justify-around">
       <!--    Technologies    -->
       <div class="flex flex-col items-center gap-2 w-1/3">
-        <span class="font-clash-medium text-primary text-xl">
+        <span class="font-clash-medium text-primary text-lg sm:text-xl">
           Technologies
         </span>
         <div class="flex flex-col items-center gap-2">
@@ -24,7 +24,7 @@ const headline = computed(() => findPageHeadline(page.value))
             <UBadge
               v-for="tech in page.technologies.slice(0, 2)"
               :key="tech"
-              class="font-bold font-clash-medium rounded-full ring-1 ring-primary/40 bg-primary/70 px-4"
+              class="font-bold font-clash-medium rounded-full ring-1 ring-primary/40 bg-primary/70 px-2 sm:px-4"
             >
               {{ tech }}
             </UBadge>
@@ -34,7 +34,7 @@ const headline = computed(() => findPageHeadline(page.value))
             <UBadge
               v-for="tech in page.technologies.slice(2)"
               :key="tech"
-              class="font-bold font-clash-medium rounded-full ring-1 ring-primary/40 bg-primary/70 px-4"
+              class="font-bold font-clash-medium rounded-full ring-1 ring-primary/40 bg-primary/70 px-2 sm:px-4"
             >
               {{ tech }}
             </UBadge>
@@ -44,7 +44,7 @@ const headline = computed(() => findPageHeadline(page.value))
 
       <!--    Team    -->
       <div class="flex flex-col items-center gap-2 w-1/3">
-        <span class="font-clash-medium text-primary text-xl">
+        <span class="font-clash-medium text-primary text-lg sm:text-xl">
           {{ page?.teamName }}
         </span>
         <UAvatarGroup :ui="{ base: 'ring-primary/50'}">
@@ -61,7 +61,7 @@ const headline = computed(() => findPageHeadline(page.value))
 
       <!--    Role    -->
       <div class="flex flex-col items-center gap-2 w-1/3">
-        <span class="font-clash-medium text-primary text-xl">
+        <span class="font-clash-medium text-primary text-lg sm:text-xl">
           Role
         </span>
         <div class="flex flex-wrap items-center justify-center">
@@ -75,7 +75,7 @@ const headline = computed(() => findPageHeadline(page.value))
     <ProseImg
       :src="page.image"
       :alt="page.title"
-      class="mt-10 rounded-lg shadow-lg w-full max-w-4xl h-120 object-cover"
+      class="mt-10 rounded-lg shadow-lg w-full max-w-4xl h-80 sm:h-120 object-cover"
     />
 
     <ContentRenderer

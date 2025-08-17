@@ -9,6 +9,8 @@ minRead: 5
 roles:
   - Full Stack
 technologies:
+  - 3D-Printing
+  - Fusion 360
   - Arduino
 teamName: Author
 authors:
