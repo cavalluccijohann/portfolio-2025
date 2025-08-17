@@ -123,6 +123,6 @@ function isActive(path: string) {
     </template>
   </UHeader>
 
-  <div class="border-b border-b-primary mx-10" />
+  <div class="hidden sm:block border-b border-b-primary mx-10" />
 </template>
 

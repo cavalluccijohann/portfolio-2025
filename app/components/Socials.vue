@@ -25,7 +25,7 @@ const hoveredItem = ref('')
     :key="social.name"
     :to="social.link"
     target="_blank"
-    class="flex items-center px-2 justify-center cursor-pointer  text-primary duration-300"
+    class="flex items-center  sm:px-2 justify-center cursor-pointer  text-primary duration-300"
     :aria-label="'Go to ' + social.name + ' profile'"
   >
     <span
