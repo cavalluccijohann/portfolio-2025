@@ -33,19 +33,19 @@ const handleHoverEnd = () => {
           :to="project.path"
           class="flex-1"
         >
-          <div class="flex  items-center justify-between w-full px-10 relative">
+          <div class="flex  items-center justify-between w-full px-7 md:px-10 relative">
             <div>
-              <span class="text-primary font-bread text-7xl mr-3">
+              <span class="text-primary font-bread text-5xl md:text-6xl lg:text-7xl mr-3">
                 {{ index + 1 }}
               </span>
             </div>
-            <div class="flex flex-1 flex-col justify-between px-10 items-start w-full w-auto ">
-              <span class="text-5xl  font-clash-medium">{{ project.name }}</span>
-              <span class="text-3xl normal-case leading-relaxed font-clash-light">{{ project.description }}</span>
+            <div class="flex flex-1 flex-col justify-between px-5 md:px-10 items-start w-full w-auto ">
+              <span class="text-3xl md:text-4xl lg:text-5xl font-clash-medium">{{ project.name }}</span>
+              <span class="text-md sm:text-xl md:text-2xl lg:text-3xl leading-tight normal-case leading-relaxed font-clash-light">{{ project.description }}</span>
             </div>
             <div>
               <div>
-                <span class="text-2xl font-bread text-primary [writing-mode:vertical-lr] [text-orientation:upright]">
+                <span class="text-xl lg:text-2xl font-bread text-primary [writing-mode:vertical-lr] [text-orientation:upright]">
                   {{ project.date }}
                 </span>
               </div>
@@ -69,7 +69,7 @@ const handleHoverEnd = () => {
               }"
             >
               <div class="flex flex-col items-center text-center">
-                <span class="text-5xl font-bold mb-2">{{ project.name }}</span>
+                <span class="text-3xl md:text-5xl font-bold mb-2">{{ project.name }}</span>
               </div>
               <img :src="project.image" class="w-32 object-cover rounded mb-2">
             </Ticker>
