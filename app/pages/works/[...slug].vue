@@ -66,7 +66,7 @@ const headline = computed(() => findPageHeadline(page.value))
         </span>
         <div class="flex flex-wrap items-center justify-center">
           <span v-for="(role, index) in page.roles" :key="role" class="font-bold font-clash-medium text-primary/70">
-            {{ role }}{{ index < page.roles.length - 1 ? ', ' : '' }}
+            {{ role }}{{ index < page.roles.length - 1 ? ',\u00A0' : '' }}
           </span>
         </div>
       </div>

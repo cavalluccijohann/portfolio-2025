@@ -13,6 +13,7 @@ technologies:
   - Nuxt
   - Strapi
   - Tailwind
+  - Figma
 teamName: Author
 authors:
   - name: Johann Cavallucci
@@ -27,32 +28,43 @@ authors:
 # Elegant Patisserie Website
 
 ## Overview
-Ce projet est un site vitrine pour une patisserie moderne, l'objectif était de mettre en avant chaque produits avec une présentation élégante et minimaliste.
 
---- 
-
-## Design
-Dans un premier temps j'ai réalisé une maquette sur Figma. Une maquette qui convienne le plus possible à la vision du client.
+A showcase website for a **modern patisserie**, designed to highlight each product in an **elegant and minimalistic** way.  
+The project aimed to create a pleasant visual experience for visitors while providing the client with an easy-to-manage website.
 
 ---
 
-## Technologies
-Les technologies utilisées sont :
-- **Nuxt** pour le framework front-end
-- **Strapi** pour le CMS headless, après avoir testé plusieurs CMS, Strapi s'est avéré être le plus adapté pour ce projet. Il permet une gestion simple et efficaces pour le client.
-- **Tailwind CSS** pour le design
-- Un hebergement sur mon **VPS** pour une gestion complète du projet
-- **Figma** pour la conception UI/UX
-- **Resend** pour la gestion des mails de contact
+## Design
 
---- 
+I first created a **mockup on Figma**, aiming to best reflect the client’s vision.  
+The design prioritizes simplicity, readability, and elegance to showcase the products effectively.
 
-## Défis 
-Les différents défis au quel j'ai été confronté :
-- Trouver un Headless CMS adapté pour le projet, qui permet au client de maintenir son site facilement.
-- Créer un design élégant et minimaliste qui met en avant les produits de la patisserie et qui plait au client.
+---
 
---- 
+## Technologies Used
 
-## Conclusion
-Ce projet a été le premier que j'ai réalisé pour un client et il m'a permis de vraiment mener la réalisation d'un site de A à Z. J'ai pu mettre en pratique mes compétences en développement web, en design et en gestion de projet. Le fait que le rendu final ait vraiment satisfait le client a été une grande satisfaction personnelle :)
+| Technology | Role |
+|------------|------|
+| **Nuxt.js** | Front-end framework for fast and reactive rendering |
+| **Strapi** | Headless CMS, allowing the client to easily manage content |
+| **Tailwind CSS** | Styling and responsive design |
+| **Figma** | UI/UX design and mockup creation |
+| **VPS** | Full hosting of the website |
+| **Resend** | Contact email management |
+
+---
+
+## Challenges
+
+- **CMS choice**: after testing several options, Strapi was the most suitable for a client-manageable site.
+- **Minimalist design**: creating an elegant style while highlighting the products and staying true to the client’s vision.
+- **Full project management**: from design to deployment, coordinating and tracking all steps to achieve a professional result.
+
+---
+
+## Final Result
+
+- An elegant and fully functional website, easy for the client to manage.
+- Mockup faithfully realized according to the initial vision.
+- First end-to-end client project, with **full client satisfaction**.
+- Key learnings: UI/UX design, modern web development, and full project management from A to Z.
