@@ -1,7 +1,7 @@
 ---
 title: IV Patisserie
 description: Elegant simplicity meets effective design in this modern patisserie website
-url: https://foliomagazine.johanncvl.com/
+url: https://ivpatisserie.com/galerie
 date: 2024-02-15
 year: 2024
 image: /assets/works/iv-patisserie.webp

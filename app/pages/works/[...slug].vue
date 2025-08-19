@@ -3,16 +3,25 @@ import { findPageHeadline } from '@nuxt/ui-pro/utils/content'
 
 const route = useRoute()
 
-const { data: page } = await useAsyncData(route.path, () => queryCollection('works').path(route.path).first())
+const { data: page, error } = await useAsyncData(route.path, () => queryCollection('works').path(route.path).first())
+
+if (error.value) {
+  console.error('Erreur lors du chargement:', error.value)
+}
 
 const headline = computed(() => findPageHeadline(page.value))
 </script>
 
 <template>
   <div v-if="page" class="flex max-w-5xl mx-auto flex-col items-center min-h-screen py-10 md:py-20 px-5 lg:px-0">
-    <h1 class="font-clash-medium text-primary text-5xl md:text-6xl">
-      {{ page.title }}
-    </h1>
+    <NuxtLink
+      :to="page.url"
+    >
+      <h1 class="font-clash-medium text-primary text-5xl md:text-6xl">
+        {{ page.title }}
+      </h1>
+    </NuxtLink>
+
     <div class="w-full flex mt-10 px-0 md:px-10 justify-around">
       <!--    Technologies    -->
       <div class="flex flex-col items-center gap-2 w-1/3">
@@ -72,11 +81,25 @@ const headline = computed(() => findPageHeadline(page.value))
       </div>
     </div>
 
-    <ProseImg
-      :src="page.image"
-      :alt="page.title"
-      class="mt-10 rounded-lg shadow-lg w-full max-w-4xl h-80 sm:h-120 object-cover"
-    />
+    <!-- Container avec position relative pour l'image et le bouton -->
+    <div class="relative mt-10 w-full max-w-4xl">
+      <ProseImg
+        :src="page.image"
+        :alt="page.title"
+        class="rounded-lg shadow-lg w-full h-80 sm:h-120 object-cover"
+      />
+
+      <!-- Bouton positionné en haut à droite de l'image -->
+      <div class="absolute -top-10 -right-7 lg:-top-20 lg:-right-20">
+        <CircularText
+          text="Click * Here * Preview * "
+          :spin-duration="20"
+          on-hover="speedUp"
+          class-name=""
+          :link="page.url"
+        />
+      </div>
+    </div>
 
     <ContentRenderer
       :value="page.body"
@@ -84,5 +107,3 @@ const headline = computed(() => findPageHeadline(page.value))
     />
   </div>
 </template>
-
-
