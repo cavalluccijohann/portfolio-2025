@@ -127,7 +127,7 @@ function isActive(path: string) {
   <!-- Menu mobile -->
   <div
     v-if="isMenuOpen"
-    class="fixed inset-0 z-50 bg-primary text-inverted p-6 flex flex-col items-center justify-center space-y-6 overflow-y-auto lg:hidden transition-transform duration-300 ease-in-out"
+    class="fixed inset-0 z-50 bg-[#FF5800] text-inverted p-6 flex flex-col items-center justify-center space-y-6 overflow-y-auto lg:hidden transition-transform duration-300 ease-in-out"
   >
     <a
       v-for="item in items"
