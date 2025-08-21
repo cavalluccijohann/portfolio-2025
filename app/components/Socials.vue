@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const props = defineProps<{
+  menu?: boolean
+}>()
+
 const socials = [
   {
     name: 'GitHub',
@@ -25,14 +29,15 @@ const hoveredItem = ref('')
     :key="social.name"
     :to="social.link"
     target="_blank"
-    class="flex items-center  sm:px-2 justify-center cursor-pointer  text-primary duration-300"
+    class="flex items-center sm:px-2 justify-center cursor-pointer text-primary duration-300"
     :aria-label="'Go to ' + social.name + ' profile'"
   >
     <span
       class="text-primary inline-block w-20 text-center transition-all duration-300"
       :class="{
         'font-estrella text-2xl': hoveredItem === social.name,
-        'font-clash-regular text-base py-[4.3px]': hoveredItem !== social.name
+        'font-clash-regular text-base py-[4.3px]': hoveredItem !== social.name,
+        'text-white dark:text-black text-xl mx-4': menu
       }"
       @mouseenter="hoveredItem = social.name"
       @mouseleave="hoveredItem = ''"
