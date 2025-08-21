@@ -1,7 +1,7 @@
 ---
 title: IV Patisserie
 description: Elegant simplicity meets effective design in this modern patisserie website
-url: https://ivpatisserie.com/galerie
+url: https://ivpatisserie.com
 date: 2024-02-15
 year: 2024
 image: /assets/works/iv-patisserie.webp

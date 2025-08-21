@@ -90,7 +90,7 @@ const headline = computed(() => findPageHeadline(page.value))
       />
 
       <!-- Bouton positionné en haut à droite de l'image -->
-      <div class="absolute -top-10 -right-7 lg:-top-20 lg:-right-20">
+      <div class="absolute -top-10 -right-7≤ lg:-top-20 lg:-right-20">
         <CircularText
           text="Click * Here * Preview * "
           :spin-duration="20"
