@@ -145,8 +145,11 @@ function isActive(path: string) {
       {{ item.label }}
     </a>
 
-    <div class="absolute bottom-0 mb-10 flex flex-row items-center mt-30">
-      <Socials :menu="true" />
+    <div class="absolute w-full bottom-0 mb-10 flex flex-col items-center mt-30">
+      <div class="w-1/3 mx-4 sm:px-0 sm:w-1/3 h-[1px] bg-white dark:bg-black mx-auto mb-2" />
+      <div class="flex items-center justify-center w-10 h-10 text-inverted text-white dark:text-black mt-2">
+        <Socials :menu="true" />
+      </div>
     </div>
   </div>
 
