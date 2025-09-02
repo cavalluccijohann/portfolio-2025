@@ -4,7 +4,10 @@ const draw = ref(false)
 
 <template>
   <CanvaDraw :draw />
-  <div class="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 md:-z-10">
+  <div
+    class="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:-z-10"
+    :class="draw ? '-z-10' : 'z-10'"
+  >
     <h1
       class="text-[7vh] sm:text-[15vh] font-bold text-center mb-5 sm:mb-0 sm:mt-10 w-full text-primary font-clash-regular leading-tight sm:leading-normal"
       :class="draw ? 'opacity-25' : ''"
