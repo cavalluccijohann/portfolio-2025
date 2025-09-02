@@ -1,5 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+
+const props = defineProps<{
+  draw: boolean
+}>()
 
 const canvas = ref(null)
 const isDrawing = ref(false)
@@ -12,14 +16,12 @@ let points = []
 onMounted(() => {
   resizeCanvas()
   window.addEventListener('resize', resizeCanvas)
-
   const ctx = canvas.value.getContext('2d')
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
   ctx.lineWidth = 5
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
-
   // Démarrer l'animation
   animate()
 })
@@ -32,7 +34,6 @@ const resizeCanvas = () => {
   }
 }
 
-
 function animate() {
   const ctx = canvas.value.getContext('2d')
   ctx.clearRect(0, 0, canvas.value.width, canvas.value.height)
@@ -44,17 +45,14 @@ function animate() {
       const opacity = 1 - (age / 5000)
       ctx.globalAlpha = opacity
       ctx.strokeStyle = '#FF5800'
-
       // Dessiner le trait avec interpolation
       ctx.beginPath()
       ctx.moveTo(drawing.points[0].x, drawing.points[0].y)
-
       for (let i = 1; i < drawing.points.length; i++) {
         const xc = (drawing.points[i].x + drawing.points[i - 1].x) / 2
         const yc = (drawing.points[i].y + drawing.points[i - 1].y) / 2
         ctx.quadraticCurveTo(drawing.points[i - 1].x, drawing.points[i - 1].y, xc, yc)
       }
-
       ctx.stroke()
       return true
     }
@@ -65,20 +63,58 @@ function animate() {
   animationFrameId = requestAnimationFrame(animate)
 }
 
-function startDrawing(event) {
-  isDrawing.value = true
+// Fonction utilitaire pour obtenir les coordonnées
+function getCoordinates(event) {
   const rect = canvas.value.getBoundingClientRect()
-  lastX.value = event.clientX - rect.left
-  lastY.value = event.clientY - rect.top
+  let clientX, clientY
+
+  if (event.touches) {
+    // Événement tactile
+    clientX = event.touches[0].clientX
+    clientY = event.touches[0].clientY
+  } else {
+    // Événement de souris
+    clientX = event.clientX
+    clientY = event.clientY
+  }
+
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top
+  }
+}
+
+function startDrawing(event) {
+  if (!props.draw && window.innerWidth < 768) return
+
+  // Sur mobile, vérifier si on peut dessiner
+  if (window.innerWidth < 768) {
+    if (!props.draw) return
+  }
+
+  event.preventDefault() // Empêche le scroll sur mobile
+  isDrawing.value = true
+
+  const coords = getCoordinates(event)
+  lastX.value = coords.x
+  lastY.value = coords.y
   points = [{ x: lastX.value, y: lastY.value }]
 }
 
 function draw(event) {
-  if (!isDrawing.value) return
+  // check the size of the screen
+  if (window.innerWidth < 768) {
+    if (!isDrawing.value || !props.draw) return
+  } else {
+    // Sur desktop, vérifier qu'on est en train de dessiner ET que draw est true
+    if (!isDrawing.value) return
+  }
 
-  const rect = canvas.value.getBoundingClientRect()
-  const currentX = event.clientX - rect.left
-  const currentY = event.clientY - rect.top
+  event.preventDefault() // Empêche le scroll sur mobile
+
+  const coords = getCoordinates(event)
+  const currentX = coords.x
+  const currentY = coords.y
 
   // Ajouter le point actuel
   points.push({ x: currentX, y: currentY })
@@ -103,7 +139,10 @@ function draw(event) {
   lastY.value = currentY
 }
 
-function stopDrawing() {
+function stopDrawing(event) {
+  if (event) {
+    event.preventDefault()
+  }
   isDrawing.value = false
   points = []
 }
@@ -122,11 +161,15 @@ onUnmounted(() => {
     ref="canvas"
     class="w-full"
     style="height: calc(100vh - 80px);"
-
+    :style="{ pointerEvents: draw ? 'auto' : 'none' }"
     @mousedown="startDrawing"
     @mousemove="draw"
     @mouseup="stopDrawing"
     @mouseleave="stopDrawing"
+    @touchstart="startDrawing"
+    @touchmove="draw"
+    @touchend="stopDrawing"
+    @touchcancel="stopDrawing"
   />
 </template>
 
