@@ -36,7 +36,7 @@ authors:
         alt: Paul Marniquet
 
 ---
-#  A Creative Portfolio Experience
+#  Automating Workflows
 
 ## Overview
 
