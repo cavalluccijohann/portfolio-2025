@@ -29,8 +29,8 @@
         Timeline
       </p>
     </div>
-    <div>
-      dd
+    <div class="w-full flex justify-center text-center mb-20">
+      <Timeline />
     </div>
   </div>
 </template>
