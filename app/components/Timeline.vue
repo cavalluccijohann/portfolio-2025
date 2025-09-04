@@ -78,7 +78,7 @@ const handleMouseLeave = () => {
       </span>
       <div class="flex flex-col">
         <div
-          class="w-3 rounded-full mx-1 transition-all duration-300 ease-in-out"
+          class="w-2 rounded-b-sm mx-1 transition-all duration-300 ease-in-out"
           :class="[
             index == actifEvent ? 'h-38' : 'h-22',
             index > actifEvent ? 'bg-primary/50' : 'bg-primary'
@@ -88,14 +88,17 @@ const handleMouseLeave = () => {
           v-if="event.icon.startsWith('i-')"
           :name="event.icon"
           class="size-5 transition-all duration-300 ease-in-out"
-          :class="index == actifEvent ? 'bg-primary scale-110 mt-3' : 'bg-primary/70 mt-2'"
+          :class="[
+            index == actifEvent ? 'scale-130 mt-3 bg-primary' : 'mt-2',
+            index < actifEvent ? 'bg-primary/80' : index == actifEvent ? 'bg-primary' : 'bg-primary/50'
+          ]"
         />
         <div
           v-else
           class="size-5 transition-all duration-300 ease-in-out flex items-center justify-center"
           :class="[
             index == actifEvent ? 'scale-110 mt-3' : 'mt-2',
-            index == actifEvent ? 'text-primary' : 'text-primary/70'
+            index < actifEvent ? 'text-primary/80' : index == actifEvent ? 'text-primary' : 'text-primary/50'
           ]"
           v-html="event.icon"
         />
@@ -104,11 +107,11 @@ const handleMouseLeave = () => {
         v-for="n in 5"
         v-if="index < events.length - 1"
         :key="n"
-        class="w-3 h-3 rounded-full mx-1 transition-all duration-300 ease-in-out"
+        class="w-2 h-2 rounded-b-sm  mx-1 transition-all duration-300 ease-in-out"
         :class="index >= actifEvent ? 'bg-primary/50' : 'bg-primary'"
       />
       <div v-if="actifEvent == index" class="absolute w-80 -left-38 top-50">
-        <NuxtLink :to="event?.link" class="flex flex-row justify-center items-center" :class="event.link ? 'hover:opacity-70 transition-all duration-300' : ''">
+        <NuxtLink target="_blank" :to="event?.link" class="flex flex-row justify-center items-center" :class="event.link ? 'hover:opacity-70 transition-all duration-300' : ''">
           <UIcon
             v-if="event.link"
             name="i-lucide-external-link"
