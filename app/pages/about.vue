@@ -4,7 +4,7 @@
 <template>
   <div class=" relative -top-[1px]">
     <div class="w-full flex flex-row">
-      <div class="w-1/3 border-r-10 border-b-10 border-primary rounded-br-2xl p-5 relative -right-1">
+      <div class="w-1/3 border-r-10 border-b-10 border-primary rounded-br-2xl p-5 relative -right-1 min-h-1/2">
         <NuxtImg
           src="/assets/johannCVL.webp"
           alt="Johann Cavallucci"
@@ -15,7 +15,7 @@
         <h2 class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold text-inverted">
           ABOUT<br>ME
         </h2>
-        <p class="font-clash-medium text-sm md:text-md text-inverted px-10">
+        <p class="font-clash-medium text-sm md:text-md text-inverted pr-20">
           Hello, my name is Johann, and I am a web developer based in Nice, France.<br><br>
 
           I am passionate about creation, mainly software and website development. I have always loved creating. From a young age, I would make all sorts of gadgets… and for the past 5 years, I have channeled this passion into development and design. I love imagining a project and bringing it to life by experimenting with and testing new technologies. I have learned to share this art by collaborating within a team.<br><br>
@@ -29,7 +29,7 @@
         Timeline
       </p>
     </div>
-    <div class="w-full flex justify-center text-center mb-20">
+    <div class="w-full flex justify-center text-center my-20 font-clash-medium">
       <Timeline />
     </div>
   </div>
