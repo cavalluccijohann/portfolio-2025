@@ -54,8 +54,8 @@ async function sendForm() {
         <span class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold mb-4">
           CON<br>TACT<br> ME
         </span>
-        <p class="font-clash-medium text-sm md:text-md md:pr-14 md:p-0">
-          Fugiat duis et non amet officia adipisicing aliqua aliquip dolor est nostrud. Do deserunt nisi sit ut laborum ullamco pariatur tempor cillum minim amet enim laborum. Ea et commodo id deserunt et tempor. Ad amet occaecat enim nulla labore cillum laboris tempor laborum. Quis nostrud consectetur occaecat consectetur officia et elit enim irure occaecat laboris incididunt reprehenderit occaecat ut.
+        <p class="font-clash-medium text-sm md:text-lg md:pr-14 md:p-0">
+          Every project begins with an idea, a sketch. Whether you already have a clear vision or just an intuition to explore, I would be delighted to discuss it with you. Collaborations, projects, or simple questions: the door is always open.
         </p>
       </div>
       <form class="flex flex-col justify-center items-center" @submit.prevent="sendForm">

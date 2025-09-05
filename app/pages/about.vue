@@ -15,7 +15,7 @@
         <h2 class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold text-inverted">
           ABOUT<br>ME
         </h2>
-        <p class="font-clash-medium text-sm md:text-md text-inverted pr-20">
+        <p class="font-clash-medium text-sm md:text-lg text-inverted pr-20">
           Hello, my name is Johann, and I am a web developer based in Nice, France.<br><br>
 
           I am passionate about creation, mainly software and website development. I have always loved creating. From a young age, I would make all sorts of gadgets… and for the past 5 years, I have channeled this passion into development and design. I love imagining a project and bringing it to life by experimenting with and testing new technologies. I have learned to share this art by collaborating within a team.<br><br>

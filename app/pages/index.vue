@@ -14,8 +14,9 @@ const draw = ref(false)
     >
       Johann Cavallucci
     </h1>
-    <p v-if="!draw" class="text-center font-clash-regular text-md sm:text-lg font-semibold text-primary w-full max-w-2xl px-5 sm:mx-auto">
-      Ex qui do enim fugiat esse dolore labore ea non pariatur cillum ad ea. Duis consectetur velit non occaecat ea velit cupidatat.
+    <p v-if="!draw" class="text-center font-clash-regular text-md sm:text-lg 2xl:text-2xl font-semibold text-primary w-full max-w-2xl px-5 sm:mx-auto">
+      It all starts with a sketch. An idea, a vision.<br>
+      My goal: turning that vision into digital experiences.
     </p>
     <div
       class="md:hidden flex w-full justify-center mt-5"
@@ -26,7 +27,7 @@ const draw = ref(false)
         @click="() => { draw = !draw }"
       >
         <UIcon name="i-lucide-brush" class="size-5 text-inverted" />
-        Draw
+        Start Sketch
       </UButton>
     </div>
   </div>
