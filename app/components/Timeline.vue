@@ -78,7 +78,7 @@ const handleMouseLeave = () => {
       </span>
       <div class="flex flex-col">
         <div
-          class="w-2 rounded-b-sm mx-1 transition-all duration-300 ease-in-out"
+          class="w-1 rounded-b-sm mx-auto transition-all duration-300 ease-in-out"
           :class="[
             index == actifEvent ? 'h-38' : 'h-22',
             index > actifEvent ? 'bg-primary/50' : 'bg-primary'
@@ -107,7 +107,7 @@ const handleMouseLeave = () => {
         v-for="n in 5"
         v-if="index < events.length - 1"
         :key="n"
-        class="w-2 h-2 rounded-b-sm  mx-1 transition-all duration-300 ease-in-out"
+        class="w-1 h-2 rounded-b-sm  mx-1 transition-all duration-300 ease-in-out"
         :class="index >= actifEvent ? 'bg-primary/50' : 'bg-primary'"
       />
       <div v-if="actifEvent == index" class="absolute w-80 -left-38 top-50">
@@ -115,7 +115,7 @@ const handleMouseLeave = () => {
           <UIcon
             v-if="event.link"
             name="i-lucide-external-link"
-            class="size-4 bg-primary hover:bg-primary/70 mr-2"
+            class="size-4 bg-primary mr-2"
           />
           <h2
             class="text-primary font-clash-bold text-lg"
