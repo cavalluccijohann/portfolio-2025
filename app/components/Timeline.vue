@@ -54,12 +54,12 @@ const events = [
 
 const actifEvent = ref(events.length - 1)
 
-// Fonction pour gérer le survol d'un événement
+// Fonction to manage the event hover
 const handleMouseEnter = (index: number) => {
   actifEvent.value = index
 }
 
-// Fonction pour revenir au dernier élément quand on quitte la timeline
+// Fonction to recame on the last element when you exit
 const handleMouseLeave = () => {
   actifEvent.value = events.length - 1
 }
