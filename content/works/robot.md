@@ -70,7 +70,7 @@ The first step was **a lot of research** to identify the most effective componen
 
 ---
 
-##️ 3D Printing
+## 3D Printing
 
 For this project, I modeled and printed most of the parts: from the robot’s base to the pump that sprays fluid.  
 I used **Fusion 360** for modeling, **Bambu Studio slicer**, and the **Bambu Lab P1P Mini** printer (amazing machine btw).

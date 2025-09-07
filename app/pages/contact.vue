@@ -55,7 +55,7 @@ async function sendForm() {
           CON<br>TACT<br> ME
         </span>
         <p class="font-clash-medium text-sm md:text-lg md:pr-14 md:p-0">
-          Every project begins with an idea, a sketch. Whether you already have a clear vision or just an intuition to explore, I would be delighted to discuss it with you. Collaborations, projects, or simple questions: the door is always open.
+          Every project begins with an idea, a sketch. Whether you already have a clear vision or just an intuition to explore, I would be delighted to discuss it with you. Collaborations, projects, or simple questions:  <span class="font-clash-bold">the door is always open.</span>
         </p>
       </div>
       <form class="flex flex-col justify-center items-center" @submit.prevent="sendForm">
