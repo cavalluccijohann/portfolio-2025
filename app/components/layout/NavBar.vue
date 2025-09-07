@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-
 // Init
 const route = useRoute()
 const hoveredItem = ref('')
@@ -161,6 +160,4 @@ function isActive(path: string) {
 button[aria-label="Open menu"], button[aria-label="Close menu"] {
   color: var(--color-primary);
 }
-
-
 </style>

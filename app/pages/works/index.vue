@@ -29,5 +29,3 @@ projects.value = projects.value.map((item: any) => {
   </div>
 </template>
 
-<style scoped></style>
-

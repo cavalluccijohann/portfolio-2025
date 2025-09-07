@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="relative -top-[1px]">
     <div class="hidden md:flex w-full flex-row">
@@ -47,6 +44,4 @@
     </div>
   </div>
 </template>
-
-<style scoped></style>
 

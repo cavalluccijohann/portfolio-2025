@@ -47,5 +47,3 @@ const hoveredItem = ref('')
   </nuxtlink>
 </template>
 
-<style scoped></style>
-

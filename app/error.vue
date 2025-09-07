@@ -76,5 +76,3 @@ const goBack = () => {
   </div>
 </template>
 
-<style scoped></style>
-

@@ -108,8 +108,3 @@ async function sendForm() {
     </footer>
   </div>
 </template>
-
-<style scoped>
-
-</style>
-
