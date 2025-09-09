@@ -54,25 +54,20 @@ const events = [
 const actifEvent = ref(events.length - 1)
 const scrollContainer = ref(null)
 
-// Desktop: fonction pour gérer le hover
 const handleMouseEnter = (index: number) => {
   actifEvent.value = index
 }
 
-// Desktop: fonction pour revenir au dernier élément
 const handleMouseLeave = () => {
   actifEvent.value = events.length - 1
 }
 
-// Mobile: fonction pour gérer le clic
 const handleClick = (index: number) => {
   actifEvent.value = index
 }
 
-// Ajoute cette fonction après tes autres fonctions
 onMounted(() => {
   if (scrollContainer.value) {
-    // Scroll vers la droite (fin de la timeline) au chargement
     scrollContainer.value.scrollLeft = scrollContainer.value.scrollWidth
   }
 })
