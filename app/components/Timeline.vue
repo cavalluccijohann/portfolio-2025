@@ -89,9 +89,9 @@ onMounted(() => {
         </span>
         <div class="flex flex-col">
           <div
-            class="w-1 rounded-b-sm mx-auto transition-all duration-300 ease-in-out"
+            class="w-1 rounded-b-sm mx-auto transition-colors"
             :class="[
-              index == actifEvent ? 'h-38' : 'h-22',
+              index == actifEvent ? 'spring-grow' : 'spring-shrink',
               index > actifEvent ? 'bg-primary/50' : 'bg-primary'
             ]"
           />
@@ -167,9 +167,9 @@ onMounted(() => {
             <!-- Icon -->
             <div class="flex flex-col items-center">
               <div
-                class="w-1 h-6 rounded-b-sm mx-auto transition-all duration-300 ease-in-out"
+                class="w-1 rounded-b-sm mx-auto transition-colors"
                 :class="[
-                  index == actifEvent ? 'h-20' : 'h-10',
+                  index == actifEvent ? 'spring-grow' : 'spring-shrink',
                   index > actifEvent ? 'bg-primary/50' : 'bg-primary'
                 ]"
               />
@@ -236,5 +236,26 @@ onMounted(() => {
 <style scoped>
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+
+@keyframes springGrow {
+  0%   { height: 5.5rem; }   /* h-22 */
+  60%  { height: 10rem; }    /* dépasse un peu (rebond) */
+  100%  { height: 9.7rem; }
+}
+
+@keyframes springShrink {
+  0%   { height: 9.7rem; }   /* h-38 */
+  60%  { height: 7rem; }
+  100%  { height: 6.5rem; }
+}
+
+.spring-grow {
+  animation: springGrow 0.6s ease-out forwards;
+}
+
+.spring-shrink {
+  animation: springShrink 0.6s ease-out forwards;
 }
 </style>
