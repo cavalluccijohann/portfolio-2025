@@ -22,7 +22,6 @@ onMounted(() => {
   ctx.lineWidth = 5
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
-  // Démarrer l'animation
   animate()
 })
 
@@ -45,7 +44,6 @@ function animate() {
       const opacity = 1 - (age / 5000)
       ctx.globalAlpha = opacity
       ctx.strokeStyle = '#FF5800'
-      // Dessiner le trait avec interpolation
       ctx.beginPath()
       ctx.moveTo(drawing.points[0].x, drawing.points[0].y)
       for (let i = 1; i < drawing.points.length; i++) {
@@ -63,17 +61,14 @@ function animate() {
   animationFrameId = requestAnimationFrame(animate)
 }
 
-// Fonction utilitaire pour obtenir les coordonnées
 function getCoordinates(event) {
   const rect = canvas.value.getBoundingClientRect()
   let clientX, clientY
 
   if (event.touches) {
-    // Événement tactile
     clientX = event.touches[0].clientX
     clientY = event.touches[0].clientY
   } else {
-    // Événement de souris
     clientX = event.clientX
     clientY = event.clientY
   }
@@ -86,13 +81,11 @@ function getCoordinates(event) {
 
 function startDrawing(event) {
   if (!props.draw && window.innerWidth < 768) return
-
-  // Sur mobile, vérifier si on peut dessiner
   if (window.innerWidth < 768) {
     if (!props.draw) return
   }
 
-  event.preventDefault() // Empêche le scroll sur mobile
+  event.preventDefault() // No scroll on mobile
   isDrawing.value = true
 
   const coords = getCoordinates(event)
@@ -106,30 +99,29 @@ function draw(event) {
   if (window.innerWidth < 768) {
     if (!isDrawing.value || !props.draw) return
   } else {
-    // Sur desktop, vérifier qu'on est en train de dessiner ET que draw est true
     if (!isDrawing.value) return
   }
 
-  event.preventDefault() // Empêche le scroll sur mobile
+  event.preventDefault() // no scroll on mobile
 
   const coords = getCoordinates(event)
   const currentX = coords.x
   const currentY = coords.y
 
-  // Ajouter le point actuel
+  // added the actual dots
   points.push({ x: currentX, y: currentY })
 
   const ctx = canvas.value.getContext('2d')
   ctx.globalAlpha = 1
   ctx.strokeStyle = '#FF5800'
 
-  // Dessiner le trait en temps réel
+  // Drawing in real time
   ctx.beginPath()
   ctx.moveTo(lastX.value, lastY.value)
   ctx.lineTo(currentX, currentY)
   ctx.stroke()
 
-  // Sauvegarder le dessin avec tous les points
+  // Save the sketch with all the dots
   drawings.value.push({
     points: [...points],
     timestamp: Date.now()
@@ -147,7 +139,7 @@ function stopDrawing(event) {
   points = []
 }
 
-// Nettoyer l'animation lors de la destruction du composant
+// Clean the animpation when the component is destroyed
 onUnmounted(() => {
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId)
