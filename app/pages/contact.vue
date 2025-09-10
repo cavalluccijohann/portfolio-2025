@@ -75,7 +75,7 @@ async function sendForm() {
           type="text"
           placeholder="Name"
           required
-          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b-[1px] focus:outline-none focus:ring-b-1"
+          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b border-primary focus:outline-none focus:border-b-4 transition-all duration-100"
         >
         <input
           id="email"
@@ -83,21 +83,21 @@ async function sendForm() {
           type="email"
           placeholder="Email"
           required
-          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b-[1px] focus:outline-none focus:ring-b-1"
+          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b border-primary focus:outline-none focus:border-b-4 transition-all duration-300"
         >
         <input
           id="phone"
           v-model="form.phone"
           type="text"
           placeholder="Phone"
-          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b-[1px] focus:outline-none focus:ring-b-1"
+          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b border-primary focus:outline-none focus:border-b-4 transition-all duration-300"
         >
         <textarea
           id="message"
           v-model="form.message"
           placeholder="Message"
           required
-          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-20 m-4 border-b-[1px] focus:outline-none focus:ring-b-1"
+          class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-20 m-4 border-b-[1px] focus:outline-none focus:border-b-4 transition-all duration-300"
         />
         <button
           type="submit"
