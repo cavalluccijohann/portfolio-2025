@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Ticker } from 'motion-plus-vue'
-import { AnimatePresence, motion } from 'motion-v'
+import { AnimatePresence, motion, stagger } from 'motion-v'
 import { ref } from 'vue'
 import type { ProjectMenu } from '~~/types'
 
@@ -22,66 +22,98 @@ const handleHoverEnd = () => {
 </script>
 
 <template>
-  <nav class="flex flex-col items-center justify-center overflow-hidden w-full bg-transparent">
-    <template v-for="(project, index) in projects" :key="index">
+  <!-- Conteneur motion avec stagger pour animer les projets un par un -->
+  <motion.nav
+    class="flex flex-col items-center justify-center overflow-hidden w-full bg-transparent"
+    :variants="{
+      hidden: {},
+      visible: {
+        transition: {
+          delayChildren: stagger(0.15),
+        },
+      },
+    }"
+    initial="hidden"
+    animate="visible"
+  >
+    <template v-for="(project, index) in projects" :key="`project-${index}`">
+      <!-- Chaque projet devient un motion.div avec ses propres variants -->
       <motion.div
-        class=" py-3 font-bold text-primary leading-none w-full flex justify-center items-center py-2.5 relative no-underline"
-        @hover-start="() => handleHoverStart(index)"
-        @hover-end="handleHoverEnd"
+        class="w-full"
+        :variants="{
+          hidden: { opacity: 0, y: 30 },
+          visible: { opacity: 1, y: 0 },
+
+        }"
+        :transition="{ duration: 0.5, ease: 'easeOut' }"
       >
-        <NuxtLink
-          :to="project.path"
-          class="flex-1"
+        <motion.div
+          class="py-3 font-bold text-primary leading-none w-full flex justify-center items-center py-2.5 relative no-underline"
+          @hover-start="() => handleHoverStart(index)"
+          @hover-end="handleHoverEnd"
         >
-          <div class="flex  items-center justify-between w-full px-7 md:px-10 relative">
-            <div>
-              <span class="text-primary font-bread text-5xl md:text-6xl lg:text-7xl mr-3">
-                {{ index + 1 }}
-              </span>
-            </div>
-            <div class="flex flex-1 flex-col justify-between px-5 md:px-10 items-start w-full w-auto ">
-              <span class="text-3xl md:text-4xl lg:text-5xl font-clash-medium">{{ project.name }}</span>
-              <span class="text-md sm:text-xl md:text-2xl lg:text-3xl leading-tight normal-case leading-relaxed font-clash-light">{{ project.description }}</span>
-            </div>
-            <div>
+          <NuxtLink
+            :to="project.path"
+            class="flex-1"
+          >
+            <div class="flex items-center justify-between w-full px-7 md:px-10 relative">
               <div>
-                <span class="text-xl lg:text-2xl font-bread text-primary [writing-mode:vertical-lr] [text-orientation:upright]">
-                  {{ project.date }}
+                <span class="text-primary font-bread text-5xl md:text-6xl lg:text-7xl mr-3">
+                  {{ index + 1 }}
                 </span>
               </div>
-            </div>
-          </div>
-
-          <AnimatePresence>
-            <Ticker
-              v-if="hoveredIndex === index"
-              class="ticker bg-primary text-inverted"
-              :style="{ position: 'absolute' }"
-              :initial="{ clipPath: 'inset(50% 0 50% 0)' }"
-              :animate="{ clipPath: 'inset(0% 0 0% 0)' }"
-              :exit="{
-                clipPath: 'inset(50% 0 50% 0)',
-                transition: { duration: 0.1 }
-              }"
-              :transition="{
-                duration: 0.2,
-                ease: 'easeOut'
-              }"
-            >
-              <div class="flex flex-col items-center text-center">
-                <span class="text-3xl md:text-5xl font-bold mb-2">{{ project.name }}</span>
+              <div class="flex flex-1 flex-col justify-between px-5 md:px-10 items-start w-full w-auto">
+                <span class="text-3xl md:text-4xl lg:text-5xl font-clash-medium">{{ project.name }}</span>
+                <span class="text-md sm:text-xl md:text-2xl lg:text-3xl leading-tight normal-case leading-relaxed font-clash-light">{{ project.description }}</span>
               </div>
-              <img :src="project.image" class="w-32 object-cover rounded mb-2">
-            </Ticker>
-          </AnimatePresence>
-        </NuxtLink>
+              <div>
+                <div>
+                  <span class="text-xl lg:text-2xl font-bread text-primary [writing-mode:vertical-lr] [text-orientation:upright]">
+                    {{ project.date }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <AnimatePresence>
+              <Ticker
+                v-if="hoveredIndex === index"
+                class="ticker bg-primary text-inverted"
+                :style="{ position: 'absolute' }"
+                :initial="{ clipPath: 'inset(50% 0 50% 0)' }"
+                :animate="{ clipPath: 'inset(0% 0 0% 0)' }"
+                :exit="{
+                  clipPath: 'inset(50% 0 50% 0)',
+                  transition: { duration: 0.1 }
+                }"
+                :transition="{
+                  duration: 0.2,
+                  ease: 'easeOut'
+                }"
+              >
+                <div class="flex flex-col items-center text-center">
+                  <span class="text-3xl md:text-5xl font-bold mb-2">{{ project.name }}</span>
+                </div>
+                <img :src="project.image" class="w-32 object-cover rounded mb-2">
+              </Ticker>
+            </AnimatePresence>
+          </NuxtLink>
+        </motion.div>
       </motion.div>
 
-      <div class="w-full px-10">
+      <!-- Séparateur aussi animé -->
+      <motion.div
+        class="w-full px-10"
+        :variants="{
+          hidden: { opacity: 0, scaleX: 0 },
+          visible: { opacity: 1, scaleX: 1 },
+        }"
+        :transition="{ duration: 0.3, ease: 'easeOut' }"
+      >
         <div class="w-full h-px bg-primary" />
-      </div>
+      </motion.div>
     </template>
-  </nav>
+  </motion.nav>
 </template>
 
 <style scoped>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { motion, stagger } from 'motion-v'
 import type { ProjectMenu } from '~~/types'
 
 useSeoMeta({
@@ -12,7 +14,6 @@ useSeoMeta({
 })
 
 const route = useRoute()
-
 
 const { data: projects, status } = await useAsyncData(route.path, async () => {
   return await queryCollection('works').all()
@@ -34,8 +35,28 @@ projects.value = projects.value.map((item: any) => {
 </script>
 
 <template>
-  <div v-if="projects" class="flex flex-col h-min-screen">
-    <Menu :projects />
-  </div>
+  <motion.div
+    v-if="projects"
+    class="flex flex-col h-min-screen"
+    :variants="{
+      hidden: {},
+      visible: {
+        transition: {
+          delayChildren: stagger(0.1),
+        },
+      },
+    }"
+    initial="hidden"
+    animate="visible"
+  >
+    <motion.div
+      :variants="{
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0 },
+      }"
+      :transition="{ duration: 0.5, ease: 'easeOut' }"
+    >
+      <Menu :projects />
+    </motion.div>
+  </motion.div>
 </template>
-
