@@ -1,3 +1,14 @@
+<script setup lang="ts">
+useSeoMeta({
+  title: 'About - Johanncvl',
+  titleTemplate: 'About - Johanncvl',
+  description: 'About Johann Cavallucci, a passionate Software Engineer from Paris, France, specializing in web development and creative digital projects.\n',
+  ogTitle: 'About - Johanncvl',
+  ogDescription: 'About Johann Cavallucci, a passionate Software Engineer from Paris, France, specializing in web development and creative digital projects.\n',
+  ogImage: 'og.png',
+  twitterCard: 'summary_large_image'
+})
+</script>
 <template>
   <div class="relative -top-[1px]">
     <div class="hidden md:flex w-full flex-row">

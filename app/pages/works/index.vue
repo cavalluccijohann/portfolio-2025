@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import type { ProjectMenu } from '~~/types'
 
+useSeoMeta({
+  title: 'Projects - Johanncvl',
+  titleTemplate: 'Projects - Johanncvl',
+  description: 'Explore the projects of Johann Cavallucci, Software Engineer, showcasing web development, software, and creative digital work.\n',
+  ogTitle: 'Projects - Johanncvl',
+  ogDescription: 'Explore the projects of Johann Cavallucci, Software Engineer, showcasing web development, software, and creative digital work.\n',
+  ogImage: 'og.png',
+  twitterCard: 'summary_large_image'
+})
+
 const route = useRoute()
 
 

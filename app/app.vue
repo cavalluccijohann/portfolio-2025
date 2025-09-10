@@ -2,9 +2,17 @@
 import colors from 'tailwindcss/colors'
 import { Toaster } from 'vue-sonner'
 
+// Init
 const appConfig = useAppConfig()
 const colorMode = useColorMode()
 const color = computed(() => colorMode.value === 'dark' ? (colors as any)[appConfig.ui.colors.neutral][950] : 'white')
+
+useHead({
+  meta: [
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { key: 'theme-color', name: 'theme-color', content: color }
+  ]
+})
 
 const [{ data: navigation }, { data: files }] = await Promise.all([
   useAsyncData('navigation', () => {
@@ -21,6 +29,10 @@ const [{ data: navigation }, { data: files }] = await Promise.all([
 ])
 
 provide('navigation', navigation!)
+
+/*useSeoMeta({
+  titleTemplate: '%s - Johanncvl',
+})*/
 </script>
 
 <template>

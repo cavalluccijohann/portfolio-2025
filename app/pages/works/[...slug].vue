@@ -10,6 +10,21 @@ if (error.value) {
 }
 
 const headline = computed(() => findPageHeadline(page.value))
+
+watchEffect(() => {
+  if (page.value) {
+    useSeoMeta({
+      title: page.value.title,
+      titleTemplate: '%s - Johanncvl',
+      description: page.value.description ?? page.value.body?.slice(0, 160),
+      ogTitle: page.value.title,
+      ogDescription: page.value.description ?? page.value.body?.slice(0, 160),
+      ogImage: page.value.image ?? '/asset/og.png',
+      twitterCard: 'summary_large_image'
+    })
+  }
+})
+
 </script>
 
 <template>

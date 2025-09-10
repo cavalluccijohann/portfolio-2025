@@ -1,5 +1,15 @@
 <script setup lang="ts">
 const draw = ref(false)
+
+useSeoMeta({
+  title: 'Johann Cavallucci - Software engineer',
+  titleTemplate: 'Johann Cavallucci - Portfolio',
+  description: 'Portfolio of Johann Cavallucci, Software Engineer specializing in web and modern application development. I create tailored digital experiences for your projects.',
+  ogTitle: 'Johann Cavallucci - Software engineer',
+  ogDescription: 'Portfolio of Johann Cavallucci, Software Engineer specializing in web and modern application development. I create tailored digital experiences for your projects.',
+  ogImage: 'og.png',
+  twitterCard: 'summary_large_image'
+})
 </script>
 
 <template>

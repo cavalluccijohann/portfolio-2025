@@ -2,6 +2,16 @@
 import { toast, Toaster } from 'vue-sonner'
 import 'vue-sonner/style.css'
 
+useSeoMeta({
+  title: 'Contact - Johanncvl',
+  titleTemplate: 'Contact - Johanncvl',
+  description: 'Get in touch with Johann Cavallucci, Software Engineer, to discuss web and modern application projects. Let\'s build something amazing together!\n',
+  ogTitle: 'Contact - Johanncvl',
+  ogDescription: 'Get in touch with Johann Cavallucci, Software Engineer, to discuss web and modern application projects. Let\'s build something amazing together!\n',
+  ogImage: 'og.png',
+  twitterCard: 'summary_large_image'
+})
+
 const form = ref({
   name: '',
   phone: '',
