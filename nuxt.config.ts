@@ -26,5 +26,10 @@ export default defineNuxtConfig({
     preview: {
       api: 'https://api.nuxt.studio'
     }
+  },
+  site: {
+    url: 'https://johanncvl.com',
+    defaultLocale: 'en',
+    indexable: true,
   }
 })
