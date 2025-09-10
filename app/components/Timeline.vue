@@ -72,11 +72,10 @@ onMounted(() => {
   }
 })
 
-
 </script>
 
 <template>
-  <div class="w-full mb-8 lg:mb-20">
+  <div class="w-full h-70 mb-8 lg:mb-20">
     <!-- Version Desktop -->
     <div class="hidden lg:flex lg:h-50 justify-center" @mouseleave="handleMouseLeave">
       <div
