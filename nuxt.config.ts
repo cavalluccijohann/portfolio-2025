@@ -31,5 +31,12 @@ export default defineNuxtConfig({
     url: 'https://johanncvl.com',
     defaultLocale: 'en',
     indexable: true,
-  }
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      autoSubfolderIndex: false
+    }
+  },
+
 })
