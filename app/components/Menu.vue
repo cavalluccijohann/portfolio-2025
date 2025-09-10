@@ -29,7 +29,7 @@ const handleHoverEnd = () => {
       hidden: {},
       visible: {
         transition: {
-          delayChildren: stagger(0.15),
+          delayChildren: stagger(0.09),
         },
       },
     }"
