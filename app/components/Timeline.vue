@@ -123,6 +123,7 @@ onMounted(() => {
         />
         <div v-if="actifEvent == index" class="absolute w-80 -left-38 top-50">
           <NuxtLink
+            v-if="event.link"
             target="_blank"
             :to="event?.link"
             class="flex flex-row justify-center items-center"
@@ -137,6 +138,16 @@ onMounted(() => {
               {{ event.title }}
             </h2>
           </NuxtLink>
+          <div v-else class="flex flex-row justify-center items-center">
+            <UIcon
+              v-if="event.link"
+              name="i-lucide-external-link"
+              class="size-4 bg-primary mr-2"
+            />
+            <h2 class="text-primary font-clash-bold text-lg">
+              {{ event.title }}
+            </h2>
+          </div>
           <p class="text-primary font-clash-regular text-sm">
             {{ event.description }}
           </p>
