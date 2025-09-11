@@ -73,7 +73,7 @@ async function sendForm() {
           id="name"
           v-model="form.name"
           type="text"
-          placeholder="Name"
+          placeholder="Name*"
           required
           class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b border-primary focus:outline-none focus:border-b-4 transition-all duration-100"
         >
@@ -81,7 +81,7 @@ async function sendForm() {
           id="email"
           v-model="form.email"
           type="email"
-          placeholder="Email"
+          placeholder="Email*"
           required
           class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b border-primary focus:outline-none focus:border-b-4 transition-all duration-300"
         >
@@ -95,7 +95,7 @@ async function sendForm() {
         <textarea
           id="message"
           v-model="form.message"
-          placeholder="Message"
+          placeholder="Message*"
           required
           class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-20 m-4 border-b-[1px] focus:outline-none focus:border-b-4 transition-all duration-300"
         />
