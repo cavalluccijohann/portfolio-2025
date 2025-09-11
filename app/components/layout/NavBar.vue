@@ -106,14 +106,13 @@ function isActive(path: string) {
           <a
             v-else
             :href="item.to"
-            class="text-primary font-semibold text-center relative inline-block"
-            :class="hoveredItem ? 'pb-2' : ''"
+            class="text-primary font-semibold text-center relative inline-block transition-all duration-100"
             @mouseenter="hoveredItem = item.label"
             @mouseleave="hoveredItem = ''"
           >
             <!-- font-clash -->
             <span
-              class="absolute self-center inset-0 font-clash  transition-all duration-100 "
+              class="font-clash transition-all duration-100"
               :class="{
                 'scale-50 blur-[7px] opacity-0': hoveredItem === item.label,
                 'scale-100 blur-none opacity-100': hoveredItem !== item.label
@@ -122,16 +121,21 @@ function isActive(path: string) {
               {{ item.label }}
             </span>
 
-            <!-- font-estrella -->
-            <span
-              class="font-estrella text-4xl mb-10 transition-all duration-100  text-center"
-              :class="{
-                'scale-100 blur-none opacity-100': hoveredItem === item.label,
-                'scale-50 blur-[7px] opacity-0': hoveredItem !== item.label
-              }"
+            <!-- font-estrella dans une div absolute -->
+            <div
+              class="absolute inset-0 flex items-center justify-center"
+              style="top: -8px;"
             >
-              {{ item.label }}
-            </span>
+              <span
+                class="font-estrella text-4xl transition-all duration-100 text-center"
+                :class="{
+                  'scale-100 blur-none opacity-100': hoveredItem === item.label,
+                  'scale-50 blur-[7px] opacity-0': hoveredItem !== item.label
+                }"
+              >
+                {{ item.label }}
+              </span>
+            </div>
           </a>
         </li>
       </ul>
