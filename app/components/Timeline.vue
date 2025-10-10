@@ -35,7 +35,7 @@ const events = [
   {
     date: 2025,
     icon: 'i-lucide-bot',
-    link: 'http://localhost:3000/works/robot',
+    link: 'https://www.johanncvl.com/works/robot',
     title: 'Robot Fighting',
     description: 'Built a combat robot, detailed in my projects page. Small but fierce!'
   },

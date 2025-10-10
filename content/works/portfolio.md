@@ -1,7 +1,7 @@
 ---
 title: Portfolio
 description: A simple yet effective personal site developed with Nuxt.js. My first step into professional web presence.
-url: https://www.johanncvl.com/
+url: https://boilerplatefolio.johanncvl.com/
 date: 2023-12-20
 year: 2023
 image: /assets/works/portfolio.png
