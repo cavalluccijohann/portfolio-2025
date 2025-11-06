@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 
 const props = defineProps<{
   draw: boolean
 }>()
 
 const canvas = ref(null)
+const canvasContainer = ref(null)
 const isDrawing = ref(false)
 const lastX = ref(0)
 const lastY = ref(0)
 const drawings = ref([])
+const cursorX = ref(0)
+const cursorY = ref(0)
+const isCursorVisible = ref(false)
 let animationFrameId = null
 let points = []
 
@@ -79,6 +83,32 @@ function getCoordinates(event) {
   }
 }
 
+function updateCursor(event) {
+  if (!canvas.value) return
+  const rect = canvas.value.getBoundingClientRect()
+  cursorX.value = event.clientX - rect.left
+  cursorY.value = event.clientY - rect.top
+  isCursorVisible.value = true
+}
+
+function hideCursor() {
+  isCursorVisible.value = false
+}
+
+const shouldShowCursor = computed(() => {
+  if (typeof window === 'undefined') return false
+  // Sur desktop (>= 768px), le dessin est toujours actif, donc on affiche le curseur
+  // Sur mobile, on affiche le curseur seulement si draw est true
+  const isDesktop = window.innerWidth >= 768
+  return isCursorVisible.value && (isDesktop || props.draw)
+})
+
+const canvasPointerEvents = computed(() => {
+  if (typeof window === 'undefined') return props.draw ? 'auto' : 'none'
+  const isDesktop = window.innerWidth >= 768
+  return (props.draw || isDesktop) ? 'auto' : 'none'
+})
+
 function startDrawing(event) {
   if (!props.draw && window.innerWidth < 768) return
   if (window.innerWidth < 768) {
@@ -131,6 +161,11 @@ function draw(event) {
   lastY.value = currentY
 }
 
+function handleMouseMove(event) {
+  updateCursor(event)
+  draw(event)
+}
+
 function stopDrawing(event) {
   if (event) {
     event.preventDefault()
@@ -149,24 +184,102 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <canvas
-    ref="canvas"
-    class="w-full"
-    style="height: calc(100vh - 80px);"
-    :style="{ pointerEvents: draw ? 'auto' : 'none' }"
-    @mousedown="startDrawing"
-    @mousemove="draw"
-    @mouseup="stopDrawing"
-    @mouseleave="stopDrawing"
-    @touchstart="startDrawing"
-    @touchmove="draw"
-    @touchend="stopDrawing"
-    @touchcancel="stopDrawing"
-  />
+  <div ref="canvasContainer" class="relative w-full" style="height: calc(100vh - 80px);">
+    <canvas
+      ref="canvas"
+      class="w-full"
+      style="height: calc(100vh - 80px);"
+      :style="{ 
+        pointerEvents: canvasPointerEvents, 
+        cursor: 'none' 
+      }"
+      @mousedown="startDrawing"
+      @mousemove="handleMouseMove"
+      @mouseup="stopDrawing"
+      @mouseleave="(e) => { stopDrawing(e); hideCursor() }"
+      @mouseenter="updateCursor"
+      @touchstart="startDrawing"
+      @touchmove="draw"
+      @touchend="stopDrawing"
+      @touchcancel="stopDrawing"
+    />
+    <div
+      v-if="shouldShowCursor"
+      class="custom-cursor"
+      :style="{
+        left: cursorX + 'px',
+        top: cursorY + 'px',
+        pointerEvents: 'none'
+      }"
+    >
+      <!-- Contour blanc vertical -->
+      <div class="cursor-line cursor-line-vertical-w cursor-white"></div>
+      <!-- Contour blanc horizontal -->
+      <div class="cursor-line cursor-line-horizontal-w cursor-white"></div>
+      <!-- Croix noire verticale -->
+      <div class="cursor-line cursor-line-vertical cursor-black"></div>
+      <!-- Croix noire horizontale -->
+      <div class="cursor-line cursor-line-horizontal cursor-black"></div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 canvas {
   touch-action: none;
+}
+
+.custom-cursor {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.cursor-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-line-vertical {
+  width: 2px;
+  height: 24px;
+}
+
+.cursor-line-horizontal {
+  width: 24px;
+  height: 2px;
+}
+
+.cursor-line-vertical-w {
+  width: 5px;
+  height: 27px;
+}
+
+.cursor-line-horizontal-w {
+  width: 27px;
+  height: 5px;
+}
+
+.cursor-white {
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.cursor-white.cursor-line-vertical {
+  width: 4.5px;
+}
+
+.cursor-white.cursor-line-horizontal {
+  height: 4.5px;
+}
+
+.cursor-black {
+  background-color: #000000;
+  z-index: 2;
 }
 </style>
