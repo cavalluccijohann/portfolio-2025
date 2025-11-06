@@ -84,8 +84,8 @@ function getCoordinates(event) {
 }
 
 function updateCursor(event) {
-  if (!canvas.value) return
-  const rect = canvas.value.getBoundingClientRect()
+  if (!canvasContainer.value) return
+  const rect = canvasContainer.value.getBoundingClientRect()
   cursorX.value = event.clientX - rect.left
   cursorY.value = event.clientY - rect.top
   isCursorVisible.value = true
@@ -96,7 +96,7 @@ function hideCursor() {
 }
 
 const shouldShowCursor = computed(() => {
-  if (typeof window === 'undefined') return false
+  if (typeof window === 'undefined') return isCursorVisible.value
   // Sur desktop (>= 768px), le dessin est toujours actif, donc on affiche le curseur
   // Sur mobile, on affiche le curseur seulement si draw est true
   const isDesktop = window.innerWidth >= 768
@@ -106,7 +106,8 @@ const shouldShowCursor = computed(() => {
 const canvasPointerEvents = computed(() => {
   if (typeof window === 'undefined') return props.draw ? 'auto' : 'none'
   const isDesktop = window.innerWidth >= 768
-  return (props.draw || isDesktop) ? 'auto' : 'none'
+  // Sur desktop, toujours actif. Sur mobile, seulement si draw est true
+  return (isDesktop || props.draw) ? 'auto' : 'none'
 })
 
 function startDrawing(event) {
@@ -163,7 +164,9 @@ function draw(event) {
 
 function handleMouseMove(event) {
   updateCursor(event)
-  draw(event)
+  if (isDrawing.value) {
+    draw(event)
+  }
 }
 
 function stopDrawing(event) {
@@ -184,7 +187,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="canvasContainer" class="relative w-full" style="height: calc(100vh - 80px);">
+  <div 
+    ref="canvasContainer" 
+    class="relative w-full" 
+    style="height: calc(100vh - 80px);"
+    @mousemove="updateCursor"
+    @mouseleave="hideCursor"
+  >
     <canvas
       ref="canvas"
       class="w-full"
@@ -209,7 +218,8 @@ onUnmounted(() => {
       :style="{
         left: cursorX + 'px',
         top: cursorY + 'px',
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        display: 'block'
       }"
     >
       <!-- Contour blanc vertical -->
@@ -234,7 +244,7 @@ canvas {
   width: 24px;
   height: 24px;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 9999;
   pointer-events: none;
 }
 
@@ -268,14 +278,6 @@ canvas {
 .cursor-white {
   background-color: #ffffff;
   z-index: 1;
-}
-
-.cursor-white.cursor-line-vertical {
-  width: 4.5px;
-}
-
-.cursor-white.cursor-line-horizontal {
-  height: 4.5px;
 }
 
 .cursor-black {
