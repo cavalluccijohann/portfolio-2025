@@ -38,7 +38,7 @@ useSeoMeta({
         ME<br>
       </h2>
       <p class="font-clash-medium text-sm md:text-lg text-inverted mt-5">
-        Hello, my name is Johann, and I am a web developer based in Nice, France.<br><br>
+        Hello, my name is Johann, and I am a web developer based in Paris, France.<br><br>
 
         I am passionate about creation, mainly software and website development. I have always loved creating. From a young age, I would make all sorts of gadgets… and for the past 5 years, I have channeled this passion into development and design. I love imagining a project and bringing it to life by experimenting with and testing new technologies. I have learned to share this art by collaborating within a team.<br><br>
 
