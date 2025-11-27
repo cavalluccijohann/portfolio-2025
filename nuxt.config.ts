@@ -38,5 +38,15 @@ export default defineNuxtConfig({
       autoSubfolderIndex: false
     }
   },
-
+  app: {
+    head: {
+      script: [
+        {
+          src: 'https://cloud.umami.is/script.js',
+          async: true,
+          'data-website-id': '7fc6ccea-43a1-441e-b1d0-65b5f4f6843d'
+        }
+      ]
+    }
+  }
 })
