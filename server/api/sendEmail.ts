@@ -1,29 +1,45 @@
 import { Resend } from 'resend'
-import { H3Event } from 'h3'
+import { isSpamContact } from '../utils/antiSpam'
+
 
 const resend = new Resend(process.env.resendApiKey)
 
-export default defineEventHandler(async (event: H3Event) => {
+export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
-    console.log(body)
-    const { email, phone, message, name } = body
-    return await resend.emails.send({
+
+    const { name, email, phone, message, company } = body
+
+    if (!name || !email || !message) {
+      return { ok: true }
+    }
+
+    if (company) {
+      return { ok: true }
+    }
+
+    if (isSpamContact({ name, email, message })) {
+      return { ok: true }
+    }
+
+    await resend.emails.send({
       from: '📩 - CONTACT PORTFOLIO <contact@johanncvl.com>',
       to: ['24johann.cavallucci@gmail.com'],
-      subject: 'New message from your porfolio',
+      subject: 'New message from your portfolio',
       html: `
-      <p>Une nouvelle demande de contact a été envoyée depuis votre site.</p>
-      <p>Voici les informations de l'expéditeur :</p>
-      <ul>
-        <li>Nom & Prenom : ${name}</li>
-        <li>Email : ${email}</li>
-        <li>Phone : ${phone}</li>
-        <li>Message : ${message}</li>
-      </ul>
+        <p>Nouvelle demande de contact :</p>
+        <ul>
+          <li><b>Nom :</b> ${name}</li>
+          <li><b>Email :</b> ${email}</li>
+          <li><b>Téléphone :</b> ${phone || '—'}</li>
+          <li><b>Message :</b><br/>${message}</li>
+        </ul>
       `,
     })
+
+    return { ok: true }
   } catch (error) {
-    return { error }
+    console.error('Send email error:', error)
+    return { ok: true }
   }
 })

@@ -16,6 +16,7 @@ const form = ref({
   name: '',
   phone: '',
   email: '',
+  company: '',
   message: '',
 })
 const loading = ref(false)
@@ -26,14 +27,26 @@ async function sendForm() {
       method: 'POST',
       body: form.value,
     })
+
     form.value = {
       name: '',
       email: '',
       phone: '',
+      company: '',
       message: '',
     }
+
+    toast.success('Message sent successfully', {
+      style: {
+        background: 'var(--toast-bg)',
+        color: 'var(--toast-text)',
+        border: 'none',
+        boxShadow: '0 2px 0 0 var(--toast-color)',
+      },
+    })
   } catch (error) {
     console.error('Error sending form:', error)
+
     toast.error('Error sending form', {
       style: {
         background: 'var(--toast-bg)',
@@ -43,14 +56,6 @@ async function sendForm() {
       },
     })
   } finally {
-    toast.success('Message sent successfully', {
-      style: {
-        background: 'var(--toast-bg)',
-        color: 'var(--toast-text)',
-        border: 'none',
-        boxShadow: '0 2px 0 0 var(--toast-color)',
-      },
-    })
     loading.value = false
   }
 }
@@ -92,6 +97,14 @@ async function sendForm() {
           placeholder="Phone"
           class="relative text-xl w-full md:w-lg font-clash-medium my-1 pb-2 m-4 border-b border-primary focus:outline-none focus:border-b-4 transition-all duration-300"
         >
+        <input
+          v-model="form.company"
+          type="text"
+          name="company"
+          autocomplete="off"
+          style="display:none"
+        >
+
         <textarea
           id="message"
           v-model="form.message"
