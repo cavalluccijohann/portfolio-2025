@@ -1,6 +1,6 @@
 ---
 title: Raycast x Bambulab
-description: A powerful Raycast extension to monitor and control Bambu Lab 3D printers directly from macOS via LAN Mode.
+description: A powerful Raycast extension to monitor and control Bambu Lab 3D printers.
 url: https://www.raycast.com/search?q=Bambulab
 date: 2026-02-01
 year: 2026
