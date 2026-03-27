@@ -41,7 +41,7 @@ The goal was to create a library similar to **NuxtUI** or **RadixUI**, but usabl
 The ambition was to deliver a **modern, minimal design** combined with an excellent **DX (Developer Experience)**.  
 The project was initiated and led by **HugoRCD**. While not 100% complete, it already provides a solid foundation with a clean structure, making it easy and practical to add new components.
 
-![image](/assets/works/exemple-components.webp)
+![image](/assets/works/example-components.webp)
 
 ---
 
