@@ -41,6 +41,8 @@ The goal was to create a library similar to **NuxtUI** or **RadixUI**, but usabl
 The ambition was to deliver a **modern, minimal design** combined with an excellent **DX (Developer Experience)**.  
 The project was initiated and led by **HugoRCD**. While not 100% complete, it already provides a solid foundation with a clean structure, making it easy and practical to add new components.
 
+![image](/assets/works/exemple-components.webp)
+
 ---
 
 ## Technologies Used
@@ -81,4 +83,9 @@ In short: an ambitious, challenging, and highly rewarding project that pushed us
     <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/>
   </svg>
   <span>Mockline on GitHub</span>
+</a>
+<br />
+<a href="https://www.npmjs.com/package/@mockline/utils" target="_blank" class="flex items-center space-x-2">
+  <svg width="22" height="22" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M71.609 112.569v286.649h143.432v-215.04h71.608v215.04h71.608V112.569zM430.08 40.96v430.08H0V40.96z"/></svg>
+  <span>Mockline on NPM</span>
 </a>
