@@ -38,5 +38,25 @@ export default defineContentConfig({
         description: z.string().nonempty()
       })
     }),
+    about: defineCollection({
+      type: 'page',
+      source: 'about/about.md',
+        schema: z.object({
+          title: z.string().nonempty(),
+          description: z.string().nonempty(),
+          image: z.string().nonempty(),
+        })
+    }),
+    timeline: defineCollection({
+      type: 'data',
+      source: 'about/timeline.yml',
+      schema: z.object({
+        date: z.number().optional(),
+        icon: z.string(),
+        title: z.string(),
+        link: z.string().url().optional(),
+        description: z.string()
+      })
+    })
   }
 })
