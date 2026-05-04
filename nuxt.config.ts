@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     '@nuxt/ui-pro',
     '@nuxt/content',
     '@nuxt/scripts',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt-studio'
   ],
   devtools: { enabled: true },
   future: {
@@ -34,6 +35,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
+      routes: ['/'],
       crawlLinks: true,
       autoSubfolderIndex: false
     }
@@ -47,6 +49,16 @@ export default defineNuxtConfig({
           'data-website-id': '7fc6ccea-43a1-441e-b1d0-65b5f4f6843d'
         }
       ]
+    }
+  },
+  studio: {
+    route: '/admin',
+    repository: {
+      provider: 'github',
+      owner: 'johanncvl',
+      repo: 'portfolio-2025',
+      branch: 'main',
+
     }
   }
 })

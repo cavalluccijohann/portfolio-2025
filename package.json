@@ -21,6 +21,7 @@
     "motion-plus-vue": "1.4.0",
     "motion-v": "1.7.0",
     "nuxt": "^4.4.4",
+    "nuxt-studio": "1.7.0",
     "resend": "6.12.2",
     "vue": "latest",
     "vue-sonner": "^2.0.9"
