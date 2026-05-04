@@ -19,29 +19,3 @@
   icon: '<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14.5 3L12 7.156L9.857 3H2l10 18L22 3zM4.486 4.5h2.4L12 13.8l5.107-9.3h2.4L12 18.021z"/></svg>'
   title: "Vue / Nuxt"
   description: "Thanks to the Helpr project I discovered Vue and Nuxt, two technologies that became a real turning point in my journey."
-
-- date: 2024
-  icon: "i-lucide-file-user"
-  title: "Work for client"
-  link: "https://ivpatisserie.com/"
-  description: "My very first client collaboration, building a showcase website for IV Patisserie."
-
-- date: 2025
-  icon: "i-lucide-bot"
-  title: "Robot Fighting"
-  link: "https://www.johanncvl.com/works/robot"
-  description: "Built a combat robot, detailed in my projects page. Small but fierce!"
-
-- icon: "i-lucide-brush"
-  title: "New visual identity"
-  description: "Redesigned my personal identity: full brand guidelines and this portfolio."
-
-- date: 2026
-  icon: '<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M6.004 15.492v2.504L0 11.992l1.258-1.249Zm2.504 2.504H6.004L12.008 24l1.253-1.253zm14.24-4.747L24 11.997L12.003 0L10.75 1.251L15.491 6h-2.865L9.317 2.692L8.065 3.944l2.06 2.06H8.691v9.31H18v-1.432l2.06 2.06l1.252-1.252L18 11.37V8.506ZM6.63 5.372L5.38 6.625l1.342 1.343l1.251-1.253Zm10.655 10.655l-1.247 1.251l1.342 1.343l1.253-1.251zM3.944 8.059L2.692 9.31l3.312 3.314v-2.506zm9.936 9.937h-2.504l3.314 3.312l1.25-1.252z"/></svg>'
-  title: "Raycast Ambassador"
-  description: "I've become a French ambassador for Raycast, a tool I absolutely love."
-
-- icon: "i-lucide-gamepad-2"
-  title: "Raftou"
-  link: "https://www.raftou.com/"
-  description: "Development of a solo iOS/Android mobile game over a period of five months on a full-time basis."

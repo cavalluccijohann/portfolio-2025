@@ -30,22 +30,14 @@ export default defineContentConfig({
         })
       }
     ),
-    worksPage: defineCollection({
-      type: 'data',
-      source: 'works.yml',
-      schema: z.object({
-        title: z.string().nonempty(),
-        description: z.string().nonempty()
-      })
-    }),
     about: defineCollection({
       type: 'page',
-      source: 'about/about.md',
-        schema: z.object({
-          title: z.string().nonempty(),
-          description: z.string().nonempty(),
-          image: z.string().nonempty(),
-        })
+      source: 'about/index.md',
+      schema: z.object({
+        title: z.string().nonempty(),
+        description: z.string().nonempty(),
+        image: z.string().nonempty(),
+      })
     }),
     timeline: defineCollection({
       type: 'data',

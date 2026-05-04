@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { findPageHeadline } from '@nuxt/ui-pro/utils/content'
-
-const route = useRoute()
 
 const { data: aboutData } = await useAsyncData('about', () => queryCollection('about').first())
 
