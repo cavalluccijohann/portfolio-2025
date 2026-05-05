@@ -55,6 +55,7 @@ export default defineContentConfig({
       source: 'home.md',
       schema: z.object({
         title: z.string().nonempty(),
+        description: z.string().nonempty(),
         networks: z.array(z.object({
           name: z.string(),
           link: z.string().url()
