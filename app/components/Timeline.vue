@@ -6,8 +6,6 @@ const { data: timelineData } = await useAsyncData('timeline', () =>
 
 const events = computed(() => (timelineData.value?.[0]?.meta?.body as any[]) || [])
 
-console.log('Timeline events:', events.value)
-
 const actifEvent = ref(events.value.length - 1)
 const scrollContainer = ref(null)
 
