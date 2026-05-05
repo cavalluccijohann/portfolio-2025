@@ -2,6 +2,16 @@
 import { toast, Toaster } from 'vue-sonner'
 import 'vue-sonner/style.css'
 
+const { data: contactData } = await useAsyncData('contact', () => queryCollection('contact').first())
+
+const networksData = computed(() => {
+  const typedData = contactData.value as {
+    networks?: { name: string; link: string }[]
+    socialNetworks?: { name: string; link: string }[]
+  } | null
+
+  return typedData?.networks || typedData?.socialNetworks || []
+})
 useSeoMeta({
   title: 'Contact - Johanncvl',
   titleTemplate: 'Contact - Johanncvl',
@@ -66,12 +76,14 @@ async function sendForm() {
     <div class="flex flex-col md:grid md:grid-cols-2 gap-4 p-4 w-full md:pt-10">
       <div class="flex flex-col">
         <!--   button that create toast    -->
-        <span class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold mb-4">
-          CON<br>TACT<br> ME
-        </span>
-        <p class="font-clash-medium text-sm md:text-lg md:pr-14 md:p-0">
-          Every project begins with an idea, a sketch. Whether you already have a clear vision or just an intuition to explore, I would be delighted to discuss it with you. Collaborations, projects, or simple questions:  <span class="font-clash-bold">the door is always open.</span>
-        </p>
+        <span
+            v-if="contactData"
+            class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold mb-4"
+            v-html="contactData.title"
+        ></span>
+        <div class="font-clash-regular text-sm md:text-lg md:pr-14 md:p-0 [&_strong]:font-clash-bold [&_strong]:font-bold">
+          <ContentRenderer v-if="contactData" :value="contactData" />
+        </div>
       </div>
       <form class="flex flex-col justify-center items-center" @submit.prevent="sendForm">
         <input
@@ -126,7 +138,7 @@ async function sendForm() {
     <footer class="w-full relative bottom-0 text-center text-sm mt-10 md:mt-0">
       <div class="w-2/3 h-[1px] bg-primary mx-auto mb-2" />
       <div class="w-full flex justify-center items-center">
-        <Socials />
+        <Socials :socialsNetworks="networksData" />
       </div>
     </footer>
   </div>

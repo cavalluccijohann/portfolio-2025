@@ -49,6 +49,29 @@ export default defineContentConfig({
         link: z.string().url().optional(),
         description: z.string()
       })
+    }),
+    home: defineCollection({
+      type: 'page',
+      source: 'home.md',
+      schema: z.object({
+        title: z.string().nonempty(),
+        networks: z.array(z.object({
+          name: z.string(),
+          link: z.string().url()
+        }))
+      })
+    }),
+    contact: defineCollection({
+      type: 'page',
+      source: 'contact.md',
+      schema: z.object({
+        title: z.string().nonempty(),
+        description: z.string().nonempty(),
+        networks: z.array(z.object({
+          name: z.string(),
+          link: z.string().url()
+        }))
+      })
     })
   }
 })

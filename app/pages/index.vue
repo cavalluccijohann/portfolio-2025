@@ -3,10 +3,20 @@ const draw = ref(false)
 const isVisible = ref(false)
 
 onMounted(() => {
-  // Délai pour déclencher l'animation après le montage
   setTimeout(() => {
     isVisible.value = true
   }, 10)
+})
+
+const { data: homeData } = await useAsyncData('home', () => queryCollection('home').first())
+
+const networksData = computed(() => {
+  const typedData = homeData.value as {
+    networks?: { name: string; link: string }[]
+    socialNetworks?: { name: string; link: string }[]
+  } | null
+
+  return typedData?.networks || typedData?.socialNetworks || []
 })
 
 useSeoMeta({
@@ -33,16 +43,15 @@ useSeoMeta({
         isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'
       ]"
     >
-      Johann Cavallucci
+      {{ homeData?.title }}
     </h1>
-    <p 
+    <div
       v-if="!draw" 
-      class="text-center font-clash-regular text-md sm:text-lg 2xl:text-2xl font-semibold text-primary w-full max-w-2xl px-5 sm:mx-auto"
+      class="[&_p]:text-center font-clash-regular [&_p]:text-md sm:[&_p]:text-lg 2xl:[&_p]:text-2xl [&_p]:font-medium [&_p]:text-primary [&_p]:w-full [&_p]:max-w-2xl [&_p]:px-5 sm:[&_p]:mx-auto [&_p]:m-0"
       :class="isVisible ? 'animate-fade-in-up-delay-200' : 'opacity-0 translate-y-8'"
     >
-      It all starts with a sketch. An idea, a vision.<br>
-      My goal: turning that vision into digital experiences.
-    </p>
+      <ContentRenderer v-if="homeData" :value="homeData" />
+    </div>
     <div
       class="md:hidden flex w-full justify-center mt-5"
       :class="[
@@ -89,7 +98,7 @@ useSeoMeta({
         isVisible ? 'animate-fade-in-delay-600' : 'opacity-0'
       ]"
     >
-      <Socials />
+      <Socials :socialsNetworks="networksData"/>
     </div>
   </div>
 </template>

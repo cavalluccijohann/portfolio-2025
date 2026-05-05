@@ -1,31 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const props = defineProps<{
-  menu?: boolean
-}>()
-
-const socials = [
-  {
-    name: 'GitHub',
-    link: 'https://github.com/cavalluccijohann',
-  },
-  {
-    name: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/johann-cavallucci/',
-  },
-  {
-    name: 'Twitter',
-    link: 'https://x.com/JohannCVL',
-  },
-]
+const props = withDefaults(defineProps<{
+  socialsNetworks: Array<{ name: string; link: string }>
+}>(), {
+  socialsNetworks: () => []
+})
 
 const hoveredItem = ref('')
 </script>
 
 <template>
-  <NuxtLink
-    v-for="social in socials"
+  <NuxtLink v-if="socialsNetworks && socialsNetworks.length > 0"
+    v-for="social in socialsNetworks"
     :key="social.name"
     :to="social.link"
     target="_blank"
@@ -35,7 +22,6 @@ const hoveredItem = ref('')
     @mouseenter="hoveredItem = social.name"
     @mouseleave="hoveredItem = ''"
   >
-    <!-- font-clash -->
     <span
       class="absolute self-center inset-0 font-clash transition-all duration-100"
       :class="{
@@ -46,7 +32,6 @@ const hoveredItem = ref('')
       {{ social.name }}
     </span>
 
-    <!-- font-estrella -->
     <span
       class="font-estrella text-3xl mb-10 transition-all duration-100 text-center"
       :class="{
