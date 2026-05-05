@@ -26,7 +26,7 @@ useSeoMeta({
         <h2 v-if="aboutData" class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold text-inverted uppercase">
           {{ aboutData.title }}
         </h2>
-        <div class="pr-20 mt-5 space-y-4 [&_p]:font-clash-medium [&_p]:text-sm md:[&_p]:text-lg [&_p]:text-inverted">
+        <div class="pr-20 mt-5 space-y-4 [&_p]:[font-family:'ClashDisplay-Medium',Arial,sans-serif] [&_p]:text-sm md:[&_p]:text-lg [&_p]:text-inverted">
           <ContentRenderer v-if="aboutData" :value="aboutData" />
         </div>
       </div>
@@ -35,7 +35,7 @@ useSeoMeta({
       <h2 v-if="aboutData" class="leading-[5rem] md:leading-[5rem] lg:leading-none text-[68px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold text-inverted">
         {{ aboutData.title }}
       </h2>
-      <div class="[&_p]:font-clash-medium [&_p]:text-sm [&_p]:md:text-lg [&_p]:text-inverted mt-5">
+      <div class="[&_p]:[font-family:'ClashDisplay-Medium',Arial,sans-serif] [&_p]:text-sm md:[&_p]:text-lg [&_p]:text-inverted mt-5">
         <ContentRenderer v-if="aboutData" :value="aboutData" />
       </div>
     </div>
