@@ -31,6 +31,7 @@ export default async function readContentFile(pathFile: string, event: any) {
   const context = [
     `Title: ${title}`,
     `Description: ${description}`,
+    `Path: ${path}`,
     '',
     JSON.stringify(fileContent, null, 2),
   ].join('\n')
