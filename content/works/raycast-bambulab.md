@@ -21,6 +21,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/72015679?v=4
       alt: Johann Cavallucci
+contextPreview: Raycast extension for Bambu Lab printers using React, TypeScript, MQTT, and FTP, enabling real-time monitoring, remote controls, and file management from a keyboard-first desktop workflow in 2026.
 ---
 
 # Raycast Extension for Bambulab 3D Printers

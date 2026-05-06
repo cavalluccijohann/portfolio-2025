@@ -26,6 +26,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/71938701?v=4
       alt: Hugo Richard
+contextPreview: Crypto tracker project built in 2024 with Nuxt, Tailwind, TypeScript, and RabbitMQ; focused on real-time data aggregation, dashboard UX, and large dataset performance, and collaboration with Hugo Richard in 2024.
 ---
 # Crypto Tracker – Currencia
 

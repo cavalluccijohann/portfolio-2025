@@ -32,6 +32,7 @@ authors:
       avatar:
         src: https://avatars.githubusercontent.com/u/72015483?v=4
         alt: Paul Marniquet
+contextPreview: Team-built workflow automation platform using Nuxt, NestJS, Prisma, and PostgreSQL; focused on app integrations, SaaS product design, scalable full-stack development and team collaboration in an Epitech project led by Hugo RCD in 2023.
 
 ---
 #  Automating Workflows
