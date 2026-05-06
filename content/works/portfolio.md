@@ -21,7 +21,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/72015679?v=4
       alt: Johann Cavallucci
-contextPreview: First open-source portfolio by Johann: a Nuxt/Tailwind personal website with about, projects, and contact pages, focused on simple UX, personal branding, and initial professional presence in 2023.
+contextPreview: First open-source portfolio by Johann; a Nuxt/Tailwind personal website with about, projects, and contact pages, focused on simple UX, personal branding, and initial professional presence in 2023.
 ---
 #  A Creative Portfolio Experience
 

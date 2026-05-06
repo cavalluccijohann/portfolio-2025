@@ -2,7 +2,7 @@
 title: ABOUT ME
 description: Hello, my name is Johann, and I am a software engineer based in Paris, France.
 image: /assets/johannCVL.webp
-contextPreview: Biography of Johann Cavallucci: software engineer based in Paris, France, with a strong focus on web and software development, UI/UX, and product creation. Covers personal background, professional mindset, teamwork, continuous learning, and motivation for taking on new technical challenges. Useful for questions like: who is Johann, where is he based, and what is his profile.
+contextPreview: Biography of Johann Cavallucci; software engineer based in Paris, France, with a strong focus on web and software development, UI/UX, and product creation. Covers personal background, professional mindset, teamwork, continuous learning, and motivation for taking on new technical challenges. Useful for questions like; who is Johann, where is he based, and what is his profile.
 ---
 
 Hello, my name is Johann, and I am a software engineer based in Paris, France.

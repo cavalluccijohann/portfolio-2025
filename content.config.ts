@@ -27,6 +27,7 @@ export default defineContentConfig({
               alt: z.string()
             }).optional()
           })),
+          contextPreview: z.string().nonempty(),
         })
       }
     ),
@@ -37,6 +38,7 @@ export default defineContentConfig({
         title: z.string().nonempty(),
         description: z.string().nonempty(),
         image: z.string().nonempty(),
+        contextPreview: z.string().nonempty(),
       })
     }),
     timeline: defineCollection({
@@ -59,7 +61,8 @@ export default defineContentConfig({
         networks: z.array(z.object({
           name: z.string(),
           link: z.string().url()
-        }))
+        })),
+        contextPreview: z.string().nonempty(),
       })
     }),
     contact: defineCollection({
@@ -71,7 +74,8 @@ export default defineContentConfig({
         networks: z.array(z.object({
           name: z.string(),
           link: z.string().url()
-        }))
+        })),
+        contextPreview: z.string().nonempty(),
       })
     })
   }
