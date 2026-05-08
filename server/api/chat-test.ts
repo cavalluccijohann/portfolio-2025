@@ -7,13 +7,19 @@ import readContentFile from '../libs/agent-tools/readContentFile';
 // SYSTEM PROMPT
 const systemPrompt = "Tu es l'assistant du portfolio de Johann.\nRéponds uniquement avec les informations du CONTEXTE.\nSi l'information n'est pas dans le contexte, réponds: \"Information non trouvée dans le contenu.\""
 
+const errorMessages = {
+  'out_of_scope': 'The question is off-topic and unrelated to the portfolio.',
+  'rejected': 'The question is rejected because the content is offensive or inappropriate.',
+  'no_match': 'Sorry, but no relevant information was found in the Portfolio.',
+}
+
 export default defineEventHandler(async (event) => {
     // INIT
     let answer = ""
 
     // GET QUESTION
     const body = await readBody<{ question?: string }>(event)
-    const question = body?.question?.trim()
+    const question = body?.question?.trim().toLowerCase()
 
     if (!question) {
         throw createError({
@@ -26,7 +32,14 @@ export default defineEventHandler(async (event) => {
 
     // TOOL 1: GET PATH FILE
     const pathFile = await selectPathFile(question, event)
-    console.log("pathFile: " + pathFile)
+
+    if (pathFile && pathFile.reason !== 'match') {
+      return errorMessages[pathFile.reason as keyof typeof errorMessages]
+    }
+
+    console.log("pathFile: ", pathFile.paths, "reason: ", pathFile.reason)
+
+    
 
     // TOOL 2: READ CONTENT FILE
     // const context = await readContentFile(pathFile, event)

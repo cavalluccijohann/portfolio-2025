@@ -20,6 +20,7 @@
     "better-sqlite3": "^12.9.0",
     "dotenv": "^17.4.2",
     "eslint": "^10.3.0",
+    "leo-profanity": "^1.9.0",
     "motion-plus": "^1.5.1",
     "motion-plus-vue": "1.4.0",
     "motion-v": "1.7.0",
