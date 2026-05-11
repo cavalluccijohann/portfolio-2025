@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const open = ref(false)
+const open = ref(true)
 const colorMode = useColorMode()
 </script>
 
@@ -18,30 +18,7 @@ const colorMode = useColorMode()
         IA
       </UButton>
     </div>
-    <USidebar
-      close
-      rail
-      collapsible="offcanvas"
-      v-model:open="open"
-      variant="sidebar"
-      side="right"
-      class="[--sidebar-width:min(28rem,calc(100vw-2rem))]"
-      :menu="{
-        ui: {
-          content: 'max-w-2xl',
-        },
-      }"
-      :ui="{
-        container: 'h-full bg-white dark:bg-black border-l border-primary z-99',
-      }"
-    >
-      <template #header="{ close }">
-        <div class="flex w-full items-center justify-between gap-2">
-         <button @click="close" class="bg-primary p-2 flex items-center justify-center size-10 hover:scale-105 transition-transform cursor-pointer">
-          <UIcon name="i-lucide-x" class="size-5 text-inverted" />
-         </button>
-        </div>
-      </template>
-    </USidebar>
+
+    <SideChat v-model:open="open" />
   </div>
 </template>
