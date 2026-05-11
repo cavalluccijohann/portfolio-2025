@@ -24,6 +24,20 @@ Règles:
 
 Format de sortie OBLIGATOIRE (JSON strict, sans texte autour):
 {"paths":["/path1","/path2","/path3"], "reason": "reasonValue"}
+
+Exemples :
+
+Question: "Quels projets de Johann utilisent Nuxt ?"
+Sortie: {"paths":["/works/iv-patisserie", "/works/portfolio","/works/folio-magazine"], "reason":"match"}
+
+Question: "Quelle est la couleur des yeux de Johann ?"
+Sortie: {"paths":[], "reason":"out_of_scope"}
+
+Question: "Connard"
+Sortie: {"paths":[], "reason":"rejected"}
+
+Question: "Quelle est l’adresse exacte de Johann ?"
+Sortie: {"paths":[], "reason":"no_match"}
 `
 
 const reasonValues = ['match', 'out_of_scope', 'rejected', 'no_match'] as const
@@ -100,12 +114,24 @@ export default async function selectPathFile(question: string, event: any): Prom
       maxRetries: 1,
     })
 
-    let result: SelectionResult = object
+    const validPaths = new Set(rows.map((row) => row.path))
+    const filteredPaths = object.paths.filter((path) => validPaths.has(path))
 
-    if (object.reason === 'match' && object.paths.length === 0) {
-      result = { paths: [], reason: 'no_match' }
-    } else if (object.paths.length > 0 && object.reason !== 'match') {
-      result = { paths: object.paths, reason: 'match' }
+    let result: SelectionResult = {
+      paths: filteredPaths,
+      reason: object.reason,
+    }
+
+    if (result.paths.length === 0) {
+      if (object.reason === 'rejected' || object.reason === 'out_of_scope') {
+        result = { paths: [], reason: object.reason }
+      } else if (object.paths.length > 0 || object.reason === 'match') {
+        result = { paths: [], reason: 'no_match' }
+      } else {
+        result = { paths: [], reason: object.reason }
+      }
+    } else if (object.reason !== 'match') {
+      result = { paths: result.paths, reason: 'match' }
     }
 
     if (result.reason === 'match') {

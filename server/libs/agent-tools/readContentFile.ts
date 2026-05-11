@@ -2,41 +2,57 @@ import { queryCollection } from '@nuxt/content/server'
 import type { Collections } from '@nuxt/content'
 
 const ALLOWED_COLLECTIONS = ['works', 'about', 'home', 'contact'] as const
-type AllowedCollection = typeof ALLOWED_COLLECTIONS[number]
 
-function isAllowedCollection(value: string): value is AllowedCollection {
-  return (ALLOWED_COLLECTIONS as readonly string[]).includes(value)
+function collectionFromPath(path: string) {
+  return path.replace(/^\//, '').split('/')[0] ?? ''
 }
 
-export default async function readContentFile(pathFile: string, event: any) {
-  const collection = pathFile.replace(/^\//, '').split('/')[0] ?? ''
+function isAllowedCollectionName(name: string): name is (typeof ALLOWED_COLLECTIONS)[number] {
+  return (ALLOWED_COLLECTIONS as readonly string[]).includes(name)
+}
 
-  if (!isAllowedCollection(collection)) {
-    throw new Error(`Invalid collection for path: ${pathFile}`)
-  }
-
-  const fileContent = await queryCollection(event, collection as keyof Collections)
-    .path(pathFile)
-    .first()
-
-  if (!fileContent) {
-    throw new Error(`Content not found for path: ${pathFile}`)
-  }
-
+function buildSection(path: string, fileContent: unknown) {
   const payload = fileContent as unknown as Record<string, unknown>
   const title = typeof payload.title === 'string' ? payload.title : ''
   const description = typeof payload.description === 'string' ? payload.description : ''
-  const path = typeof payload.path === 'string' ? payload.path : pathFile
+  const docPath = typeof payload.path === 'string' ? payload.path : path
 
-  const context = [
+  return [
+    `Path: ${docPath}`,
     `Title: ${title}`,
     `Description: ${description}`,
-    `Path: ${path}`,
     '',
     JSON.stringify(fileContent, null, 2),
   ].join('\n')
-
-
-  return context
 }
 
+/** Lit un ou plusieurs documents Nuxt Content et renvoie un contexte concaténé. */
+export default async function readContentFile(paths: string[], event: any): Promise<string> {
+  const uniquePaths = [...new Set(paths.map((p) => p.trim()).filter(Boolean))]
+
+  if (uniquePaths.length === 0) {
+    return ''
+  }
+
+  const sections: string[] = []
+
+  for (const path of uniquePaths) {
+    const collection = collectionFromPath(path)
+
+    if (!isAllowedCollectionName(collection)) {
+      throw new Error(`Invalid collection for path: ${path}`)
+    }
+
+    const fileContent = await queryCollection(event, collection as keyof Collections)
+      .path(path)
+      .first()
+
+    if (!fileContent) {
+      throw new Error(`Content not found for path: ${path}`)
+    }
+
+    sections.push(buildSection(path, fileContent))
+  }
+
+  return sections.join('\n\n---\n\n')
+}
