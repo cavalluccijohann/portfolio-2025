@@ -1,7 +1,37 @@
 <script setup lang="ts">
+import CarrouselSuggestions from "~/components/CarrouselSuggestions.vue";
+
 const open = defineModel<boolean>('open', { required: true })
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string }
+
+const suggestions = [
+  {
+    id: 1,
+    label: 'Raycast & Johann',
+    value: 'What is the connection between Raycast and Johann?',
+  },
+  {
+    id: 2,
+    label: 'Where is Johann from?',
+    value: 'Where is Johann from?',
+  },
+  {
+    id: 3,
+    label: 'Johann\'s latest project?',
+    value: 'What is Johann\'s latest project?',
+  },
+  {
+    id: 4,
+    label: 'Johann\'s skills?',
+    value: 'What are Johann\'s skills?',
+  },
+  {
+    id: 5,
+    label: 'Johann\'s experience?',
+    value: 'What is Johann\'s experience?',
+  }
+]
 
 const messages = ref<ChatMessage[]>([])
 const draft = ref('')
@@ -82,7 +112,20 @@ watch(
 
       <template #default>
         <div class="flex h-full min-h-0 flex-col gap-3 p-4">
+          <div v-if="!messages.length" class="flex-1 items-center w-full h-full flex flex-col gap-4 justify-center text-center">
+            <div class="size-20 bg-primary rounded-full"></div>
+            <div class="w-full">
+              <p class="font-clash-regular text-lg text-primary">
+                What would you like to know about<br/>Johann ?
+              </p>
+              <p class="font-clash-regular text-sm text-primary/70 mt-2">
+                Suggestions
+              </p>
+                <CarrouselSuggestions :suggestions="suggestions" @select="(value: string) => { draft = value; send(); }" />
+            </div>
+          </div>
           <div
+              v-else
             ref="listEl"
             class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pr-1"
           >
@@ -114,7 +157,7 @@ watch(
 
 
       <template #footer>
-        <div class="relative w-full border-t border-primary/20 p-2">
+        <div class="relative w-full p-2">
           <textarea
             v-model="draft"
             rows="3"

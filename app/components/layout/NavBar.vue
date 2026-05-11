@@ -18,10 +18,6 @@ const items = [
     label: 'About',
     to: '/about'
   },
-  /*  {
-    label: 'Blog',
-    to: '/blog'
-  },*/
   {
     label: 'Contact',
     to: '/contact'
@@ -141,7 +137,7 @@ function isActive(path: string) {
       </ul>
     </nav>
 
-    <UColorModeButton size="xl" color="primary" class="'cursor-pointer hover:bg-transparent z-60 scale-125 md:scale-100  " :class="isMenuOpen ? 'text-white! dark:text-black!' : 'text-primary'" />
+    <UColorModeButton size="xl" color="primary" class="'cursor-pointer hover:bg-transparent z-60 scale-125 md:scale-100 cursor-pointer" :class="isMenuOpen ? 'text-white! dark:text-black!' : 'text-primary'" />
   </header>
 
   <!-- Menu mobile -->
