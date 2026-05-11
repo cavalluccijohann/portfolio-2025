@@ -1,6 +1,7 @@
 import { streamText } from 'ai'
-import selectPathFile from '../libs/agent-tools/selectContentFile';
-import readContentFile from '../libs/agent-tools/readContentFile';
+import selectPathFile from '../libs/agent-tools/selectContentFile'
+import readContentFile from '../libs/agent-tools/readContentFile'
+import { assertChatRateLimit } from '../utils/chatRateLimit'
 
 // Règles de réponse (séparées du contenu : plus stable pour le modèle)
 const systemPrompt = `Tu es l'assistant du portfolio de Johann Cavallucci.
@@ -35,6 +36,8 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Missing "question" in request body',
     })
   }
+
+  await assertChatRateLimit(event)
 
   console.log('question du user: ' + question)
 
