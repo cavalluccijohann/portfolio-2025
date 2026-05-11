@@ -15,7 +15,7 @@ const doubled = computed(() => [...props.suggestions, ...props.suggestions])
   <div class="w-full flex items-center justify-center overflow-hidden relative">
     <div class="w-10 h-full bg-gradient-to-r from-white to-white/0 dark:from-black dark:to-black/0 absolute left-0 z-20"/>
     <div class="w-full">
-      <div class="flex py-2 animate-marquee w-full">
+      <div class="flex py-2 animate-marquee w-max">
         <button
             v-for="(suggestion, index) in doubled"
             :key="`${suggestion.id}-${index}`"
@@ -27,7 +27,7 @@ const doubled = computed(() => [...props.suggestions, ...props.suggestions])
       </div>
 
       <!--   same dive but with the animation in the other sens -->
-      <div class="flex py-2 animate-marquee w-full" style="animation-direction: reverse;">
+      <div class="flex py-2 animate-marquee w-max" style="animation-direction: reverse;">
         <button
             v-for="(suggestion, index) in doubled"
             :key="`reverse-${suggestion.id}-${index}`"
@@ -46,6 +46,7 @@ const doubled = computed(() => [...props.suggestions, ...props.suggestions])
 <style scoped>
 .animate-marquee {
   animation: marquee 8s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee:hover {
@@ -53,7 +54,7 @@ const doubled = computed(() => [...props.suggestions, ...props.suggestions])
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 </style>
