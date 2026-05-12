@@ -33,12 +33,16 @@ const suggestions = [
   }
 ]
 
+const COMPOSER_MAX_CHARS = 500
+
 const draft = ref('')
 const pending = ref(false)
 const listEl = ref<HTMLElement | null>(null)
 
+const draftCharCount = computed(() => draft.value.length)
+
 async function send() {
-  const question = draft.value.trim()
+  const question = draft.value.trim().slice(0, COMPOSER_MAX_CHARS)
   if (!question || pending.value) return
 
   messages.value.push({ role: 'user', content: question })
@@ -111,9 +115,20 @@ watch(
       container: 'h-full bg-white dark:bg-black border-l border-primary z-99',
       inner: 'flex size-full flex-col overflow-hidden !divide-y-0',
       body: 'min-h-0 flex-1 overflow-hidden px-4 py-0',
+      footer: 'py-0',
     }"
   >
     <template #header="{ close }">
+      <Transition name="side-chat-ai-title">
+        <div
+          v-if="messages.length > 0"
+          class="flex items-center gap-2 w-full justify-center relative"
+        >
+          <p class="font-estrella text-primary text-4xl">
+            Johann’s &nbsp;&nbsp;AI
+          </p>
+        </div>
+      </Transition>
       <div class="absolute right-2">
         <button
           class="bg-primary p-2 flex items-center justify-center size-10 hover:scale-105 transition-transform cursor-pointer"
@@ -159,7 +174,10 @@ watch(
             <p class="font-clash-regular text-sm text-primary/70 mt-2">
               Suggestions
             </p>
-            <CarrouselSuggestions :suggestions @select="(value: string) => { draft = value; send(); }" />
+            <CarrouselSuggestions
+              :suggestions
+              @select="(value: string) => { draft = value.slice(0, COMPOSER_MAX_CHARS); send(); }"
+            />
           </div>
         </div>
         <div
@@ -176,7 +194,7 @@ watch(
             </div>
             <div
               v-else
-              class="mr-4 border border-primary/40 bg-transparent px-3 py-2 text-sm text-primary leading-relaxed
+              class="side-chat-assistant mr-4 border border-primary/40 bg-transparent px-3 py-1.5 text-sm text-primary leading-relaxed
            [&_strong]:font-clash-medium
            [&_a]:underline [&_a]:underline-offset-2 [&_a]:text-primary [&_a]:decoration-primary/50 [&_a]:hover:decoration-primary
            [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:mt-1
@@ -208,26 +226,75 @@ watch(
 
 
     <template #footer>
-      <div class="relative w-full p-2">
-        <textarea
-          v-model="draft"
-          rows="3"
-          placeholder="Ask me anything"
-          :disabled="pending"
-          class="block min-h-20 w-full resize-none border-[1.5px] border-primary rounded-none p-2 pr-14 font-clash-medium text-primary align-top leading-normal placeholder:text-primary/50 focus:outline-none transition-all duration-300 disabled:opacity-50"
-          @keydown="onComposerKeydown"
-        />
-        <UButton
-          class="absolute bottom-3 right-3 bg-primary rounded-none p-2 hover:bg-primary transition-transform cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-          :disabled="pending || !draft.trim()"
-          @click="send"
-        >
-          <UIcon name="i-lucide-arrow-up" class="size-5 text-inverted" />
-        </UButton>
+      <div class="flex flex-col gap-0.5 p-2 w-full">
+        <div class="relative w-full">
+          <textarea
+            v-model="draft"
+            rows="3"
+            :maxlength="COMPOSER_MAX_CHARS"
+            placeholder="Ask me anything"
+            :disabled="pending"
+            class="block min-h-20 w-full resize-none border-[1.5px] border-primary rounded-none p-2 pr-14 font-clash-medium text-primary align-top leading-normal placeholder:text-primary/50 focus:outline-none transition-all duration-300 disabled:opacity-50"
+            @keydown="onComposerKeydown"
+          />
+          <UButton
+            class="absolute bottom-3 right-3 bg-primary rounded-none p-2 hover:bg-primary transition-transform cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+            :disabled="pending || !draft.trim()"
+            @click="send"
+          >
+            <UIcon name="i-lucide-arrow-up" class="size-5 text-inverted" />
+          </UButton>
+        </div>
+        <div class="flex justify-end pr-1">
+          <span
+            class="font-clash-medium text-[11px] tabular-nums transition-colors"
+            :class="
+              draftCharCount >= COMPOSER_MAX_CHARS
+                ? 'text-primary'
+                : draftCharCount >= 430
+                  ? 'text-amber-600 dark:text-amber-400'
+                  : 'text-primary/45'
+            "
+          >
+            {{ draftCharCount }}/{{ COMPOSER_MAX_CHARS }}
+          </span>
+        </div>
       </div>
     </template>
   </USidebar>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Comark : `div.comark-content` ; marges par défaut des <p> / listes = vide haut-bas dans la bulle */
+.side-chat-assistant :deep(.comark-content p),
+.side-chat-assistant :deep(.comark-content ul),
+.side-chat-assistant :deep(.comark-content ol) {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+.side-chat-assistant :deep(.comark-content > :first-child) {
+  margin-top: 0 !important;
+}
+.side-chat-assistant :deep(.comark-content > :last-child) {
+  margin-bottom: 0 !important;
+}
+.side-chat-assistant :deep(.comark-content li) {
+  margin-top: 0;
+  margin-bottom: 0.125rem;
+}
+.side-chat-assistant :deep(.comark-content li > p) {
+  margin: 0;
+}
+
+/* Titre header « Johann's AI » : apparition / disparition douce */
+.side-chat-ai-title-enter-active,
+.side-chat-ai-title-leave-active {
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+.side-chat-ai-title-enter-from,
+.side-chat-ai-title-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+</style>
 

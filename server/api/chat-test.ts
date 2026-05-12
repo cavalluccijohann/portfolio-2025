@@ -30,6 +30,7 @@ type ChatBodyMessage = { role: 'user' | 'assistant'; content: string }
 
 const MAX_MESSAGES = 20
 const MAX_MESSAGE_CHARS = 8000
+const MAX_QUESTION_LENGTH = 500
 
 function trimMessages(raw: unknown): ChatBodyMessage[] {
   if (!Array.isArray(raw)) return []
@@ -87,6 +88,13 @@ export default defineEventHandler(async (event) => {
   const latestFromThread =
     messages.length && messages.at(-1)?.role === 'user' ? messages.at(-1)!.content.trim() : ''
   const question = (body?.question?.trim() || latestFromThread).trim()
+
+  if (question.length > MAX_QUESTION_LENGTH) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `La question dépasse ${MAX_QUESTION_LENGTH} caractères.`,
+    })
+  }
 
   if (!question) {
     throw createError({
