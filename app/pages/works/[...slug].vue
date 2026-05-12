@@ -112,9 +112,6 @@ watchEffect(() => {
       </div>
     </div>
 
-    <ContentRenderer
-      :value="page.body"
-      class="mt-10 max-w-3xl"
-    />
+    <ContentRenderer :value="page.body" class="mt-10 w-full max-w-3xl" />
   </div>
 </template>
