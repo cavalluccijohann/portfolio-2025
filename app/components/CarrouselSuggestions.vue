@@ -45,7 +45,7 @@ const doubled = computed(() => [...props.suggestions, ...props.suggestions])
 
 <style scoped>
 .animate-marquee {
-  animation: marquee 8s linear infinite;
+  animation: marquee 40s linear infinite;
   will-change: transform;
 }
 

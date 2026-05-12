@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const open = ref(true)
-const colorMode = useColorMode()
+const { open } = useSideChat()
 </script>
 
 <template>
@@ -14,11 +13,14 @@ const colorMode = useColorMode()
       <slot />
     </div>
     <div class="fixed bottom-0 right-0 text-center text-sm text-gray-500 px-5 pb-2 sm:p-4">
-      <UButton class="w-1/2 p-7 bg-primary py-2 text-inverted text-xl font-clash-medium flex items-center justify-center gap-2 hover:scale-105 transition-transform cursor-pointer" @click="open = !open">
-        IA
+      <UButton
+          class="absolute bottom-3 right-3 bg-primary rounded-none p-2 hover:bg-primary transition-transform cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 border-2 border-white dark:border-black hover:scale-104"
+          @click="open = !open"
+      >
+        <UIcon name="i-lucide-bot-message-square" class="size-5 text-inverted" />
       </UButton>
     </div>
 
-    <SideChat v-model:open="open" />
+    <SideChat />
   </div>
 </template>

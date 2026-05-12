@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import CarrouselSuggestions from "~/components/CarrouselSuggestions.vue";
 
-const open = defineModel<boolean>('open', { required: true })
-
-type ChatMessage = { role: 'user' | 'assistant'; content: string }
+const { open, messages } = useSideChat()
 
 const suggestions = [
   {
@@ -33,7 +31,6 @@ const suggestions = [
   }
 ]
 
-const messages = ref<ChatMessage[]>([])
 const draft = ref('')
 const pending = ref(false)
 const listEl = ref<HTMLElement | null>(null)
@@ -163,11 +160,11 @@ watch(
             rows="3"
             placeholder="Ask me anything"
             :disabled="pending"
-            class="block min-h-20 w-full resize-none border-[1.5px] border-primary rounded-none p-2 pr-14 font-clash-medium text-primary align-top leading-normal placeholder:text-primary/50 focus:border-b-4 focus:outline-none transition-all duration-300 disabled:opacity-50"
+            class="block min-h-20 w-full resize-none border-[1.5px] border-primary rounded-none p-2 pr-14 font-clash-medium text-primary align-top leading-normal placeholder:text-primary/50 focus:outline-none transition-all duration-300 disabled:opacity-50"
             @keydown="onComposerKeydown"
           />
           <UButton
-            class="absolute bottom-4 right-3 bg-primary rounded-none p-2 hover:bg-primary transition-transform cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+            class="absolute bottom-3 right-3 bg-primary rounded-none p-2 hover:bg-primary transition-transform cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
             :disabled="pending || !draft.trim()"
             @click="send"
           >

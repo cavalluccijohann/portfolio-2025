@@ -57,7 +57,7 @@ function isActive(path: string) {
       <span :class="['block h-1 w-full transition-all rounded', isMenuOpen ? 'opacity-0' : 'bg-primary']" />
       <span :class="['block h-1 w-full transition-all rounded', isMenuOpen ? 'bg-white dark:bg-black -rotate-45 -translate-y-2' : 'bg-primary']" />
     </button>
-    <a
+    <NuxtLink
       aria-current="page"
       href="/"
       class="flex items-center space-x-2 whitespace-nowrap min-w-fit z-60"
@@ -82,7 +82,7 @@ function isActive(path: string) {
         </svg>
       </div>
       <p class="hidden lg:block lg:absolute ml-9 text-primary font-semibold text-base font-clash tracking-wider pl-5">Johann Cavallucci</p>
-    </a>
+    </NuxtLink>
     <nav class="hidden lg:block">
       <ul class="flex space-x-6 justify-start">
         <li
@@ -91,15 +91,15 @@ function isActive(path: string) {
           class="flex items-center justify-center"
           :style="{ width: `calc(${item.label.length}ch)` }"
         >
-          <a
+          <NuxtLink
             v-if="isActive(item.to)"
             :href="item.to"
             class="text-primary font-semibold text-4xl mb-2 font-estrella text-center"
           >
             {{ item.label }}
-          </a>
+          </NuxtLink>
 
-          <a
+          <NuxtLink
             v-else
             :href="item.to"
             class="text-primary font-semibold text-center relative inline-block transition-all duration-100"
@@ -132,7 +132,7 @@ function isActive(path: string) {
                 {{ item.label }}
               </span>
             </div>
-          </a>
+          </NuxtLink>
         </li>
       </ul>
     </nav>
