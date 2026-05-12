@@ -14,6 +14,15 @@
     @apply bg-[#FF5800] selection:bg-inverted/30;
 }
 
+.side-chat-palette {
+    --color-primary: #FF5800;
+    --ui-text: #0a0a0a;
+}
+
+.dark .side-chat-palette {
+    --ui-text: #fafafa;
+}
+
 /* Base noise background */
 .noise-background {
     position: fixed;

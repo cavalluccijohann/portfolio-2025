@@ -86,10 +86,10 @@ watch(
       v-model:open="open"
       variant="sidebar"
       side="right"
-      class="[--sidebar-width:min(28rem,calc(100vw-2rem))]"
+      class="side-chat-palette [--sidebar-width:min(28rem,calc(100vw-2rem))]"
       :menu="{
         ui: {
-          content: 'max-w-2xl',
+          content: 'max-w-2xl side-chat-palette',
         },
       }"
      :ui="{
