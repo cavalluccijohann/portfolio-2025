@@ -31,6 +31,7 @@ const form = ref({
   message: '',
 })
 const loading = ref(false)
+
 async function sendForm() {
   loading.value = true
   try {
@@ -78,11 +79,13 @@ async function sendForm() {
       <div class="flex flex-col">
         <!--   button that create toast    -->
         <span
-            v-if="contactData"
-            class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold mb-4"
-            v-html="contactData.title"
-        ></span>
-        <div class="font-clash-regular text-sm md:text-lg md:pr-14 md:p-0 [&_strong]:font-clash-bold [&_strong]:font-bold">
+          v-if="contactData"
+          class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold mb-4"
+          v-html="contactData.title"
+        />
+        <div
+          class="font-clash-regular text-sm md:text-lg md:pr-14 md:p-0 [&_strong]:font-clash-bold [&_strong]:font-bold"
+        >
           <ContentRenderer v-if="contactData" :value="contactData" />
         </div>
       </div>
@@ -139,7 +142,7 @@ async function sendForm() {
     <footer class="w-full relative bottom-0 text-center text-sm mt-10 md:mt-0">
       <div class="w-2/3 h-[1px] bg-primary mx-auto mb-2" />
       <div class="w-full flex justify-center items-center">
-        <Socials :socialsNetworks="networksData" />
+        <Socials :socials-networks="networksData" />
       </div>
     </footer>
   </div>

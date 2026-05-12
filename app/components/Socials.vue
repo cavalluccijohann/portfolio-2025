@@ -12,14 +12,15 @@ const hoveredItem = ref('')
 </script>
 
 <template>
-  <NuxtLink v-if="socialsNetworks && socialsNetworks.length > 0"
+  <NuxtLink
     v-for="social in socialsNetworks"
+    v-if="socialsNetworks && socialsNetworks.length > 0"
     :key="social.name"
     :to="social.link"
     target="_blank"
     class="relative min-h-11 font-semibold items-center inline-block sm:px-2 justify-center cursor-pointer text-primary duration-300"
     :class="(hoveredItem ? 'pb-2' : '') + ' ' + (menu ? 'text-white dark:text-black px-3' : '') + ' '"
-            :aria-label="'Go to ' + social.name + ' profile'"
+    :aria-label="'Go to ' + social.name + ' profile'"
     @mouseenter="hoveredItem = social.name"
     @mouseleave="hoveredItem = ''"
   >
