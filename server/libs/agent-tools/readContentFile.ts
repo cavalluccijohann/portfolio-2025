@@ -1,10 +1,15 @@
 import { queryCollection } from '@nuxt/content/server'
 import type { Collections } from '@nuxt/content'
+import { TIMELINE_CONTENT_PATH } from './timelineContentPath'
 
-const ALLOWED_COLLECTIONS = ['works', 'about', 'home', 'contact'] as const
+const ALLOWED_COLLECTIONS = ['works', 'about', 'home', 'contact', 'timeline'] as const
 
 function collectionFromPath(path: string) {
-  return path.replace(/^\//, '').split('/')[0] ?? ''
+  const normalized = path.trim().replace(/\/$/, '')
+  if (normalized === TIMELINE_CONTENT_PATH || normalized.endsWith('/about/timeline')) {
+    return 'timeline'
+  }
+  return normalized.replace(/^\//, '').split('/')[0] ?? ''
 }
 
 function isAllowedCollectionName(name: string): name is (typeof ALLOWED_COLLECTIONS)[number] {
@@ -26,6 +31,44 @@ function buildSection(path: string, fileContent: unknown) {
   ].join('\n')
 }
 
+function slimTimelineEvents(body: unknown[]): Array<Record<string, unknown>> {
+  return body.map((ev) => {
+    const row = ev as Record<string, unknown>
+    const icon = row.icon
+    const iconStr = typeof icon === 'string' ? icon : ''
+    let iconOut: string
+    if (iconStr.startsWith('i-')) iconOut = iconStr
+    else if (iconStr.includes('<svg')) iconOut = '[svg]'
+    else iconOut = iconStr ? '[icône]' : ''
+    return {
+      date: row.date,
+      title: row.title,
+      link: row.link,
+      description: row.description,
+      icon: iconOut,
+    }
+  })
+}
+
+function timelineBodyFromDoc(doc: unknown): unknown[] {
+  const raw = doc as Record<string, unknown>
+  const meta = raw.meta as { body?: unknown } | undefined
+  if (Array.isArray(meta?.body)) return meta.body as unknown[]
+  if (Array.isArray(raw.body)) return raw.body as unknown[]
+  return []
+}
+
+function buildTimelineSection(path: string, doc: unknown) {
+  const events = slimTimelineEvents(timelineBodyFromDoc(doc))
+  return [
+    `Path: ${path}`,
+    'Title: Timeline (parcours — about/timeline.yml)',
+    'Description: Chronologie des étapes du parcours (dates, titres, textes, liens).',
+    '',
+    JSON.stringify(events, null, 2),
+  ].join('\n')
+}
+
 /** Lit un ou plusieurs documents Nuxt Content et renvoie un contexte concaténé. */
 export default async function readContentFile(paths: string[], event: any): Promise<string> {
   const uniquePaths = [...new Set(paths.map((p) => p.trim()).filter(Boolean))]
@@ -41,6 +84,15 @@ export default async function readContentFile(paths: string[], event: any): Prom
 
     if (!isAllowedCollectionName(collection)) {
       throw new Error(`Invalid collection for path: ${path}`)
+    }
+
+    if (collection === 'timeline') {
+      const fileContent = await queryCollection(event, 'timeline').first()
+      if (!fileContent) {
+        throw new Error(`Content not found for timeline: ${path}`)
+      }
+      sections.push(buildTimelineSection(TIMELINE_CONTENT_PATH, fileContent))
+      continue
     }
 
     const fileContent = await queryCollection(event, collection as keyof Collections)

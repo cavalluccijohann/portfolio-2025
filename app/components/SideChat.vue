@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { SideChatMessage } from '~/composables/useSideChat'
 import CarrouselSuggestions from "~/components/CarrouselSuggestions.vue";
+import { Comark } from '@comark/vue'
 
 const { open, messages } = useSideChat()
 
@@ -46,7 +48,10 @@ async function send() {
   try {
     const answer = await $fetch<string>('/api/chat-test', {
       method: 'POST',
-      body: { question },
+      body: {
+        question,
+        messages: messages.value.map((m: SideChatMessage) => ({ role: m.role, content: m.content })),
+      },
     })
     messages.value.push({ role: 'assistant', content: answer })
   } catch (e: unknown) {
@@ -67,6 +72,16 @@ function onComposerKeydown(e: KeyboardEvent) {
     e.preventDefault()
     send()
   }
+}
+
+/** Liens internes du markdown : navigation SPA (Comark rend des `<a href="/...">`). */
+function onChatInternalLink(e: MouseEvent) {
+  const a = (e.target as HTMLElement).closest('a')
+  if (!a) return
+  const href = a.getAttribute('href')
+  if (!href?.startsWith('/') || href.startsWith('//')) return
+  e.preventDefault()
+  void navigateTo(href)
 }
 
 watch(
@@ -95,7 +110,7 @@ watch(
      :ui="{
         container: 'h-full bg-white dark:bg-black border-l border-primary z-99',
         inner: 'flex size-full flex-col overflow-hidden !divide-y-0',
-        body: 'min-h-0 flex-1 overflow-hidden',
+        body: 'min-h-0 flex-1 overflow-hidden px-4 py-0',
       }"
     >
       <template #header="{ close }">
@@ -108,8 +123,9 @@ watch(
 
 
       <template #default>
-        <div class="flex h-full min-h-0 flex-col gap-3 p-4">
-          <div v-if="!messages.length" class="flex-1 items-center w-full h-full flex flex-col gap-4 justify-center text-center">
+        <div class="bg-gradient-to-b from-white to-white/0 dark:from-black dark:to-black/0 absolute h-10 w-full"/>
+        <div class="flex h-full min-h-0 flex-col gap-3">
+          <div v-if="!messages.length" class="flex-1 items-center w-full h-full flex flex-col gap-4 justify-center text-center py-4">
             <div class="size-20 bg-primary rounded-full"></div>
             <div class="w-full">
               <p class="font-clash-regular text-lg text-primary">
@@ -124,7 +140,7 @@ watch(
           <div
               v-else
             ref="listEl"
-            class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pr-1"
+            class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pr-1 py-6"
           >
             <template v-for="(msg, i) in messages" :key="i">
               <div
@@ -134,10 +150,20 @@ watch(
                 {{ msg.content }}
               </div>
               <div
-                v-else
-                class="mr-4 border border-primary/40 bg-transparent px-3 py-2 text-sm text-primary whitespace-pre-wrap leading-relaxed"
+                  v-else
+                  class="mr-4 border border-primary/40 bg-transparent px-3 py-2 text-sm text-primary leading-relaxed
+           [&_strong]:font-clash-medium
+           [&_a]:underline [&_a]:underline-offset-2 [&_a]:text-primary [&_a]:decoration-primary/50 [&_a]:hover:decoration-primary
+           [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:mt-1
+           [&_ol]:list-decimal [&_ol]:pl-4 [&_ol]:mt-1
+           [&_code]:bg-primary/10 [&_code]:px-1 [&_code]:text-xs"
+                  @click="onChatInternalLink"
               >
-                {{ msg.content }}
+                <Suspense>
+                  <Comark :streaming="pending && i === messages.length - 1" caret>
+                    {{ msg.content }}
+                  </Comark>
+                </Suspense>
               </div>
             </template>
 
@@ -150,6 +176,7 @@ watch(
             </div>
           </div>
         </div>
+        <div class=" bottom-34 bg-gradient-to-t from-white to-white/0 dark:from-black dark:to-black/0 absolute h-5 w-full"/>
       </template>
 
 

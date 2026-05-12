@@ -2,6 +2,7 @@ import { generateObject } from 'ai'
 import { queryCollection } from '@nuxt/content/server'
 import { z } from 'zod'
 import leoProfanity from 'leo-profanity'
+import { TIMELINE_CONTENT_PATH } from './timelineContentPath'
 
 leoProfanity.clearList()
 leoProfanity.add(leoProfanity.getDictionary('en'))
@@ -15,8 +16,10 @@ Règles:
 - Utilise UNIQUEMENT les paths présents dans le CONTEXTE.
 - Retourne entre 1 et 3 paths maximum.
 - Trie les paths par pertinence décroissante.
+- Si l'utilisateur envoie une suite courte ("dis-moi plus", "et pour X ?"), utilise TOUJOURS les messages précédents pour comprendre le sujet et choisir les mêmes documents pertinents que pour la question initiale.
 - Si la question demande une liste (ex: "quels projets utilisent Nuxt"), tu peux retourner plusieurs paths.
 - Si la question est très spécifique, retourne 1 seul path.
+- Le path ${TIMELINE_CONTENT_PATH} correspond à la timeline (fichier YAML du parcours chronologique). Utilise-le pour l'historique par années, le parcours (école, alternance, Raycast, etc.), pas seulement pour la biographie courte de la page About.
 - Si rien n'est pertinent et que tu ne trouve aucune information dans le contexte, retourne "no_match" dans le champ reason.
 - Si la question est hors sujet et sortant du contexte du portfolio, retourne "out_of_scope" dans le champ reason.
 - Si la question est rejetée parce que le contenue est insultant, innaproprié, retourne "rejected" dans le champ reason.
@@ -29,6 +32,9 @@ Exemples :
 
 Question: "Quels projets de Johann utilisent Nuxt ?"
 Sortie: {"paths":["/works/iv-patisserie", "/works/portfolio","/works/folio-magazine"], "reason":"match"}
+
+Question: "Qu'est-ce que Johann a fait en 2022 ou son parcours chez Iothink ?"
+Sortie: {"paths":["${TIMELINE_CONTENT_PATH}"], "reason":"match"}
 
 Question: "Quelle est la couleur des yeux de Johann ?"
 Sortie: {"paths":[], "reason":"out_of_scope"}
@@ -82,7 +88,9 @@ export default async function selectPathFile(question: string, event: any): Prom
   if (cached) return cached
 
   try {
-    const rows = (
+    type IndexRow = { collection: string; title: string; description: string; path: string }
+
+    const rows: IndexRow[] = (
       await Promise.all(
         collections.map(async (name) => {
           const docs = await queryCollection(event, name)
@@ -98,6 +106,14 @@ export default async function selectPathFile(question: string, event: any): Prom
       )
     ).flat()
 
+    rows.push({
+      collection: 'timeline',
+      title: 'Timeline / parcours (about/timeline.yml)',
+      description:
+        "Chronologie du parcours de Johann : années, titres d'étapes (La Valeur Sûre, Epitech, Iothink Solutions, Vue/Nuxt, IV Patisserie, Robot Fighting, Raycast ambassador, Raftou, nouvelle identité visuelle…), liens externes, descriptions. À utiliser pour l'historique chronologique, le CV par dates, « qu'en 2022 », l'alternance, Raycast, Raftou, etc.",
+      path: TIMELINE_CONTENT_PATH,
+    })
+
     const context = rows
       .map((row) => `Collection: ${row.collection}\nTitle: ${row.title}\nDescription: ${row.description}\nPath: ${row.path}`)
       .join('\n')
@@ -105,7 +121,7 @@ export default async function selectPathFile(question: string, event: any): Prom
     const { object } = await generateObject({
       model: 'deepseek/deepseek-v4-flash',
       system: systemPrompt,
-      prompt: `CONTEXTE:\n${context}\n---\nQUESTION:\n${question}`,
+      prompt: `CONTEXTE:\n${context}\n---\nCONVERSATION OU QUESTION:\n${question}`,
       schema: z.object({
         paths: z.array(z.string()).max(3),
         reason: z.enum(reasonValues),
