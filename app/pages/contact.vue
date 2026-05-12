@@ -12,6 +12,7 @@ const networksData = computed(() => {
 
   return typedData?.networks || typedData?.socialNetworks || []
 })
+
 useSeoMeta({
   title: 'Contact - Johanncvl',
   titleTemplate: 'Contact - Johanncvl',

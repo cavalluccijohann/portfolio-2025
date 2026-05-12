@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 const props = withDefaults(defineProps<{
   socialsNetworks: Array<{ name: string; link: string }>
+  menu?: boolean
 }>(), {
   socialsNetworks: () => []
 })
@@ -17,8 +18,8 @@ const hoveredItem = ref('')
     :to="social.link"
     target="_blank"
     class="relative min-h-11 font-semibold items-center inline-block sm:px-2 justify-center cursor-pointer text-primary duration-300"
-    :class="hoveredItem ? 'pb-2' : ''"
-    :aria-label="'Go to ' + social.name + ' profile'"
+    :class="(hoveredItem ? 'pb-2' : '') + ' ' + (menu ? 'text-white dark:text-black px-3' : '') + ' '"
+            :aria-label="'Go to ' + social.name + ' profile'"
     @mouseenter="hoveredItem = social.name"
     @mouseleave="hoveredItem = ''"
   >
