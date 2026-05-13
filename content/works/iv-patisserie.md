@@ -22,7 +22,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/72015679?v=4
       alt: Johann Cavallucci
-
+contextPreview: First end-to-end client project: a modern patisserie website built with Nuxt, Strapi, Tailwind, and Figma, focused on elegant UI, easy content management, full project delivery from design to deployment and first complete A-to-Z commercial project in 2024.
 ---
 
 # Elegant Patisserie Website

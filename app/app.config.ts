@@ -7,10 +7,7 @@ export default defineAppConfig({
     colors: {
       neutral: 'neutral',
     },
-  },
-  uiPro: {
     prose: {
-
       h1: {
         slots: {
           base: 'text-primary font-clash-medium',

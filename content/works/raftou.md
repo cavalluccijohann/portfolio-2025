@@ -23,6 +23,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/72015679?v=4
       alt: Johann Cavallucci
+contextPreview: Solo end-to-end mobile game product built by Johann in 2026, from concept to App Store release, combining game design, product strategy, and full-stack execution. Covers React Native/Expo architecture, real-time multiplayer backend (Socket.io, Hono), auth, dual database approach (MongoDB + PostgreSQL), CI/CD with EAS, and complete ownership of UI/UX, deployment, and go-to-market assets. Useful for questions about mobile development, real-time systems, product building from A to Z, technical leadership in solo projects, and large-scope delivery across engineering, design, and operations.
 ---
 
 ## The Concept

@@ -10,22 +10,33 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/content": "^3.6.3",
-    "@nuxt/image": "^1.11.0",
-    "@nuxt/scripts": "^0.11.10",
-    "@nuxt/ui-pro": "^3.3.0",
-    "@nuxtjs/seo": "^3.1.0",
-    "better-sqlite3": "^12.2.0",
-    "eslint": "^9.28.0",
+    "@ai-sdk/openai": "^3.0.60",
+    "@comark/vue": "^0.3.1",
+    "@nuxt/content": "^3.13.0",
+    "@nuxt/image": "^2.0.0",
+    "@nuxt/scripts": "^1.0.6",
+    "@nuxt/ui": "^4.7.1",
+    "@nuxtjs/seo": "^5.1.3",
+    "@upstash/redis": "^1.38.0",
+    "ai": "^6.0.175",
+    "better-sqlite3": "^12.9.0",
+    "dotenv": "^17.4.2",
+    "eslint": "^9.23.0",
+    "leo-profanity": "^1.9.0",
     "motion-plus": "^1.5.1",
-    "motion-plus-vue": "^1.3.0",
-    "motion-v": "^1.7.0",
-    "nuxt": "^3.17.4",
-    "resend": "^3.5.0",
+    "motion-plus-vue": "1.4.0",
+    "motion-v": "1.7.0",
+    "nuxt": "^4.4.4",
+    "nuxt-studio": "1.7.0",
+    "redis": "^5.12.1",
+    "resend": "6.12.2",
+    "tailwindcss": "^4.2.4",
     "vue": "latest",
-    "vue-sonner": "^2.0.2"
+    "vue-sonner": "^2.0.9",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@hrcd/eslint-config": "^3.0.3"
+    "@hrcd/eslint-config": "^3.0.3",
+    "@nuxthq/studio": "^2.2.1"
   }
 }

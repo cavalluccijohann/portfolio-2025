@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { findPageHeadline } from '@nuxt/ui-pro/utils/content'
-
 const route = useRoute()
 
 const { data: page, error } = await useAsyncData(route.path, () => queryCollection('works').path(route.path).first())
@@ -8,8 +6,6 @@ const { data: page, error } = await useAsyncData(route.path, () => queryCollecti
 if (error.value) {
   console.error('Erreur lors du chargement:', error.value)
 }
-
-const headline = computed(() => findPageHeadline(page.value))
 
 watchEffect(() => {
   if (page.value) {
@@ -116,9 +112,6 @@ watchEffect(() => {
       </div>
     </div>
 
-    <ContentRenderer
-      :value="page.body"
-      class="mt-10 max-w-3xl"
-    />
+    <ContentRenderer :value="page.body" class="mt-10 w-full max-w-3xl" />
   </div>
 </template>

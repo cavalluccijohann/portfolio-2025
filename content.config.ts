@@ -27,16 +27,56 @@ export default defineContentConfig({
               alt: z.string()
             }).optional()
           })),
+          contextPreview: z.string().nonempty(),
         })
       }
     ),
-    worksPage: defineCollection({
-      type: 'data',
-      source: 'works.yml',
+    about: defineCollection({
+      type: 'page',
+      source: 'about/index.md',
       schema: z.object({
         title: z.string().nonempty(),
-        description: z.string().nonempty()
+        description: z.string().nonempty(),
+        image: z.string().nonempty(),
+        contextPreview: z.string().nonempty(),
       })
     }),
+    timeline: defineCollection({
+      type: 'data',
+      source: 'about/timeline.yml',
+      schema: z.object({
+        date: z.number().optional(),
+        icon: z.string(),
+        title: z.string(),
+        link: z.string().url().optional(),
+        description: z.string()
+      })
+    }),
+    home: defineCollection({
+      type: 'page',
+      source: 'home.md',
+      schema: z.object({
+        title: z.string().nonempty(),
+        description: z.string().nonempty(),
+        networks: z.array(z.object({
+          name: z.string(),
+          link: z.string().url()
+        })),
+        contextPreview: z.string().nonempty(),
+      })
+    }),
+    contact: defineCollection({
+      type: 'page',
+      source: 'contact.md',
+      schema: z.object({
+        title: z.string().nonempty(),
+        description: z.string().nonempty(),
+        networks: z.array(z.object({
+          name: z.string(),
+          link: z.string().url()
+        })),
+        contextPreview: z.string().nonempty(),
+      })
+    })
   }
 })

@@ -28,7 +28,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/71938701?v=4
       alt: Hugo Richard
-
+contextPreview: Ambitious multi-framework component library built with TypeScript, Tailwind, and Turborepo, focused on design-system consistency, DX, shared components across Nuxt/Vue/React/Next in a team led by Hugo RCD in 2025.
 ---
 
 # Mockline – Modern UI component library

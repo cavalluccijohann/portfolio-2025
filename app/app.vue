@@ -30,9 +30,6 @@ const [{ data: navigation }, { data: files }] = await Promise.all([
 
 provide('navigation', navigation!)
 
-/*useSeoMeta({
-  titleTemplate: '%s - Johanncvl',
-})*/
 </script>
 
 <template>

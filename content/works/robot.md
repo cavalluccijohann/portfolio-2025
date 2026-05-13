@@ -20,6 +20,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/72015679?v=4
       alt: Johann Cavallucci
+contextPreview: Fast-build combat robot project using Arduino, Bluetooth, and 3D printing, focused on embedded control, hardware constraints, and rapid prototyping under tight budget/time limits in 2025.
 ---
 # Flamethrower Robot – Arduino Combat Bot
 

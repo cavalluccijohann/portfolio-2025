@@ -21,6 +21,7 @@ authors:
     avatar:
       src: https://avatars.githubusercontent.com/u/72015679?v=4
       alt: Johann Cavallucci
+contextPreview: Open-source magazine-style portfolio built with Nuxt, Tailwind, and TypeScript, focused on creative UI/UX, responsive design, and easy content customization through image-based pages in 2024.
 ---
 # A Creative Portfolio Experience
 

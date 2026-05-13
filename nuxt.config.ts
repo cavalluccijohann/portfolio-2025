@@ -1,17 +1,14 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
   modules: [
-    '@nuxt/ui-pro',
+
     '@nuxt/content',
+    '@nuxt/ui',
     '@nuxt/scripts',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt-studio',
   ],
   devtools: { enabled: true },
-  future: {
-    compatibilityVersion: 4
-  },
   css: [
     '~/assets/css/main.css',
     '~/assets/css/clash-display.css',
@@ -22,11 +19,6 @@ export default defineNuxtConfig({
     preference: 'light',
     fallback: 'light',
   },
-  content: {
-    preview: {
-      api: 'https://api.nuxt.studio'
-    }
-  },
   site: {
     url: 'https://johanncvl.com',
     defaultLocale: 'en',
@@ -34,6 +26,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
+      routes: ['/'],
       crawlLinks: true,
       autoSubfolderIndex: false
     }
@@ -47,6 +40,16 @@ export default defineNuxtConfig({
           'data-website-id': '7fc6ccea-43a1-441e-b1d0-65b5f4f6843d'
         }
       ]
+    }
+  },
+  studio: {
+    i18n: {
+      defaultLocale: 'fr'
+    },
+    repository: {
+      provider: 'github',
+      owner: 'johanncvl',
+      repo: 'portfolio-2025',
     }
   }
 })

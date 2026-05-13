@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@nuxt/ui-pro";
+@import "@nuxt/ui";
 
 @theme {
     --color-primary: #FF5800;
@@ -12,6 +12,15 @@
     --color-primary: var(--ui-text-inverted);
     --ui-text: var(--ui-text-inverted);
     @apply bg-[#FF5800] selection:bg-inverted/30;
+}
+
+.side-chat-palette {
+    --color-primary: #FF5800;
+    --ui-text: #0a0a0a;
+}
+
+.dark .side-chat-palette {
+    --ui-text: #fafafa;
 }
 
 /* Base noise background */
