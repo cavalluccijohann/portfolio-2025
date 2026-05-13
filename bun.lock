@@ -5,6 +5,7 @@
       "name": "nuxt-app",
       "dependencies": {
         "@ai-sdk/openai": "^3.0.60",
+        "@ai-sdk/vue": "^3.0.180",
         "@comark/vue": "^0.3.1",
         "@nuxt/content": "^3.13.0",
         "@nuxt/image": "^2.0.0",
@@ -44,7 +45,7 @@
 
     "@ai-sdk/provider-utils": ["@ai-sdk/provider-utils@4.0.26", "", { "dependencies": { "@ai-sdk/provider": "3.0.10", "@standard-schema/spec": "^1.1.0", "eventsource-parser": "^3.0.8" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-CsKNLKsOpvPujRlIYvoz+Ybw+kGn7J4/fIZa/58+R7iWLLfwn6ifE2G6Yq8K9XvH/I/3bzaDAJ3NhRwEMsLBKQ=="],
 
-    "@ai-sdk/vue": ["@ai-sdk/vue@3.0.174", "", { "dependencies": { "@ai-sdk/provider-utils": "4.0.26", "ai": "6.0.174", "swrv": "^1.0.4" }, "peerDependencies": { "vue": "^3.3.4" } }, "sha512-lc8dmKIRNn3kCtKw5jnRZzI/AErCsN9qo9BXNq9GfZGxSbR3FBLwHyhFCBze9zSWR5RQ68h/vR/olvPxHoIUUw=="],
+    "@ai-sdk/vue": ["@ai-sdk/vue@3.0.180", "", { "dependencies": { "@ai-sdk/provider-utils": "4.0.27", "ai": "6.0.180", "swrv": "^1.0.4" }, "peerDependencies": { "vue": "^3.3.4" } }, "sha512-Vl8p7zJWY2jFgQTHdhrWkxRVcH39XPFPhR1RYIA7fVdE4r4beauUhRXTm2aIWSMWlPSoGn6Fh15Uq0IF8U3c6Q=="],
 
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
 
@@ -2578,7 +2579,9 @@
 
     "zwitch": ["zwitch@2.0.4", "", {}, "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="],
 
-    "@ai-sdk/vue/ai": ["ai@6.0.174", "", { "dependencies": { "@ai-sdk/gateway": "3.0.109", "@ai-sdk/provider": "3.0.10", "@ai-sdk/provider-utils": "4.0.26", "@opentelemetry/api": "1.9.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-bTrfLUWHWtkjzWyCY4bmyuk4Qvmj4S4NSNsXyNSVVqkmftQNtxRj7dzUoMeQDBBwlJO6fC7m2Q/lNOPqQQfAGA=="],
+    "@ai-sdk/vue/@ai-sdk/provider-utils": ["@ai-sdk/provider-utils@4.0.27", "", { "dependencies": { "@ai-sdk/provider": "3.0.10", "@standard-schema/spec": "^1.1.0", "eventsource-parser": "^3.0.8" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-ubkAJ+xODouwtmN1tYlvTPphH1hPOBfZaEQe8U7skGvFAnIRs9PPpsq57bC2+Ky/MB4yzhd6YOsxTAx9sGpazw=="],
+
+    "@ai-sdk/vue/ai": ["ai@6.0.180", "", { "dependencies": { "@ai-sdk/gateway": "3.0.114", "@ai-sdk/provider": "3.0.10", "@ai-sdk/provider-utils": "4.0.27", "@opentelemetry/api": "^1.9.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-tOyRbwD0PEjMZKGvYQcTsv95K2zktwwNhQ49QOUAh0g8MNprO7ELIO1SgANMuPc0BFtkP6Ny6OAdjq3TtxLCbQ=="],
 
     "@babel/code-frame/js-tokens": ["js-tokens@4.0.0", "", {}, "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="],
 
@@ -2870,6 +2873,8 @@
 
     "nuxt-studio/@ai-sdk/gateway": ["@ai-sdk/gateway@3.0.109", "", { "dependencies": { "@ai-sdk/provider": "3.0.10", "@ai-sdk/provider-utils": "4.0.26", "@vercel/oidc": "3.2.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-r6dOqThjODp1vOhGRJg2OCmyB/ZOQtGx1esZ2SDvwDX5XoX8dBqYaYjLg8MPXTzMGJSgOkJyCxWgUcZtAl16pw=="],
 
+    "nuxt-studio/@ai-sdk/vue": ["@ai-sdk/vue@3.0.174", "", { "dependencies": { "@ai-sdk/provider-utils": "4.0.26", "ai": "6.0.174", "swrv": "^1.0.4" }, "peerDependencies": { "vue": "^3.3.4" } }, "sha512-lc8dmKIRNn3kCtKw5jnRZzI/AErCsN9qo9BXNq9GfZGxSbR3FBLwHyhFCBze9zSWR5RQ68h/vR/olvPxHoIUUw=="],
+
     "nuxt-studio/ai": ["ai@6.0.174", "", { "dependencies": { "@ai-sdk/gateway": "3.0.109", "@ai-sdk/provider": "3.0.10", "@ai-sdk/provider-utils": "4.0.26", "@opentelemetry/api": "1.9.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-bTrfLUWHWtkjzWyCY4bmyuk4Qvmj4S4NSNsXyNSVVqkmftQNtxRj7dzUoMeQDBBwlJO6fC7m2Q/lNOPqQQfAGA=="],
 
     "nuxt-studio/nuxt-component-meta": ["nuxt-component-meta@0.17.2", "", { "dependencies": { "@nuxt/kit": "^4.2.2", "citty": "^0.1.6", "mlly": "^1.8.0", "ohash": "^2.0.11", "scule": "^1.3.0", "typescript": "^5.9.3", "ufo": "^1.6.2", "vue-component-meta": "^3.2.2" }, "bin": { "nuxt-component-meta": "bin/nuxt-component-meta.mjs" } }, "sha512-2/mSSqutOX8t+r8cAX1yUYwAPBqicPO5Rfum3XaHVszxKCF4tXEXBiPGfJY9Zn69x/CIeOdw+aM9wmHzQ5Q+lA=="],
@@ -2972,7 +2977,7 @@
 
     "youch/cookie-es": ["cookie-es@3.1.1", "", {}, "sha512-UaXxwISYJPTr9hwQxMFYZ7kNhSXboMXP+Z3TRX6f1/NyaGPfuNUZOWP1pUEb75B2HjfklIYLVRfWiFZJyC6Npg=="],
 
-    "@ai-sdk/vue/ai/@ai-sdk/gateway": ["@ai-sdk/gateway@3.0.109", "", { "dependencies": { "@ai-sdk/provider": "3.0.10", "@ai-sdk/provider-utils": "4.0.26", "@vercel/oidc": "3.2.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-r6dOqThjODp1vOhGRJg2OCmyB/ZOQtGx1esZ2SDvwDX5XoX8dBqYaYjLg8MPXTzMGJSgOkJyCxWgUcZtAl16pw=="],
+    "@ai-sdk/vue/ai/@ai-sdk/gateway": ["@ai-sdk/gateway@3.0.114", "", { "dependencies": { "@ai-sdk/provider": "3.0.10", "@ai-sdk/provider-utils": "4.0.27", "@vercel/oidc": "3.2.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-MqkZ5sd+qiq6RgIxELkoFQXg2/JwK+WCMaot7U+rtrZpWJl3fSyYvc28SC03b256o4F7OXjQtdjTqs81B2w+dA=="],
 
     "@dxup/nuxt/@nuxt/kit/ignore": ["ignore@7.0.5", "", {}, "sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg=="],
 
