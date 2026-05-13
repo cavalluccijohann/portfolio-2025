@@ -6,9 +6,9 @@ const route = useRoute()
 const hoveredItem = ref('')
 const isMenuOpen = ref(false)
 const networksData = [
-  { name: 'GitHub', link: 'https://github.com/cavalluccijohann'},
-  { name: 'LinkedIn', link: 'https://www.linkedin.com/in/johann-cavallucci/'},
-  { name: 'Twitter', link: 'https://x.com/JohannCVL'},
+  { name: 'GitHub', link: 'https://github.com/cavalluccijohann' },
+  { name: 'LinkedIn', link: 'https://www.linkedin.com/in/johann-cavallucci/' },
+  { name: 'Twitter', link: 'https://x.com/JohannCVL' },
 ]
 const items = [
   {
@@ -64,7 +64,7 @@ function isActive(path: string) {
     </button>
     <NuxtLink
       aria-current="page"
-      href="/"
+      to="/"
       class="flex items-center space-x-2 whitespace-nowrap min-w-fit z-60"
       aria-label="Johann Cavallucci"
     >
@@ -86,7 +86,9 @@ function isActive(path: string) {
           />
         </svg>
       </div>
-      <p class="hidden lg:block lg:absolute ml-9 text-primary font-semibold text-base font-clash tracking-wider pl-5">Johann Cavallucci</p>
+      <p class="hidden lg:block lg:absolute ml-9 text-primary font-semibold text-base font-clash tracking-wider pl-5">
+        Johann Cavallucci
+      </p>
     </NuxtLink>
     <nav class="hidden lg:block">
       <ul class="flex space-x-6 justify-start">
@@ -98,7 +100,7 @@ function isActive(path: string) {
         >
           <NuxtLink
             v-if="isActive(item.to)"
-            :href="item.to"
+            :to="item.to"
             class="text-primary font-semibold text-4xl mb-2 font-estrella text-center"
           >
             {{ item.label }}
@@ -106,7 +108,7 @@ function isActive(path: string) {
 
           <NuxtLink
             v-else
-            :href="item.to"
+            :to="item.to"
             class="text-primary font-semibold text-center relative inline-block transition-all duration-100"
             @mouseenter="hoveredItem = item.label"
             @mouseleave="hoveredItem = ''"
@@ -150,10 +152,10 @@ function isActive(path: string) {
     v-if="isMenuOpen"
     class="fixed inset-0 z-50 bg-[#FF5800] text-inverted p-6 flex flex-col items-center justify-center space-y-6 overflow-y-auto lg:hidden transition-transform duration-300 ease-in-out"
   >
-    <a
+    <NuxtLink
       v-for="item in items"
       :key="item.label"
-      :href="item.to"
+      :to="item.to"
       :class="[
         'text-center transition-colors duration-200',
         isActive(item.to)
@@ -164,12 +166,12 @@ function isActive(path: string) {
       @mouseleave="hoveredItem = ''"
     >
       {{ item.label }}
-    </a>
+    </NuxtLink>
 
     <div class="absolute w-full bottom-0 mb-10 flex flex-col items-center mt-30">
       <div class="w-1/3 mx-4 sm:px-0 sm:w-1/3 h-[1px] bg-white dark:bg-black mx-auto mb-2" />
       <div class="flex items-center justify-center w-10 h-10 text-inverted text-white dark:text-black mt-2">
-        <Socials :socialsNetworks="networksData" :menu="true"/>
+        <Socials :socials-networks="networksData" :menu="true" />
       </div>
     </div>
   </div>

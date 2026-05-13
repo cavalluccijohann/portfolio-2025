@@ -20,9 +20,9 @@ Règles:
 - Si la question demande une liste (ex: "quels projets utilisent Nuxt"), tu peux retourner plusieurs paths.
 - Si la question est très spécifique, retourne 1 seul path.
 - Le path ${TIMELINE_CONTENT_PATH} correspond à la timeline (fichier YAML du parcours chronologique). Utilise-le pour l'historique par années, le parcours (école, alternance, Raycast, etc.), pas seulement pour la biographie courte de la page About.
-- Si rien n'est pertinent et que tu ne trouve aucune information dans le contexte, retourne "no_match" dans le champ reason.
+- Si rien n'est pertinent et que tu ne trouves aucune information dans le contexte, retourne "no_match" dans le champ reason.
 - Si la question est hors sujet et sortant du contexte du portfolio, retourne "out_of_scope" dans le champ reason.
-- Si la question est rejetée parce que le contenue est insultant, innaproprié, retourne "rejected" dans le champ reason.
+- Si la question est rejetée parce que le contenu est insultant, innaproprié, retourne "rejected" dans le champ reason.
 - Si la question est matchée, retourne "match" dans le champ reason.
 
 Format de sortie OBLIGATOIRE (JSON strict, sans texte autour):
@@ -110,7 +110,7 @@ export default async function selectPathFile(question: string, event: any): Prom
       collection: 'timeline',
       title: 'Timeline / parcours (about/timeline.yml)',
       description:
-        "Chronologie du parcours de Johann : années, titres d'étapes (La Valeur Sûre, Epitech, Iothink Solutions, Vue/Nuxt, IV Patisserie, Robot Fighting, Raycast ambassador, Raftou, nouvelle identité visuelle…), liens externes, descriptions. À utiliser pour l'historique chronologique, le CV par dates, « qu'en 2022 », l'alternance, Raycast, Raftou, etc.",
+        'Chronologie du parcours de Johann : années, titres d\'étapes (La Valeur Sûre, Epitech, Iothink Solutions, Vue/Nuxt, IV Patisserie, Robot Fighting, Raycast ambassador, Raftou, nouvelle identité visuelle…), liens externes, descriptions. À utiliser pour l\'historique chronologique, le CV par dates, « qu\'en 2022 », l\'alternance, Raycast, Raftou, etc.',
       path: TIMELINE_CONTENT_PATH,
     })
 

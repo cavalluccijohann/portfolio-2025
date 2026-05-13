@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { timelineEventsFromRows } from '#shared/utils/timelineEvents'
 
 const { data: timelineData } = await useAsyncData('timeline', () =>
     queryCollection('timeline').all()
 )
 
-const events = computed(() => (timelineData.value?.[0]?.meta?.body as any[]) || [])
+const events = computed(() => timelineEventsFromRows(timelineData.value ?? []))
 
 const actifEvent = ref(events.value.length - 1)
 const scrollContainer = ref(null)

@@ -43,9 +43,8 @@ function trimMessages(raw: unknown): ChatBodyMessage[] {
     const slice = content.slice(0, MAX_MESSAGE_CHARS)
     if (!slice.trim()) continue
     out.push({ role, content: slice.trim() })
-    if (out.length >= MAX_MESSAGES) break
   }
-  return out
+  return out.slice(-MAX_MESSAGES)
 }
 
 /*

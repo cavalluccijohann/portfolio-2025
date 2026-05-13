@@ -1,5 +1,6 @@
 import { queryCollection } from '@nuxt/content/server'
 import type { Collections } from '@nuxt/content'
+import { timelineEventsFromRows } from '#shared/utils/timelineEvents'
 import { TIMELINE_CONTENT_PATH } from './timelineContentPath'
 
 const ALLOWED_COLLECTIONS = ['works', 'about', 'home', 'contact', 'timeline'] as const
@@ -63,27 +64,16 @@ function slimTimelineEvents(body: unknown[]): Array<Record<string, unknown>> {
 }
 
 /*
- * Get the timeline body from the document
- */
-function timelineBodyFromDoc(doc: unknown): unknown[] {
-  const raw = doc as Record<string, unknown>
-  const meta = raw.meta as { body?: unknown } | undefined
-  if (Array.isArray(meta?.body)) return meta.body as unknown[]
-  if (Array.isArray(raw.body)) return raw.body as unknown[]
-  return []
-}
-
-/*
  * Build the timeline section
  */
-function buildTimelineSection(path: string, doc: unknown) {
-  const events = slimTimelineEvents(timelineBodyFromDoc(doc))
+function buildTimelineSection(path: string, events: unknown[]) {
+  const slimmed = slimTimelineEvents(events)
   return [
     `Path: ${path}`,
     'Title: Timeline (parcours — about/timeline.yml)',
     'Description: Chronologie des étapes du parcours (dates, titres, textes, liens).',
     '',
-    JSON.stringify(events, null, 2),
+    JSON.stringify(slimmed, null, 2),
   ].join('\n')
 }
 
@@ -107,11 +97,12 @@ export default async function readContentFile(paths: string[], event: any): Prom
     }
 
     if (collection === 'timeline') {
-      const fileContent = await queryCollection(event, 'timeline').first()
-      if (!fileContent) {
+      const fileContent = await queryCollection(event, 'timeline').all()
+      const events = timelineEventsFromRows(fileContent)
+      if (!events.length) {
         throw new Error(`Content not found for timeline: ${path}`)
       }
-      sections.push(buildTimelineSection(TIMELINE_CONTENT_PATH, fileContent))
+      sections.push(buildTimelineSection(TIMELINE_CONTENT_PATH, events))
       continue
     }
 

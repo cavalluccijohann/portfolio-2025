@@ -14,7 +14,6 @@ const hoveredItem = ref('')
 <template>
   <NuxtLink
     v-for="social in socialsNetworks"
-    v-if="socialsNetworks && socialsNetworks.length > 0"
     :key="social.name"
     :to="social.link"
     target="_blank"
