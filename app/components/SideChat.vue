@@ -219,7 +219,7 @@ watch(
         </div>
       </div>
       <div
-        class=" bottom-34 bg-gradient-to-t from-white to-white/0 dark:from-black dark:to-black/0 absolute h-5 w-full"
+        class=" bottom-30 bg-gradient-to-t from-white to-white/0 dark:from-black dark:to-black/0 absolute h-5 w-full"
       />
     </template>
 
