@@ -4,7 +4,6 @@ import readContentFile from '../libs/agent-tools/readContentFile'
 import resolveSourcePages, { type ChatSourcePage } from '../libs/agent-tools/resolveSourcePages'
 import { assertChatRateLimit } from '../utils/chatRateLimit'
 
-// Règles de réponse (séparées du contenu : plus stable pour le modèle)
 const systemPrompt = `Tu es l'assistant du portfolio de Johann Cavallucci.
 
 Règles strictes :
@@ -24,11 +23,12 @@ const errorMessages = {
   'out_of_scope': 'The question is off-topic and unrelated to the portfolio.',
   'rejected': 'The question is rejected because the content is offensive or inappropriate.',
   'no_match': 'Sorry, but no relevant information was found in the Portfolio.',
+  'error': 'An error occurred while processing your request. Please try again later.',
 }
 
 type ChatBodyMessage = { role: 'user' | 'assistant'; content: string }
 
-const MAX_MESSAGES = 20
+const MAX_MESSAGES = 2
 const MAX_MESSAGE_CHARS = 8000
 const MAX_QUESTION_LENGTH = 500
 
@@ -48,13 +48,17 @@ function trimMessages(raw: unknown): ChatBodyMessage[] {
   return out
 }
 
-/** Dernières lignes pour le sélecteur de fichiers (suites de conversation). */
+/*
+ * Format the conversation for the selection of the file
+ */
 function formatConversationForSelection(messages: ChatBodyMessage[]): string {
   const tail = messages.slice(-8)
   return tail.map((m) => `${m.role === 'user' ? 'Utilisateur' : 'Assistant'}: ${m.content}`).join('\n\n')
 }
 
-/** Historique pour le modèle de réponse (sans la toute dernière question utilisateur, passée à part). */
+/*
+ * Format the history for the response model (without the last user question, passed apart).
+*/
 function formatHistoryBeforeLatest(
   messages: ChatBodyMessage[],
   latestUser: string,
@@ -69,15 +73,25 @@ function formatHistoryBeforeLatest(
   return tail.map((m) => `${m.role === 'user' ? 'Utilisateur' : 'Assistant'}: ${m.content}`).join('\n\n')
 }
 
+
+/*
+ * Escape the markdown link text
+ */
 function escapeMdLinkText(s: string): string {
   return s.replace(/[[\]]/g, '')
 }
 
+/*
+ * Format the pages for the prompt
+ */
 function formatPagesForPrompt(sources: ChatSourcePage[]): string {
   if (sources.length === 0) return '(aucune entrée)'
   return sources.map((s) => `- [${escapeMdLinkText(s.title)}](${s.href})`).join('\n')
 }
 
+/*
+ * Main handler
+ */
 export default defineEventHandler(async (event) => {
   assertMethod(event, 'POST')
 
@@ -92,7 +106,7 @@ export default defineEventHandler(async (event) => {
   if (question.length > MAX_QUESTION_LENGTH) {
     throw createError({
       statusCode: 400,
-      statusMessage: `La question dépasse ${MAX_QUESTION_LENGTH} caractères.`,
+      statusMessage: `The question exceeds ${MAX_QUESTION_LENGTH} characters.`,
     })
   }
 
@@ -108,16 +122,11 @@ export default defineEventHandler(async (event) => {
   const selectionInput =
     messages.length >= 2 ? formatConversationForSelection(messages) : question
 
-  console.log('question du user: ' + question)
-  if (messages.length) console.log('messages dans le fil: ' + messages.length)
-
   const pathFile = await selectPathFile(selectionInput, event)
 
   if (pathFile && pathFile.reason !== 'match') {
     return errorMessages[pathFile.reason as keyof typeof errorMessages]
   }
-
-  console.log('pathFile: ', pathFile.paths, 'reason: ', pathFile.reason)
 
   if (pathFile.paths.length === 0) {
     return errorMessages.no_match
@@ -150,6 +159,6 @@ export default defineEventHandler(async (event) => {
     return answer
   } catch (error) {
     console.error(error)
-    return errorMessages.no_match
+    return errorMessages.error
   }
 })

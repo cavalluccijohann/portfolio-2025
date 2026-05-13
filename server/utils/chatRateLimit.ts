@@ -3,13 +3,12 @@ import { createClient, type RedisClientType } from 'redis'
 import type { H3Event } from 'h3'
 import { getRequestIP } from 'h3'
 
-/** Durée de vie des compteurs (évite d’accumuler des clés indéfiniment). */
 const KEY_TTL_SECONDS = 60 * 60 * 72
 
 const DEFAULT_GLOBAL_PER_DAY = 100
-const DEFAULT_IP_PER_DAY = 4
+const DEFAULT_IP_PER_DAY = 10
 
-/** Abstraction commune Upstash REST et Redis TCP (ex. Redis Cloud). */
+/** Common abstraction for Upstash REST. */
 type ChatRedisStore = {
   incr(key: string): Promise<number>
   decr(key: string): Promise<number>

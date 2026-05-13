@@ -21,7 +21,9 @@ function hrefForCollection(col: (typeof ALLOWED)[number], docPath: string): stri
 
 export type ChatSourcePage = { title: string; href: string; path: string }
 
-/** Titres + URLs du site pour les pages utilisées comme contexte. */
+/*
+ * Resolve the source pages for the context
+ */
 export default async function resolveSourcePages(paths: string[], event: any): Promise<ChatSourcePage[]> {
   const unique = [...new Set(paths.map((p) => p.trim()).filter(Boolean))]
   const out: ChatSourcePage[] = []

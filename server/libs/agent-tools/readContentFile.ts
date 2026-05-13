@@ -4,6 +4,9 @@ import { TIMELINE_CONTENT_PATH } from './timelineContentPath'
 
 const ALLOWED_COLLECTIONS = ['works', 'about', 'home', 'contact', 'timeline'] as const
 
+/*
+ * Get the collection name from the path
+ */
 function collectionFromPath(path: string) {
   const normalized = path.trim().replace(/\/$/, '')
   if (normalized === TIMELINE_CONTENT_PATH || normalized.endsWith('/about/timeline')) {
@@ -12,10 +15,16 @@ function collectionFromPath(path: string) {
   return normalized.replace(/^\//, '').split('/')[0] ?? ''
 }
 
+/*
+ * Check if the collection name is allowed
+ */
 function isAllowedCollectionName(name: string): name is (typeof ALLOWED_COLLECTIONS)[number] {
   return (ALLOWED_COLLECTIONS as readonly string[]).includes(name)
 }
 
+/*
+ * Build the section for the file
+ */
 function buildSection(path: string, fileContent: unknown) {
   const payload = fileContent as unknown as Record<string, unknown>
   const title = typeof payload.title === 'string' ? payload.title : ''
@@ -31,6 +40,9 @@ function buildSection(path: string, fileContent: unknown) {
   ].join('\n')
 }
 
+/*
+ * Slim the timeline events
+ */
 function slimTimelineEvents(body: unknown[]): Array<Record<string, unknown>> {
   return body.map((ev) => {
     const row = ev as Record<string, unknown>
@@ -50,6 +62,9 @@ function slimTimelineEvents(body: unknown[]): Array<Record<string, unknown>> {
   })
 }
 
+/*
+ * Get the timeline body from the document
+ */
 function timelineBodyFromDoc(doc: unknown): unknown[] {
   const raw = doc as Record<string, unknown>
   const meta = raw.meta as { body?: unknown } | undefined
@@ -58,6 +73,9 @@ function timelineBodyFromDoc(doc: unknown): unknown[] {
   return []
 }
 
+/*
+ * Build the timeline section
+ */
 function buildTimelineSection(path: string, doc: unknown) {
   const events = slimTimelineEvents(timelineBodyFromDoc(doc))
   return [
@@ -69,7 +87,9 @@ function buildTimelineSection(path: string, doc: unknown) {
   ].join('\n')
 }
 
-/** Lit un ou plusieurs documents Nuxt Content et renvoie un contexte concaténé. */
+/*
+ * Read the content of the files
+ */
 export default async function readContentFile(paths: string[], event: any): Promise<string> {
   const uniquePaths = [...new Set(paths.map((p) => p.trim()).filter(Boolean))]
 

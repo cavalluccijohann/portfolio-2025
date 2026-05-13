@@ -50,7 +50,7 @@ async function send() {
   pending.value = true
 
   try {
-    const answer = await $fetch<string>('/api/chat-test', {
+    const answer = await $fetch<string>('/api/chat', {
       method: 'POST',
       body: {
         question,
@@ -78,7 +78,6 @@ function onComposerKeydown(e: KeyboardEvent) {
   }
 }
 
-/** Liens internes du markdown : navigation SPA (Comark rend des `<a href="/...">`). */
 function onChatInternalLink(e: MouseEvent) {
   const a = (e.target as HTMLElement).closest('a')
   if (!a) return
@@ -215,7 +214,7 @@ watch(
             class="mr-4 flex items-center gap-2 border border-dashed border-primary/40 px-3 py-2 text-sm text-gray-500 dark:text-gray-400"
           >
             <UIcon name="i-lucide-loader-2" class="size-5 shrink-0 animate-spin text-primary" />
-            <span>Réflexion en cours…</span>
+            <span>Thinking…</span>
           </div>
         </div>
       </div>
@@ -265,7 +264,6 @@ watch(
 </template>
 
 <style scoped>
-/* Comark : `div.comark-content` ; marges par défaut des <p> / listes = vide haut-bas dans la bulle */
 .side-chat-assistant :deep(.comark-content p),
 .side-chat-assistant :deep(.comark-content ul),
 .side-chat-assistant :deep(.comark-content ol) {
@@ -286,7 +284,6 @@ watch(
   margin: 0;
 }
 
-/* Titre header « Johann's AI » : apparition / disparition douce */
 .side-chat-ai-title-enter-active,
 .side-chat-ai-title-leave-active {
   transition: opacity 0.28s ease, transform 0.28s ease;
