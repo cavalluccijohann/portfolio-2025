@@ -27,6 +27,26 @@ const chat = new Chat({
 
 const isLoading = computed(() => chat.status === 'streaming' || chat.status === 'submitted')
 
+type AssistantPart = { type: string; text?: string; state?: string }
+
+function assistantText(parts: AssistantPart[] | undefined): string {
+  return parts?.find(p => p.type === 'text')?.text ?? ''
+}
+
+function assistantStatus(parts: AssistantPart[] | undefined): string | null {
+  if (!parts || parts.length === 0) return 'Thinking…'
+  if (parts.some(p => p.type === 'text')) return null
+
+  const lastMeaningful = [...parts].reverse().find(p => p.type !== 'step-start')
+  const type = lastMeaningful?.type ?? ''
+
+  if (type === 'tool-listDocuments') return 'Browsing the portfolio…'
+  if (type === 'tool-readDocuments') return 'Reading the content…'
+  if (type.startsWith('tool-')) return 'Working…'
+  if (type === 'reasoning') return 'Thinking…'
+  return 'Thinking…'
+}
+
 function send() {
   const question = input.value.trim().slice(0, COMPOSER_MAX_CHARS)
   if (!question || isLoading.value) return
@@ -150,25 +170,36 @@ watch(
             <!-- Assistant -->
             <div
               v-else-if="msg.role === 'assistant'"
-              class="side-chat-assistant mr-4 border border-primary/40 bg-transparent px-3 py-1.5 text-sm text-primary leading-relaxed
+              class="side-chat-assistant mr-4 border border-primary/40 bg-transparent px-3 py-1.5 text-sm text-primary leading-relaxed transition-[border-style] duration-200
                 [&_strong]:font-clash-medium
                 [&_a]:underline [&_a]:underline-offset-2 [&_a]:text-primary [&_a]:decoration-primary/50 [&_a]:hover:decoration-primary
                 [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:mt-1
                 [&_ol]:list-decimal [&_ol]:pl-4 [&_ol]:mt-1
                 [&_code]:bg-primary/10 [&_code]:px-1 [&_code]:text-xs"
+              :class="assistantStatus(msg.parts) ? 'border-dashed' : 'border-solid'"
               @click="onChatInternalLink"
             >
-              <Suspense>
-                <Comark
-                  :markdown="msg.parts.find(p => p.type === 'text')?.text ?? ''"
-                  :streaming="isLoading && i === chat.messages.length - 1"
-                  caret
-                />
-              </Suspense>
+              <Transition name="side-chat-status" mode="out-in">
+                <div
+                  v-if="assistantStatus(msg.parts)"
+                  key="status"
+                  class="flex items-center gap-2 py-0.5 text-gray-500 dark:text-gray-400"
+                >
+                  <UIcon name="i-lucide-loader-2" class="size-4 shrink-0 animate-spin text-primary" />
+                  <span>{{ assistantStatus(msg.parts) }}</span>
+                </div>
+                <Suspense v-else key="content">
+                  <Comark
+                    :markdown="assistantText(msg.parts)"
+                    :streaming="isLoading && i === chat.messages.length - 1"
+                    caret
+                  />
+                </Suspense>
+              </Transition>
             </div>
           </template>
 
-          <!-- Loader thinking -->
+          <!-- Loader before the assistant message exists -->
           <div
             v-if="isLoading && chat.messages.at(-1)?.role === 'user'"
             class="mr-4 flex items-center gap-2 border border-dashed border-primary/40 px-3 py-2 text-sm text-gray-500 dark:text-gray-400"
@@ -241,5 +272,14 @@ watch(
 .side-chat-ai-title-leave-to {
   opacity: 0;
   transform: translateY(6px);
+}
+
+.side-chat-status-enter-active,
+.side-chat-status-leave-active {
+  transition: opacity 0.18s ease;
+}
+.side-chat-status-enter-from,
+.side-chat-status-leave-to {
+  opacity: 0;
 }
 </style>
