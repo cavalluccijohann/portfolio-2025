@@ -55,7 +55,9 @@ function send() {
 }
 
 function sendSuggestion(value: string) {
-  chat.sendMessage({ text: value.slice(0, COMPOSER_MAX_CHARS) })
+  const question = value.trim().slice(0, COMPOSER_MAX_CHARS)
+  if (!question || isLoading.value) return
+  chat.sendMessage({ text: question })
 }
 
 function onComposerKeydown(e: KeyboardEvent) {
