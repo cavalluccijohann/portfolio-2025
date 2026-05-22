@@ -13,6 +13,7 @@ import { assertChatRateLimit } from '../utils/chatRateLimit'
 import { containsProfanity } from '../utils/profanityFilter'
 import readContentFile from '../libs/agent-tools/readContentFile'
 import { TIMELINE_CONTENT_PATH } from '../libs/agent-tools/timelineContentPath'
+import { sendContactEmail } from '../utils/sendContactEmail'
 
 const PAGE_COLLECTIONS = ['works', 'about', 'home', 'contact'] as const
 
@@ -202,6 +203,25 @@ export default defineEventHandler(async (event) => {
           paths: z.array(z.string()).max(3).describe('Paths to read, chosen from listDocuments results'),
         }),
         execute: ({ paths }) => readContentFile(paths, event),
+      }),
+
+      contact: tool({
+        description: 'Contact Johann Cavallucci by email.',
+        inputSchema: z.object({
+          name: z.string().describe('The name of the person contacting you'),
+          phone: z.string().describe('The phone number of the person contacting you').optional(),
+          email: z.string().email().describe('The email of the person contacting you'),
+          message: z.string().describe('The message of the person contacting you'),
+        }),
+        execute: async ({ name, phone, email, message }) => {
+          try {
+            await sendContactEmail({ name, phone, email, message })
+            return { success: 'Email sent successfully' }
+          } catch (error) {
+            console.error('Error sending email:', error)
+            return { error: 'Failed to send email' }
+          }
+        },
       }),
     },
   })
