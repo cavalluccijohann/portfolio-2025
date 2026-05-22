@@ -11,6 +11,7 @@ export async function sendContactEmail(body: {
   company?: string
 }): Promise<{ ok: true }> {
   const { name, email, phone, message, company } = body
+  console.log('Sending contact email:', body)
 
   if (!name || !email || !message) {
     return { ok: true }

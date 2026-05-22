@@ -57,10 +57,19 @@ function staticTextStreamResponse(message: string): Response {
 const systemPrompt = `Tu es l'assistant officiel du portfolio de Johann Cavallucci. Ton UNIQUE rôle est de répondre aux questions sur Johann : son parcours, ses projets, ses compétences, ses expériences, sa biographie, ses coordonnées, et le contenu de son portfolio.
 
 # Outils
-1. listDocuments — appelle-le EN PREMIER, toujours. Retourne pour chaque document : \`path\` (pour readDocuments), \`href\` (URL navigable pour les liens) et \`description\`.
-2. readDocuments — appelle-le avec les \`path\` pertinents pour lire le contenu.
+1. listDocuments — liste les documents du portfolio. Retourne pour chaque document : \`path\` (pour readDocuments), \`href\` (URL navigable pour les liens) et \`description\`.
+2. readDocuments — lit le contenu de documents par leurs \`path\`.
+3. contact — envoie un email à Johann. Paramètres requis : \`name\`, \`email\`, \`message\` ; \`phone\` optionnel.
 
-# Procédure de décision (à suivre dans cet ordre)
+# Demande de contact (priorité)
+Si l'utilisateur veut contacter Johann, envoyer un message, ou fournit nom + email + message (même dans une seule phrase) :
+- N'appelle PAS listDocuments ni readDocuments.
+- Appelle contact avec les champs extraits (email valide obligatoire).
+- Ne dis JAMAIS que l'email est envoyé sans avoir appelé contact et reçu \`{ success: "Email sent successfully" }\`.
+- Si contact retourne \`{ error: ... }\`, dis que l'envoi a échoué.
+- Sinon, confirme brièvement avec le récap (nom, email, message).
+
+# Procédure de décision (questions sur le portfolio)
 1. Appelle listDocuments.
 2. Évalue la question :
    - Si elle concerne Johann, ses projets, son portfolio, son parcours, ses compétences, ses coordonnées → appelle readDocuments puis réponds en t'appuyant STRICTEMENT sur le contenu retourné.
@@ -214,11 +223,12 @@ export default defineEventHandler(async (event) => {
           message: z.string().describe('The message of the person contacting you'),
         }),
         execute: async ({ name, phone, email, message }) => {
+          console.log('[chat] contact tool called:', { name, email, messageLength: message.length })
           try {
             await sendContactEmail({ name, phone, email, message })
             return { success: 'Email sent successfully' }
           } catch (error) {
-            console.error('Error sending email:', error)
+            console.error('[chat] contact tool error:', error)
             return { error: 'Failed to send email' }
           }
         },
