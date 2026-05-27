@@ -35,7 +35,8 @@ function assistantText(parts: AssistantPart[] | undefined): string {
 
 function assistantStatus(parts: AssistantPart[] | undefined): string | null {
   if (!parts || parts.length === 0) return 'Thinking…'
-  if (parts.some(p => p.type === 'text')) return null
+  // Text part can exist but be empty while tools run; keep status until real content streams in
+  if (assistantText(parts).trim()) return null
 
   const lastMeaningful = [...parts].reverse().find(p => p.type !== 'step-start')
   const type = lastMeaningful?.type ?? ''
@@ -190,11 +191,14 @@ watch(
                   <UIcon name="i-lucide-loader-2" class="size-4 shrink-0 animate-spin text-primary" />
                   <span>{{ assistantStatus(msg.parts) }}</span>
                 </div>
-                <Suspense v-else key="content">
+                <Suspense
+                  v-else-if="assistantText(msg.parts).trim()"
+                  key="content"
+                >
                   <Comark
                     :markdown="assistantText(msg.parts)"
                     :streaming="isLoading && i === chat.messages.length - 1"
-                    caret
+                    :caret="isLoading && i === chat.messages.length - 1"
                   />
                 </Suspense>
               </Transition>

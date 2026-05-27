@@ -13,6 +13,7 @@ import { assertChatRateLimit } from '../utils/chatRateLimit'
 import { containsProfanity } from '../utils/profanityFilter'
 import readContentFile from '../libs/agent-tools/readContentFile'
 import { TIMELINE_CONTENT_PATH } from '../libs/agent-tools/timelineContentPath'
+import { sendContactEmail } from '../utils/sendContactEmail'
 
 const PAGE_COLLECTIONS = ['works', 'about', 'home', 'contact'] as const
 
@@ -29,7 +30,7 @@ const TIMELINE_ENTRY = {
   path: TIMELINE_CONTENT_PATH,
   href: contentPathToHref(TIMELINE_CONTENT_PATH),
   description:
-    "Chronological timeline of Johann's career: education (Epitech), jobs, internships, missions, side projects, achievements year by year. Use this for any question about Johann's journey, his path, what he did during a given year, school, internships, his time at Raycast / Iothink / etc., or career milestones.",
+    'Chronological timeline of Johann\'s career: education (Epitech), jobs, internships, missions, side projects, achievements year by year. Use this for any question about Johann\'s journey, his path, what he did during a given year, school, internships, his time at Raycast / Iothink / etc., or career milestones.',
 } satisfies { collection: string; title: string; path: string; href: string; description: string }
 
 const REJECTED_REPLY_FR
@@ -56,10 +57,19 @@ function staticTextStreamResponse(message: string): Response {
 const systemPrompt = `Tu es l'assistant officiel du portfolio de Johann Cavallucci. Ton UNIQUE rôle est de répondre aux questions sur Johann : son parcours, ses projets, ses compétences, ses expériences, sa biographie, ses coordonnées, et le contenu de son portfolio.
 
 # Outils
-1. listDocuments — appelle-le EN PREMIER, toujours. Retourne pour chaque document : \`path\` (pour readDocuments), \`href\` (URL navigable pour les liens) et \`description\`.
-2. readDocuments — appelle-le avec les \`path\` pertinents pour lire le contenu.
+1. listDocuments — liste les documents du portfolio. Retourne pour chaque document : \`path\` (pour readDocuments), \`href\` (URL navigable pour les liens) et \`description\`.
+2. readDocuments — lit le contenu de documents par leurs \`path\`.
+3. contact — envoie un email à Johann. Paramètres requis : \`name\`, \`email\`, \`message\` ; \`phone\` optionnel.
 
-# Procédure de décision (à suivre dans cet ordre)
+# Demande de contact (priorité)
+Si l'utilisateur veut contacter Johann, envoyer un message, ou fournit nom + email + message (même dans une seule phrase) :
+- N'appelle PAS listDocuments ni readDocuments.
+- Appelle contact avec les champs extraits (email valide obligatoire).
+- Ne dis JAMAIS que l'email est envoyé sans avoir appelé contact et reçu \`{ success: "Email sent successfully" }\`.
+- Si contact retourne \`{ error: ... }\`, dis que l'envoi a échoué.
+- Sinon, confirme brièvement avec le récap (nom, email, message).
+
+# Procédure de décision (questions sur le portfolio)
 1. Appelle listDocuments.
 2. Évalue la question :
    - Si elle concerne Johann, ses projets, son portfolio, son parcours, ses compétences, ses coordonnées → appelle readDocuments puis réponds en t'appuyant STRICTEMENT sur le contenu retourné.
@@ -148,10 +158,10 @@ export default defineEventHandler(async (event) => {
   const lastText =
     last?.role === 'user'
       ? last.parts
-          .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
-          .map(p => p.text)
-          .join('')
-          .trim()
+        .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+        .map(p => p.text)
+        .join('')
+        .trim()
       : ''
 
   if (!lastText || lastText.length < MIN_TEXT_CHARS) {
@@ -202,6 +212,25 @@ export default defineEventHandler(async (event) => {
           paths: z.array(z.string()).max(3).describe('Paths to read, chosen from listDocuments results'),
         }),
         execute: ({ paths }) => readContentFile(paths, event),
+      }),
+
+      contact: tool({
+        description: 'Contact Johann Cavallucci by email.',
+        inputSchema: z.object({
+          name: z.string().trim().min(1).max(100).describe('The name of the person contacting you'),
+          phone: z.string().trim().min(1).max(30).describe('The phone number of the person contacting you').optional(),
+          email: z.string().trim().email().describe('The email of the person contacting you'),
+          message: z.string().trim().min(1).max(5000).describe('The message of the person contacting you'),
+        }),
+        execute: async ({ name, phone, email, message }) => {
+          try {
+            await sendContactEmail({ name, phone, email, message })
+            return { success: 'Email sent successfully' }
+          } catch (error) {
+            console.error('[chat] contact tool error:', error)
+            return { error: 'Failed to send email' }
+          }
+        },
       }),
     },
   })
