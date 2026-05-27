@@ -30,7 +30,7 @@ const TIMELINE_ENTRY = {
   path: TIMELINE_CONTENT_PATH,
   href: contentPathToHref(TIMELINE_CONTENT_PATH),
   description:
-    "Chronological timeline of Johann's career: education (Epitech), jobs, internships, missions, side projects, achievements year by year. Use this for any question about Johann's journey, his path, what he did during a given year, school, internships, his time at Raycast / Iothink / etc., or career milestones.",
+    'Chronological timeline of Johann\'s career: education (Epitech), jobs, internships, missions, side projects, achievements year by year. Use this for any question about Johann\'s journey, his path, what he did during a given year, school, internships, his time at Raycast / Iothink / etc., or career milestones.',
 } satisfies { collection: string; title: string; path: string; href: string; description: string }
 
 const REJECTED_REPLY_FR
@@ -158,10 +158,10 @@ export default defineEventHandler(async (event) => {
   const lastText =
     last?.role === 'user'
       ? last.parts
-          .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
-          .map(p => p.text)
-          .join('')
-          .trim()
+        .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+        .map(p => p.text)
+        .join('')
+        .trim()
       : ''
 
   if (!lastText || lastText.length < MIN_TEXT_CHARS) {
@@ -217,13 +217,12 @@ export default defineEventHandler(async (event) => {
       contact: tool({
         description: 'Contact Johann Cavallucci by email.',
         inputSchema: z.object({
-          name: z.string().describe('The name of the person contacting you'),
-          phone: z.string().describe('The phone number of the person contacting you').optional(),
-          email: z.string().email().describe('The email of the person contacting you'),
-          message: z.string().describe('The message of the person contacting you'),
+          name: z.string().trim().min(1).max(100).describe('The name of the person contacting you'),
+          phone: z.string().trim().min(1).max(30).describe('The phone number of the person contacting you').optional(),
+          email: z.string().trim().email().describe('The email of the person contacting you'),
+          message: z.string().trim().min(1).max(5000).describe('The message of the person contacting you'),
         }),
         execute: async ({ name, phone, email, message }) => {
-          console.log('[chat] contact tool called:', { name, email, messageLength: message.length })
           try {
             await sendContactEmail({ name, phone, email, message })
             return { success: 'Email sent successfully' }
