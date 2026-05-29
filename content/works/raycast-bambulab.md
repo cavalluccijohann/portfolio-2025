@@ -68,7 +68,7 @@ I'm already planning future updates and looking forward to building more extensi
 
 ---
 
-### More than 80 people have installed this extension.
+### More than 100 people have installed this extension.
 
 ---
 
