@@ -182,7 +182,7 @@ export default defineEventHandler(async (event) => {
     model: 'deepseek/deepseek-v4-flash',
     system: systemPrompt,
     messages: await convertToModelMessages(uiMessages),
-    stopWhen: stepCountIs(3),
+    stopWhen: stepCountIs(4),
     temperature: 0,
 
     tools: {

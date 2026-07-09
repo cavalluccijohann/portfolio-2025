@@ -23,6 +23,20 @@ const chat = new Chat({
     api: '/api/chat',
   }),
   onError: (e) => console.error(e),
+  onFinish: ({ message, isError, isAbort }) => {
+    if (isError || isAbort) return
+    const text = message.parts
+      ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+      .map(p => p.text)
+      .join('')
+      .trim()
+    if (text) return
+    chat.messages = chat.messages.map(m =>
+      m.id === message.id
+        ? { ...m, parts: [{ type: 'text' as const, text: 'Désolé, je n\'ai pas pu répondre. Réessaie.' }] }
+        : m,
+    )
+  },
 })
 
 const isLoading = computed(() => chat.status === 'streaming' || chat.status === 'submitted')
