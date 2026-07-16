@@ -60,7 +60,7 @@ useSeoMeta({
       ]"
     >
       <UButton
-        class="w-1/2 bg-primary py-2 text-inverted text-xl font-clash-medium flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+        class="rounded-none w-1/2 bg-primary py-2 text-inverted text-xl font-clash-medium flex items-center justify-center gap-2 hover:scale-105 transition-transform"
         @click="() => { draw = !draw }"
       >
         <UIcon name="i-lucide-brush" class="size-5 text-inverted" />
@@ -77,7 +77,7 @@ useSeoMeta({
       :class="draw ? '' : 'hidden'"
     >
       <UButton
-        class="w-1/2 bg-primary py-2 text-inverted text-xl font-clash-medium flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+        class="w-1/2 bg-primary py-2 text-inverted rounded-none text-xl font-clash-medium flex items-center justify-center gap-2 hover:scale-105 transition-transform"
         @click="() => { draw = !draw }"
       >
         <UIcon name="i-lucide-undo-2" class="size-5 text-inverted" />

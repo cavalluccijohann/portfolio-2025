@@ -44,7 +44,10 @@ const isLoading = computed(() => chat.status === 'streaming' || chat.status === 
 type AssistantPart = { type: string; text?: string; state?: string }
 
 function assistantText(parts: AssistantPart[] | undefined): string {
-  return parts?.find(p => p.type === 'text')?.text ?? ''
+  return parts
+    ?.filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+    .map(p => p.text)
+    .join('') ?? ''
 }
 
 function assistantStatus(parts: AssistantPart[] | undefined): string | null {
