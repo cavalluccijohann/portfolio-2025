@@ -28,7 +28,7 @@ contextPreview: Raycast extension for Bambu Lab printers using React, TypeScript
 
 ## At a glance
 
-**100+ installs** on the [Raycast Store](https://www.raycast.com/johancvl/bambu-lab). Bambu Lab owners use it to monitor and control their printer from the desktop — progress, temps, AMS, pause/resume, upload, and launch — **without leaving the keyboard** or keeping Bambu Studio in the foreground for quick checks.
+**130+ installs** on the [Raycast Store](https://www.raycast.com/johancvl/bambu-lab). Bambu Lab owners use it to monitor and control their printer from the desktop — progress, temps, AMS, pause/resume, upload, and launch — **without leaving the keyboard** or keeping Bambu Studio in the foreground for quick checks.
 
 Studio stays the tool for slicing; this extension is for the **daily loop**: one shortcut instead of another app window. Details and stack below.
 
