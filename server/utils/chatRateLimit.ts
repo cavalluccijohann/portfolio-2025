@@ -55,6 +55,17 @@ async function getStore(): Promise<ChatRedisStore | null> {
   return tcp ? wrapTcp(tcp) : null
 }
 
+/** Use Redis to prevent Upstash Free from being evicted (inactivity ~14 days). */
+export async function pingChatRedis(): Promise<void> {
+  const redis = await getStore()
+  if (!redis) {
+    throw new Error('No Redis configured (UPSTASH_* or REDIS_*)')
+  }
+  const key = 'chat:keepalive'
+  await redis.incr(key)
+  await redis.expire(key, 60 * 60 * 24 * 30)
+}
+
 async function getTcpClient(): Promise<RedisClientType | null> {
   const url = resolveTcpRedisUrl()
   if (!url) return null

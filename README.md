@@ -68,8 +68,11 @@ Créer un fichier `.env` à la racine. Les variables suivantes ne sont nécessai
 | `REDIS_URL` ou `REDIS_HOST` + `REDIS_PASSWORD` (+ `REDIS_PORT`, `REDIS_USERNAME`) | Rate limiting du chat (Redis TCP) |
 | `CHAT_GLOBAL_LIMIT_PER_DAY`, `CHAT_IP_LIMIT_PER_DAY` | Plafonds journaliers du chat (défaut : 100 / 10) |
 | `CHAT_TRUSTED_IP` ou `CHAT_TRUSTED_IPS` | IPs sans quota par IP (quota global inchangé) |
+| `CRON_SECRET` | Protège `/api/cron/redis-keepalive` (Vercel Cron envoie `Authorization: Bearer …`) |
 
 Sans Redis configuré, le chat reste utilisable mais le rate limiting serveur est désactivé (avertissement en logs).
+
+Le cron Vercel (`vercel.json`) appelle `/api/cron/redis-keepalive` chaque dimanche à 04:00 UTC pour éviter l'éviction Upstash free (~14j sans activité).
 
 Configurer aussi les clés requises par le fournisseur de modèles utilisé par l’assistant (`server/api/chat.ts`, SDK `ai`).
 
