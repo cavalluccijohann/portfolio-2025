@@ -55,6 +55,88 @@ async function getStore(): Promise<ChatRedisStore | null> {
   return tcp ? wrapTcp(tcp) : null
 }
 
+async function requireStore(): Promise<ChatRedisStore> {
+  const redis = await getStore()
+  if (redis) return redis
+
+  const rawUpstash = process.env.UPSTASH_REDIS_REST_URL?.trim()
+  const hasBadUpstash = Boolean(rawUpstash && !rawUpstash.startsWith('https://'))
+  console.error(
+    hasBadUpstash
+      ? '[rate-limit] UPSTASH_REDIS_REST_URL doit être https:// — blocage fail-closed'
+      : '[rate-limit] Aucun Redis configuré — blocage fail-closed',
+  )
+  throw createError({
+    statusCode: 503,
+    statusMessage: 'Service temporarily unavailable. Please try again later.',
+  })
+}
+
+async function enforceDailyLimits(opts: {
+  event: H3Event
+  prefix: string
+  globalLimit: number
+  ipLimit: number
+  label: string
+}) {
+  const redis = await requireStore()
+  const ip = getRequestIP(opts.event, { xForwardedFor: true }) ?? 'unknown'
+  const day = utcDayKey()
+  const globalKey = `${opts.prefix}:ratelimit:global:${day}`
+  const ipKey = `${opts.prefix}:ratelimit:ip:${ip}:${day}`
+  const trusted = isTrustedIp(ip)
+
+  let globalCount: number
+  try {
+    globalCount = await redis.incr(globalKey)
+    if (globalCount === 1) await redis.expire(globalKey, KEY_TTL_SECONDS)
+  } catch (err) {
+    console.error(`[${opts.label}] Redis unreachable — blocking (fail-closed):`, err)
+    throw createError({
+      statusCode: 503,
+      statusMessage: 'Service temporarily unavailable. Please try again later.',
+    })
+  }
+
+  if (globalCount > opts.globalLimit) {
+    await redis.decr(globalKey).catch(() => {})
+    throw createError({
+      statusCode: 429,
+      statusMessage: 'Daily limit reached. Try again tomorrow.',
+    })
+  }
+
+  if (!trusted) {
+    let ipCount: number
+    try {
+      ipCount = await redis.incr(ipKey)
+      if (ipCount === 1) await redis.expire(ipKey, KEY_TTL_SECONDS)
+    } catch (err) {
+      console.error(`[${opts.label}] Redis unreachable — blocking (fail-closed):`, err)
+      await redis.decr(globalKey).catch(() => {})
+      throw createError({
+        statusCode: 503,
+        statusMessage: 'Service temporarily unavailable. Please try again later.',
+      })
+    }
+    if (ipCount > opts.ipLimit) {
+      await redis.decr(ipKey).catch(() => {})
+      await redis.decr(globalKey).catch(() => {})
+      throw createError({
+        statusCode: 429,
+        statusMessage: 'Daily limit reached for this connection. Try again tomorrow.',
+      })
+    }
+    console.log(
+      `[${opts.label}] OK | ${day} | site ${globalCount}/${opts.globalLimit} | ip ${ipCount}/${opts.ipLimit} | ip=${ip}`,
+    )
+  } else {
+    console.log(
+      `[${opts.label}] OK | ${day} | site ${globalCount}/${opts.globalLimit} | IP trusted | ip=${ip}`,
+    )
+  }
+}
+
 /** Use Redis to prevent Upstash Free from being evicted (inactivity ~14 days). */
 export async function pingChatRedis(): Promise<void> {
   const redis = await getStore()
@@ -94,66 +176,32 @@ function utcDayKey() {
  * Limite journalière (UTC) : global + par IP.
  * IPs listées dans CHAT_TRUSTED_IP ou CHAT_TRUSTED_IPS (virgules) : pas de quota par IP, mais le quota global s’applique toujours.
  *
- * Redis :
- * - Upstash REST : UPSTASH_REDIS_REST_URL (https://…) + UPSTASH_REDIS_REST_TOKEN
- * - Redis Cloud / TCP : REDIS_URL=rediss://… **ou** REDIS_HOST + REDIS_PASSWORD (+ REDIS_PORT, REDIS_USERNAME)
+ * Fail-closed si Redis est absent ou injoignable.
  */
 export async function assertChatRateLimit(event: H3Event) {
-  const redis = await getStore()
-  if (!redis) {
-    const rawUpstash = process.env.UPSTASH_REDIS_REST_URL?.trim()
-    const hasBadUpstash = Boolean(rawUpstash && !rawUpstash.startsWith('https://'))
-    console.warn(
-      hasBadUpstash
-        ? '[chat-rate-limit] UPSTASH_REDIS_REST_URL doit être une URL REST https:// (Upstash). Pour Redis Cloud, utilise REDIS_URL=rediss://… ou REDIS_HOST + REDIS_PASSWORD (+ port). — pas de limite appliquée'
-        : '[chat-rate-limit] Aucun Redis configuré (Upstash https + token, ou REDIS_URL / REDIS_HOST+PASSWORD) — pas de limite appliquée',
-    )
-    return
-  }
-
-  const ip = getRequestIP(event, { xForwardedFor: true }) ?? 'unknown'
-  const day = utcDayKey()
-  const globalKey = `chat:ratelimit:global:${day}`
-  const ipKey = `chat:ratelimit:ip:${ip}:${day}`
-
   const globalLimit = Number(process.env.CHAT_GLOBAL_LIMIT_PER_DAY) || DEFAULT_GLOBAL_PER_DAY
   const ipLimit = Number(process.env.CHAT_IP_LIMIT_PER_DAY) || DEFAULT_IP_PER_DAY
-  const trusted = isTrustedIp(ip)
+  await enforceDailyLimits({
+    event,
+    prefix: 'chat',
+    globalLimit,
+    ipLimit,
+    label: 'chat-rate-limit',
+  })
+}
 
-  const globalCount = await redis.incr(globalKey)
-  if (globalCount === 1) await redis.expire(globalKey, KEY_TTL_SECONDS)
+const DEFAULT_EMAIL_GLOBAL_PER_DAY = 40
+const DEFAULT_EMAIL_IP_PER_DAY = 5
 
-  if (globalCount > globalLimit) {
-    console.warn(
-      `[chat-rate-limit] 429 site | jour UTC ${day} | compteur ${globalCount} > limite ${globalLimit} (IP ${ip})`,
-    )
-    await redis.decr(globalKey)
-    throw createError({
-      statusCode: 429,
-      statusMessage: 'Daily limit for this site has been reached. Try again tomorrow.',
-    })
-  }
-
-  if (!trusted) {
-    const ipCount = await redis.incr(ipKey)
-    if (ipCount === 1) await redis.expire(ipKey, KEY_TTL_SECONDS)
-    if (ipCount > ipLimit) {
-      console.warn(
-        `[chat-rate-limit] 429 IP | jour UTC ${day} | IP ${ip} : ${ipCount} > limite ${ipLimit} | site ${globalCount}/${globalLimit}`,
-      )
-      await redis.decr(ipKey)
-      await redis.decr(globalKey)
-      throw createError({
-        statusCode: 429,
-        statusMessage: 'Daily question limit reached for this connection. Try again tomorrow.',
-      })
-    }
-    console.log(
-      `[chat-rate-limit] OK | jour UTC ${day} | site (jour) ${globalCount}/${globalLimit} | cette IP ${ipCount}/${ipLimit} | ip=${ip}`,
-    )
-  } else {
-    console.log(
-      `[chat-rate-limit] OK | jour UTC ${day} | site (jour) ${globalCount}/${globalLimit} | IP trusted (pas de quota IP) | ip=${ip}`,
-    )
-  }
+/** Rate limit pour /api/sendEmail (et tool contact du chat). */
+export async function assertEmailRateLimit(event: H3Event) {
+  const globalLimit = Number(process.env.EMAIL_GLOBAL_LIMIT_PER_DAY) || DEFAULT_EMAIL_GLOBAL_PER_DAY
+  const ipLimit = Number(process.env.EMAIL_IP_LIMIT_PER_DAY) || DEFAULT_EMAIL_IP_PER_DAY
+  await enforceDailyLimits({
+    event,
+    prefix: 'email',
+    globalLimit,
+    ipLimit,
+    label: 'email-rate-limit',
+  })
 }

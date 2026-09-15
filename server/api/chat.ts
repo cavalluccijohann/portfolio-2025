@@ -9,7 +9,8 @@ import {
 } from 'ai'
 import { z } from 'zod'
 import { queryCollection } from '@nuxt/content/server'
-import { assertChatRateLimit } from '../utils/chatRateLimit'
+import { assertChatRateLimit, assertEmailRateLimit } from '../utils/chatRateLimit'
+import { assertPortfolioOrigin } from '../utils/assertPortfolioOrigin'
 import { containsProfanity } from '../utils/profanityFilter'
 import readContentFile from '../libs/agent-tools/readContentFile'
 import { TIMELINE_CONTENT_PATH } from '../libs/agent-tools/timelineContentPath'
@@ -53,7 +54,6 @@ function staticTextStreamResponse(message: string): Response {
   })
   return createUIMessageStreamResponse({ stream })
 }
-
 const systemPrompt = `Tu es l'assistant officiel du portfolio de Johann Cavallucci. Ton UNIQUE rôle est de répondre aux questions sur Johann : son parcours, ses projets, ses compétences, ses expériences, sa biographie, ses coordonnées, et le contenu de son portfolio.
 
 # Outils
@@ -150,6 +150,11 @@ function sanitiseMessages(raw: unknown): UIMessage[] {
 
 export default defineEventHandler(async (event) => {
   assertMethod(event, 'POST')
+  assertPortfolioOrigin(event, 'chat')
+
+  const ip = getRequestIP(event, { xForwardedFor: true }) ?? 'unknown'
+  const ua = getHeader(event, 'user-agent') ?? ''
+  const origin = getHeader(event, 'origin') ?? ''
 
   const body = await readBody<{ messages?: unknown }>(event)
   const uiMessages = sanitiseMessages(body?.messages)
@@ -170,6 +175,13 @@ export default defineEventHandler(async (event) => {
   if (lastText.length > MAX_TEXT_CHARS) {
     throw createError({ statusCode: 400, statusMessage: 'Question too long' })
   }
+
+  console.log('[chat] request', {
+    ip,
+    ua: ua.slice(0, 160),
+    origin,
+    q: lastText.slice(0, 120),
+  })
 
   await assertChatRateLimit(event)
 
@@ -224,6 +236,7 @@ export default defineEventHandler(async (event) => {
         }),
         execute: async ({ name, phone, email, message }) => {
           try {
+            await assertEmailRateLimit(event)
             await sendContactEmail({ name, phone, email, message })
             return { success: 'Email sent successfully' }
           } catch (error) {
