@@ -10,7 +10,7 @@ import {
 import { z } from 'zod'
 import { queryCollection } from '@nuxt/content/server'
 import { assertChatRateLimit, assertEmailRateLimit } from '../utils/chatRateLimit'
-import { assertPortfolioOrigin } from '../utils/assertPortfolioOrigin'
+import { assertBrowserLikeRequest, assertPortfolioOrigin } from '../utils/assertPortfolioOrigin'
 import { containsProfanity } from '../utils/profanityFilter'
 import readContentFile from '../libs/agent-tools/readContentFile'
 import { TIMELINE_CONTENT_PATH } from '../libs/agent-tools/timelineContentPath'
@@ -150,7 +150,18 @@ function sanitiseMessages(raw: unknown): UIMessage[] {
 
 export default defineEventHandler(async (event) => {
   assertMethod(event, 'POST')
+
+  // Emergency stop: set CHAT_ENABLED=false on Vercel to halt spend instantly.
+  const chatEnabled = (process.env.CHAT_ENABLED ?? 'true').trim().toLowerCase()
+  if (chatEnabled === 'false' || chatEnabled === '0' || chatEnabled === 'off') {
+    throw createError({
+      statusCode: 503,
+      statusMessage: 'Chat is temporarily disabled.',
+    })
+  }
+
   assertPortfolioOrigin(event, 'chat')
+  assertBrowserLikeRequest(event, 'chat')
 
   const ip = getRequestIP(event, { xForwardedFor: true }) ?? 'unknown'
   const ua = getHeader(event, 'user-agent') ?? ''
