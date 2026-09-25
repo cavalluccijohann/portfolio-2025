@@ -25,7 +25,13 @@ if (!projects.value) {
 
 projects.value = projects.value
   .slice()
-  .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .sort((a: any, b: any) => {
+    const dateA = new Date(a.date).getTime()
+    const dateB = new Date(b.date).getTime()
+    const safeA = Number.isNaN(dateA) ? Number(a.year) || 0 : dateA
+    const safeB = Number.isNaN(dateB) ? Number(b.year) || 0 : dateB
+    return safeB - safeA
+  })
   .map((item: any) => {
     return {
       name: item.title,

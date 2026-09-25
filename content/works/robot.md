@@ -2,7 +2,7 @@
 title: Combat Robot
 description: My first venture into competitive robotics. A mix of engineering challenges and competitive strategy.
 url: https://github.com/cavalluccijohann/arduino-robot-david
-date: 2025-04-00
+date: 2025-04-01
 year: 2025
 image: /assets/works/robot.webp
 minRead: 5
