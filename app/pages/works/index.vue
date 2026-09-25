@@ -23,15 +23,18 @@ if (!projects.value) {
   throw createError({ statusCode: 404, statusMessage: `Page not found: ${route.path}`, fatal: true })
 }
 
-projects.value = projects.value.map((item: any) => {
-  return {
-    name: item.title,
-    path: item.path,
-    date: item.year,
-    description: item.description || '',
-    image: item.image,
-  } as ProjectMenu
-}).sort((a, b) => b.date - a.date)
+projects.value = projects.value
+  .slice()
+  .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .map((item: any) => {
+    return {
+      name: item.title,
+      path: item.path,
+      date: item.year,
+      description: item.description || '',
+      image: item.image,
+    } as ProjectMenu
+  })
 </script>
 
 <template>

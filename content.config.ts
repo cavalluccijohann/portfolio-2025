@@ -9,7 +9,7 @@ export default defineContentConfig({
         schema: z.object({
           title: z.string().nonempty(),
           description: z.string().nonempty(),
-          url: z.string().url(),
+          url: z.string().url().optional(),
           date: z.string(),
           year: z.string(),
           minRead: z.number(),

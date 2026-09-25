@@ -26,12 +26,19 @@ watchEffect(() => {
 <template>
   <div v-if="page" class="flex max-w-5xl mx-auto flex-col items-center min-h-screen py-10 md:py-20 px-5 lg:px-0">
     <NuxtLink
+      v-if="page.url"
       :to="page.url"
     >
       <h1 class="font-clash-medium text-primary text-5xl md:text-6xl">
         {{ page.title }}
       </h1>
     </NuxtLink>
+    <h1
+      v-else
+      class="font-clash-medium text-primary text-5xl md:text-6xl"
+    >
+      {{ page.title }}
+    </h1>
 
     <div class="w-full flex mt-10 px-0 md:px-10 justify-around">
       <!--    Technologies    -->
@@ -101,7 +108,10 @@ watchEffect(() => {
       />
 
       <!-- Bouton positionné en haut à droite de l'image -->
-      <div class="absolute -top-10 -right-7 lg:-top-20 lg:-right-20">
+      <div
+        v-if="page.url"
+        class="absolute -top-10 -right-7 lg:-top-20 lg:-right-20"
+      >
         <CircularText
           text="Click * Here * Preview * "
           :spin-duration="20"
