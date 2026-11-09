@@ -3,7 +3,7 @@ title: Targeter
 description: AI-powered job search organizer that removes friction from applications — Kanban, contextual assistant, and Chrome extension.
 date: 2026-09-25
 year: 2026
-image: /assets/works/targeter/dashboard.png
+image: /assets/works/targeter/dashboard.webp
 minRead: 8
 roles:
   - Full Stack
@@ -54,7 +54,7 @@ Key features today:
 
 The core product promise: remove friction from the job search loop.
 
-![Kanban board](/assets/works/targeter/kaban.png)
+![Kanban board](/assets/works/targeter/kaban.webp)
 
 ## Technical Stack & Architecture
 
@@ -78,7 +78,7 @@ The core product promise: remove friction from the job search loop.
 
 Architecture angle: intentionally simple and reliable — clear monorepo boundaries, shared types between web and extension, token-based auth for the extension (no cookie dependency), and AI designed as bounded actions with durable context (profile + applications) rather than endless chat history.
 
-![Profile settings](/assets/works/targeter/profil.png)
+![Profile settings](/assets/works/targeter/profil.webp)
 
 ---
 

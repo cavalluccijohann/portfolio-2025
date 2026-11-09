@@ -66,7 +66,7 @@ const goBack = () => {
         <button class="flex-1">
           <NuxtLink
             class="block w-full font-clash-medium font-medium text-xl rounded-none border-2 color-primary text-primary hover:text-white hover:border-primary hover:bg-primary cursor-pointer px-4 py-2 text-sm font-semibold transition-colors duration-300"
-            @click="handleError"
+            @click="goBack"
           >
             Go back
           </NuxtLink>

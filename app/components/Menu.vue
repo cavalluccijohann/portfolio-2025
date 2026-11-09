@@ -94,7 +94,7 @@ const handleHoverEnd = () => {
                 <div class="flex flex-col items-center text-center">
                   <span class="text-3xl md:text-5xl font-bold mb-2">{{ project.name }}</span>
                 </div>
-                <img :src="project.image" class="w-32 object-cover rounded mb-2">
+                <img :src="project.image" :alt="project.name" loading="lazy" class="w-32 object-cover rounded mb-2">
               </Ticker>
             </AnimatePresence>
           </NuxtLink>

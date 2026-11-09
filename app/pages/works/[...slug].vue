@@ -7,18 +7,18 @@ if (error.value) {
   console.error('Erreur lors du chargement:', error.value)
 }
 
-watchEffect(() => {
-  if (page.value) {
-    useSeoMeta({
-      title: page.value.title,
-      titleTemplate: '%s - Johanncvl',
-      description: page.value.description ?? page.value.body?.slice(0, 160),
-      ogTitle: page.value.title,
-      ogDescription: page.value.description ?? page.value.body?.slice(0, 160),
-      ogImage: page.value.image ?? '/asset/og.png',
-      twitterCard: 'summary_large_image'
-    })
-  }
+if (!page.value) {
+  throw createError({ statusCode: 404, statusMessage: `Page not found: ${route.path}`, fatal: true })
+}
+
+useSeoMeta({
+  title: () => page.value?.title,
+  titleTemplate: '%s - Johanncvl',
+  description: () => page.value?.description,
+  ogTitle: () => page.value?.title,
+  ogDescription: () => page.value?.description,
+  ogImage: () => page.value?.image ?? '/og.jpg',
+  twitterCard: 'summary_large_image'
 })
 
 </script>
@@ -75,11 +75,10 @@ watchEffect(() => {
           {{ page?.teamName }}
         </span>
         <UAvatarGroup :ui="{ base: 'ring-primary/50'}">
-          <NuxtLink v-for="author in page?.authors" :to="author.to">
+          <NuxtLink v-for="author in page?.authors" :key="author.name" :to="author.to" :target="author.target">
             <UAvatar
-              :key="author.name"
-              :src="author.avatar.src"
-              :alt="author.avatar.alt"
+              :src="author.avatar?.src"
+              :alt="author.avatar?.alt ?? author.name"
               size="lg"
             />
           </NuxtLink>

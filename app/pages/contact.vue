@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toast, Toaster } from 'vue-sonner'
+import { toast } from 'vue-sonner'
 import 'vue-sonner/style.css'
 
 const { data: contactData } = await useAsyncData('contact', () => queryCollection('contact').first())
@@ -19,7 +19,7 @@ useSeoMeta({
   description: 'Get in touch with Johann Cavallucci, Software Engineer, to discuss web and modern application projects. Let\'s build something amazing together!\n',
   ogTitle: 'Contact - Johanncvl',
   ogDescription: 'Get in touch with Johann Cavallucci, Software Engineer, to discuss web and modern application projects. Let\'s build something amazing together!\n',
-  ogImage: 'og.png',
+  ogImage: '/og.jpg',
   twitterCard: 'summary_large_image'
 })
 
@@ -35,7 +35,7 @@ const loading = ref(false)
 async function sendForm() {
   loading.value = true
   try {
-    await useFetch('/api/sendEmail', {
+    await $fetch('/api/sendEmail', {
       method: 'POST',
       body: form.value,
     })
@@ -77,8 +77,7 @@ async function sendForm() {
   <div class="flex flex-col min-h-[calc(100vh-64px)] justify-between">
     <div class="flex flex-col md:grid md:grid-cols-2 gap-4 p-4 w-full md:pt-10">
       <div class="flex flex-col">
-        <!--   button that create toast    -->
-        <span
+        <h1
           v-if="contactData"
           class="leading-[6rem] md:leading-[5rem] lg:leading-none text-[90px]/40 md:text-[80px]/40 lg:text-[125px]/40 xl:text-[168px]/40 font-bread font-bold mb-4"
           v-html="contactData.title"
@@ -132,7 +131,6 @@ async function sendForm() {
           type="submit"
           :disabled="loading"
           class="w-full md:w-lg mt-5 block w-full font-clash-medium font-bold text-xl rounded-none border-2 color-primary text-[#FF5800] border-primary hover:text-primary bg-primary hover:bg-transparent cursor-pointer px-4 py-2 text-sm font-semibold transition-colors duration-300"
-          @click="!loading"
         >
           <span v-if="loading">Sending...</span>
           <span v-else>Send</span>

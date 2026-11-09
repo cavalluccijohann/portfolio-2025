@@ -4,7 +4,7 @@ description: A simple yet effective personal site developed with Nuxt.js. My fir
 url: https://boilerplatefolio.johanncvl.com/
 date: 2023-12-20
 year: 2023
-image: /assets/works/portfolio.png
+image: /assets/works/portfolio.webp
 minRead: 5
 roles:
   - Full Stack

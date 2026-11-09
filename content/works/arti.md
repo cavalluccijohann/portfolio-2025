@@ -3,7 +3,7 @@ title: Arti
 description: Personal job-hunt agent that scrapes WTTJ and LinkedIn, scores offers against my profile, and pushes the best matches to iMessage.
 date: 2026-06-25
 year: 2026
-image: /assets/works/arti/cover.png
+image: /assets/works/arti/cover.webp
 minRead: 7
 roles:
   - Full Stack
@@ -44,7 +44,7 @@ Key features:
 
 Extras that keep the signal clean: title / experience / role-focus pre-filters, URL deduplication, and multi-source ingestion (WTTJ + LinkedIn).
 
-![Arti in testing](/assets/works/arti/testing.png)
+![Arti in testing](/assets/works/arti/testing.webp)
 
 ## Technical Stack & Architecture
 

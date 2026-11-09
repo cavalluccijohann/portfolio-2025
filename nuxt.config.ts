@@ -1,10 +1,9 @@
 
 export default defineNuxtConfig({
   modules: [
-
+    '@nuxtjs/seo',
     '@nuxt/content',
     '@nuxt/ui',
-    '@nuxt/scripts',
     '@nuxt/image',
     'nuxt-studio',
   ],
@@ -20,9 +19,28 @@ export default defineNuxtConfig({
     fallback: 'light',
   },
   site: {
-    url: 'https://johanncvl.com',
+    url: 'https://www.johanncvl.com',
+    name: 'Johann Cavallucci',
+    description: 'Portfolio of Johann Cavallucci, Software Engineer based in Paris, France.',
     defaultLocale: 'en',
     indexable: true,
+  },
+  ogImage: {
+    // Static /og.jpg and project images are used instead of generated OG images.
+    enabled: false,
+  },
+  schemaOrg: {
+    identity: {
+      type: 'Person',
+      name: 'Johann Cavallucci',
+      jobTitle: 'Software Engineer',
+      url: 'https://www.johanncvl.com',
+      sameAs: [
+        'https://github.com/cavalluccijohann',
+        'https://www.linkedin.com/in/johann-cavallucci/',
+        'https://x.com/JohannCVL',
+      ],
+    },
   },
   nitro: {
     prerender: {

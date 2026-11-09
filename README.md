@@ -1,93 +1,102 @@
 # Portfolio — Johann Cavallucci
 
-Site portfolio de [johanncvl.com](https://johanncvl.com), construit avec **Nuxt 4** et **Vue 3**.
+Site portfolio de [johanncvl.com](https://www.johanncvl.com), construit avec **Nuxt 4** et **Vue 3**, déployé sur **Vercel**.
 
-Le contenu vit dans `content/` (pages, projets, timeline, contact) et peut être édité via **Nuxt Studio**. Le site expose aussi un formulaire de contact et un assistant latéral branché sur le contenu du portfolio.
+Le contenu vit dans `content/` (accueil, about, timeline, projets, contact) et peut être édité via **Nuxt Studio**. Le site expose aussi un formulaire de contact et un assistant (chat latéral) qui répond aux questions à partir du contenu du portfolio.
 
 ## Stack
 
-- [Nuxt 4](https://nuxt.com/docs/4.x/getting-started/introduction)
-- [Nuxt Content](https://content.nuxt.com/) — collections typées (`content.config.ts`)
-- [Nuxt UI](https://ui.nuxt.com/) — interface et composants
+- [Nuxt 4](https://nuxt.com/docs/4.x/getting-started/introduction) / Vue 3 / TypeScript
+- [Nuxt Content v3](https://content.nuxt.com/) — collections typées (`content.config.ts`)
+- [Nuxt UI v4](https://ui.nuxt.com/) + [Tailwind CSS v4](https://tailwindcss.com/)
 - [Nuxt Image](https://image.nuxt.com/)
-- [Nuxt Studio](https://nuxt.studio/) — édition du contenu
-- [Tailwind CSS](https://tailwindcss.com/) v4
+- [Nuxt SEO](https://nuxtseo.com/) (`@nuxtjs/seo`) — sitemap, robots.txt, canonical, Schema.org
+- [Nuxt Studio](https://nuxt.studio/) — édition du contenu depuis le navigateur
 - [Motion](https://motion.dev/) (`motion-v`, `motion-plus-vue`)
-- Nitro — API `server/api/` (chat, envoi d’e-mail, rate limiting)
+- [AI SDK](https://ai-sdk.dev/) (`ai`, `@ai-sdk/vue`) via Vercel AI Gateway — assistant du portfolio
+- [Resend](https://resend.com/) — envoi des e-mails de contact
+- Redis ([Upstash](https://upstash.com/) REST ou Redis TCP) — rate limiting du chat et du contact
+- Analytics : [Umami](https://umami.is/)
 
 ## Prérequis
 
-- [Bun](https://bun.sh/) (recommandé, `bun.lock` présent) ou Node.js 20+
-- Clés et services optionnels selon les fonctionnalités activées (voir ci-dessous)
+- [Bun](https://bun.sh/) (gestionnaire utilisé par le projet, `bun.lock`)
+- Node.js 20+
 
 ## Installation
 
 ```bash
 bun install
+cp .env.example .env   # puis remplir les valeurs
 ```
 
-Autres gestionnaires de paquets :
+## Scripts
 
-```bash
-npm install
-# pnpm install
-# yarn install
-```
-
-## Développement
-
-```bash
-bun run dev
-```
-
-Application disponible sur [http://localhost:3000](http://localhost:3000).
-
-## Production
-
-```bash
-bun run build
-bun run preview
-```
-
-Génération statique :
-
-```bash
-bun run generate
-```
-
-Déploiement : [documentation Nuxt](https://nuxt.com/docs/4.x/getting-started/deployment).
+| Commande | Rôle |
+| --- | --- |
+| `bun run dev` | Serveur de dev sur [http://localhost:3000](http://localhost:3000) |
+| `bun run build` | Build de production (avec prérendu des pages) |
+| `bun run preview` | Prévisualiser le build |
+| `bun run generate` | Génération statique complète |
 
 ## Variables d’environnement
 
-Créer un fichier `.env` à la racine. Les variables suivantes ne sont nécessaires que pour les fonctionnalités concernées.
+Voir [`.env.example`](.env.example).
 
 | Variable | Usage |
 | --- | --- |
-| `resendApiKey` | Envoi du formulaire de contact via [Resend](https://resend.com/) |
-| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Rate limiting du chat (Upstash REST) |
-| `REDIS_URL` ou `REDIS_HOST` + `REDIS_PASSWORD` (+ `REDIS_PORT`, `REDIS_USERNAME`) | Rate limiting du chat (Redis TCP) |
-| `CHAT_GLOBAL_LIMIT_PER_DAY`, `CHAT_IP_LIMIT_PER_DAY` | Plafonds journaliers du chat (défaut : 100 / 10) |
-| `CHAT_TRUSTED_IP` ou `CHAT_TRUSTED_IPS` | IPs sans quota par IP (quota global inchangé) |
-| `CRON_SECRET` | Protège `/api/cron/redis-keepalive` (Vercel Cron envoie `Authorization: Bearer …`) |
+| `RESEND_API_KEY` | Envoi du formulaire de contact et de l’outil `contact` du chat |
+| `AI_GATEWAY_API_KEY` | Accès au modèle de l’assistant via Vercel AI Gateway (`server/api/chat.ts`) |
+| `CHAT_ENABLED` | Coupe-circuit du chat (`false` → 503) |
+| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Rate limiting (Upstash REST) |
+| `REDIS_URL` ou `REDIS_HOST` + `REDIS_PASSWORD` (+ `REDIS_PORT`, `REDIS_USERNAME`) | Rate limiting (Redis TCP), alternative à Upstash |
+| `CHAT_GLOBAL_LIMIT_PER_DAY`, `CHAT_IP_LIMIT_PER_DAY` | Quotas journaliers du chat (défaut : 100 / 10) |
+| `EMAIL_GLOBAL_LIMIT_PER_DAY`, `EMAIL_IP_LIMIT_PER_DAY` | Quotas journaliers des e-mails (défaut : 40 / 5) |
+| `CHAT_TRUSTED_IPS` (ou `CHAT_TRUSTED_IP`) | IPs sans quota par IP, séparées par des virgules (le quota global s’applique toujours) |
+| `CRON_SECRET` | Protège `/api/cron/redis-keepalive` |
+| `STUDIO_GITHUB_CLIENT_ID`, `STUDIO_GITHUB_CLIENT_SECRET` | Connexion GitHub pour Nuxt Studio |
 
-Sans Redis configuré, le chat reste utilisable mais le rate limiting serveur est désactivé (avertissement en logs).
+> **Important :** le rate limiting est *fail-closed*. Sans Redis configuré (ou si Redis est injoignable), le chat et l’envoi d’e-mails répondent `503`.
 
-Le cron Vercel (`vercel.json`) appelle `/api/cron/redis-keepalive` chaque dimanche à 04:00 UTC pour éviter l'éviction Upstash free (~14j sans activité).
+Le cron Vercel (`vercel.json`) appelle `/api/cron/redis-keepalive` chaque dimanche à 04:00 UTC pour éviter l’éviction de la base Upstash gratuite (~14 jours sans activité).
 
-Configurer aussi les clés requises par le fournisseur de modèles utilisé par l’assistant (`server/api/chat.ts`, SDK `ai`).
+## Contenu
+
+| Fichier | Page |
+| --- | --- |
+| `content/home.md` | `/` |
+| `content/about/index.md` | `/about` |
+| `content/about/timeline.yml` | Timeline de `/about` |
+| `content/works/*.md` | `/works` et `/works/<slug>` |
+| `content/contact.md` | `/contact` |
+
+Le schéma de chaque collection est défini dans `content.config.ts`. Pour ajouter un projet, créer un fichier dans `content/works/` avec tous les champs requis (`title`, `description`, `date`, `year`, `image`, `technologies`, `roles`, `authors`, `contextPreview`, …). Les images vont dans `public/assets/works/`.
+
+Le champ `contextPreview` est utilisé par l’assistant pour choisir quels documents lire.
+
+## SEO
+
+Géré par `@nuxtjs/seo` (configuration `site`, `schemaOrg` et `ogImage` dans `nuxt.config.ts`) :
+
+- `robots.txt` et `sitemap.xml` générés automatiquement
+- URL canonique, `og:url` et `og:image` absolus sur chaque page
+- Données structurées Schema.org (`Person`)
+- Métadonnées par page via `useSeoMeta` dans `app/pages/`
 
 ## Structure du projet
 
 ```text
-app/           Pages, layouts, composants, assets
+app/           Pages, layouts, composants, composables, assets (CSS, polices)
 content/       Markdown et YAML (collections Nuxt Content)
-server/        Routes API Nitro et outils agent (sélection / lecture de contenu)
+public/        Fichiers statiques (images, og.jpg, favicon)
+server/
+  api/         Routes Nitro : chat, sendEmail, cron
+  libs/        Outils de l’agent (lecture du contenu)
+  utils/       Rate limiting, anti-spam, filtre d’injures, vérif. d’origine, envoi d’e-mail
 shared/        Utilitaires partagés app + serveur
-types/         Types TypeScript du projet
+types/         Types TypeScript
 ```
 
-## Documentation utile
+## Déploiement
 
-- [Nuxt 4](https://nuxt.com/docs/4.x/getting-started/introduction)
-- [Nuxt Content](https://content.nuxt.com/)
-- [Nuxt Studio](https://nuxt.studio/)
+Le site est déployé sur Vercel. Les variables d’environnement ci-dessus doivent être définies dans le projet Vercel.

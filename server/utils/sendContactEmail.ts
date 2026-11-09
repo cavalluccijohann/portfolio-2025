@@ -1,7 +1,17 @@
 import { Resend } from 'resend'
 import { isSpamContact } from './antiSpam'
 
-const resend = new Resend(process.env.resendApiKey)
+let resend: Resend | null = null
+
+/** Lazily created so a missing key only breaks the contact feature, not the whole server. */
+function getResend(): Resend {
+  if (!resend) {
+    const apiKey = process.env.RESEND_API_KEY ?? process.env.resendApiKey
+    if (!apiKey) throw new Error('RESEND_API_KEY is not configured')
+    resend = new Resend(apiKey)
+  }
+  return resend
+}
 
 function escapeHtml(unsafe: string): string {
   return unsafe
@@ -39,7 +49,7 @@ export async function sendContactEmail(body: {
 
   const safeMessage = escapeHtml(message).replace(/\n/g, '<br/>')
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: '📩 - CONTACT PORTFOLIO <contact@johanncvl.com>',
     to: ['24johann.cavallucci@gmail.com'],
     subject: 'New message from your portfolio',

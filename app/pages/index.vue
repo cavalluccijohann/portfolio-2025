@@ -25,7 +25,7 @@ useSeoMeta({
   description: 'Portfolio of Johann Cavallucci, Software Engineer specializing in web and modern application development. I create tailored digital experiences for your projects.',
   ogTitle: 'Johann Cavallucci - Software engineer',
   ogDescription: 'Portfolio of Johann Cavallucci, Software Engineer specializing in web and modern application development. I create tailored digital experiences for your projects.',
-  ogImage: 'og.png',
+  ogImage: '/og.jpg',
   twitterCard: 'summary_large_image'
 })
 </script>
