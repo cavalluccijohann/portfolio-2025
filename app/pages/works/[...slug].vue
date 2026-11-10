@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import WorkBodyHeading from '~/components/WorkBodyHeading.vue'
+
 const route = useRoute()
 
 const { data: page, error } = await useAsyncData(route.path, () => queryCollection('works').path(route.path).first())
@@ -121,6 +123,6 @@ useSeoMeta({
       </div>
     </div>
 
-    <ContentRenderer :value="page.body" class="mt-10 w-full max-w-3xl" />
+    <ContentRenderer :value="page.body" :components="{ h1: WorkBodyHeading }" class="mt-10 w-full max-w-3xl" />
   </div>
 </template>

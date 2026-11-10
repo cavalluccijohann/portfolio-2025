@@ -58,6 +58,10 @@ projects.value = projects.value
     initial="hidden"
     animate="visible"
   >
+    <!-- Visually hidden: the list has no visible title, but the page needs an <h1> -->
+    <h1 class="sr-only">
+      Projects by Johann Cavallucci
+    </h1>
     <motion.div
       :variants="{
         hidden: { opacity: 0, y: 30 },
